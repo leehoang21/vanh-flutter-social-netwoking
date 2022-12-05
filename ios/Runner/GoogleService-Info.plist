@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>221459330613-71i4d8bbuk5qg6f4trm9m261sufioog6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.221459330613-71i4d8bbuk5qg6f4trm9m261sufioog6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDwmJ2jGNWh_mCrZwqLQUUIXdbsIE4hkSU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>221459330613</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.finplus</string>
+	<key>PROJECT_ID</key>
+	<string>ftl-finplus</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ftl-finplus.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:221459330613:ios:eafefbfae53bf9452ca37c</string>
+</dict>
+</plist>

@@ -20,7 +20,7 @@ class _Dio {
   }
 }
 
-class ApiRequest<T> extends ExtendModel {
+class ApiRequest extends ExtendModel {
   final String? baseUrl;
   final String path;
   final METHOD method;
@@ -28,7 +28,7 @@ class ApiRequest<T> extends ExtendModel {
   final Map<String, dynamic>? body;
   late final Map<String, String>? headers;
   final bool auth;
-  final T Function(Map json)? decoder;
+  final T Function<T>(Map json)? decoder;
 
   ApiRequest({
     required this.path,
@@ -90,7 +90,7 @@ abstract class BaseNetWork {
     _dio.instance.interceptors.add(_auththenticationInterceptor);
   }
 
-  Future<ApiResponse<R?>> sendRequest<R>(ApiRequest request) async {
+  Future<ApiResponse<R>> sendRequest<R>(ApiRequest request) async {
     final data = await _dio.instance.request(
       data: request.body,
       queryParameters: request.query,
@@ -143,11 +143,5 @@ abstract class BaseNetWork {
         }
       },
     );
-  }
-}
-
-extension ApiResponseExtension on ApiResponse {
-  List<T> items<T>() {
-    return body is List ? body.cast<T>() : [];
   }
 }
