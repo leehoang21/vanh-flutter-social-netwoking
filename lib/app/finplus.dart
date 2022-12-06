@@ -2,6 +2,8 @@ import 'package:commons/commons.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/styles_config.dart';
+
 class FinPlus extends StatelessWidget {
   const FinPlus({Key? key}) : super(key: key);
 
@@ -14,6 +16,8 @@ class FinPlus extends StatelessWidget {
       initialRoute: Routes.login,
       locale: const Locale('vi'),
       fallbackLocale: const Locale('en'),
+      theme: lightTheme,
+      themeMode: ThemeMode.light,
     );
   }
 }
