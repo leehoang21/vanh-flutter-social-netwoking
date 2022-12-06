@@ -11,7 +11,7 @@ class FinPlus extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: LoadingOverlay.instance.navigatorKey,
       getPages: AppNavigate.finplus,
-      initialRoute: Routes.home,
+      initialRoute: Routes.login,
       locale: const Locale('vi'),
       fallbackLocale: const Locale('en'),
     );

@@ -7,7 +7,7 @@ class AppConfig {
   final String baseUrl;
   final bool secure;
 
-  static late AppConfig? _instance;
+  static AppConfig? _instance;
 
   static AppConfig get instance => _instance!;
 
@@ -16,7 +16,7 @@ class AppConfig {
     required String baseUrl,
     required bool secure,
   }) {
-    _instance = AppConfig._internal(
+    _instance ??= AppConfig._internal(
       env: env,
       baseUrl: baseUrl,
       secure: secure,

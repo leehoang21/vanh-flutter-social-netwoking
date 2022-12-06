@@ -4,39 +4,39 @@ class LoadingOverlay {
   final Widget? indicator;
   final Color? barrierColor;
 
-  static late final LoadingOverlay _instance;
+  static LoadingOverlay? _instance;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  static LoadingOverlay get instance => _instance;
+  static LoadingOverlay get instance => _instance!;
   bool _show = false;
 
   factory LoadingOverlay({Widget? indicator, Color? barrierColor}) {
-    _instance = LoadingOverlay._internal(indicator, barrierColor);
-    return _instance;
+    _instance ??= LoadingOverlay._internal(indicator, barrierColor);
+    return _instance!;
   }
 
   LoadingOverlay._internal(this.indicator, this.barrierColor);
 
   static Future<void> show() async {
-    final context = _instance.navigatorKey.currentState?.overlay?.context;
+    final context = _instance!.navigatorKey.currentState?.overlay?.context;
 
-    if (context != null && !_instance._show) {
-      _instance._show = true;
+    if (context != null && !_instance!._show) {
+      _instance!._show = true;
       showDialog(
         barrierDismissible: false,
-        barrierColor: _instance.barrierColor,
+        barrierColor: _instance!.barrierColor,
         context: context,
         builder: (ctx) => WillPopScope(
             child: Center(
-              child: _instance.indicator ?? const SizedBox(),
+              child: _instance!.indicator ?? const SizedBox(),
             ),
             onWillPop: () async => false),
-      ).then((value) => _instance._show = false);
+      ).then((value) => _instance!._show = false);
     }
   }
 
   static void close() {
-    final context = _instance.navigatorKey.currentState?.overlay?.context;
-    if (context != null && _instance._show) {
+    final context = _instance!.navigatorKey.currentState?.overlay?.context;
+    if (context != null && _instance!._show) {
       Navigator.pop(context);
     }
   }

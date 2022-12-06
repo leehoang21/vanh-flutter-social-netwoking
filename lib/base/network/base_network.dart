@@ -28,7 +28,8 @@ class ApiRequest extends ExtendModel {
   final Map<String, dynamic>? body;
   late final Map<String, String>? headers;
   final bool auth;
-  final T Function<T>(Map json)? decoder;
+  final bool? secure;
+  final dynamic Function(Map json)? decoder;
 
   ApiRequest({
     required this.path,
@@ -39,6 +40,7 @@ class ApiRequest extends ExtendModel {
     this.baseUrl,
     this.decoder,
     this.headers,
+    this.secure,
   });
 
   @override
@@ -53,8 +55,8 @@ class ApiRequest extends ExtendModel {
     };
   }
 
-  Uri get uri => getUri(
-      baseUrl ?? AppConfig.instance.baseUrl, path, AppConfig.instance.secure);
+  Uri get uri => getUri(baseUrl ?? AppConfig.instance.baseUrl, path,
+      secure ?? AppConfig.instance.secure);
 }
 
 class ApiResponse<T> extends ExtendModel {
@@ -79,7 +81,12 @@ class ApiResponse<T> extends ExtendModel {
     };
   }
 
-  bool get success => statusCode == 200;
+  bool get success {
+    if (statusCode != 200) {
+      logW(toJson());
+    }
+    return statusCode == 200;
+  }
 
   bool get error => !success;
 }
@@ -90,7 +97,7 @@ abstract class BaseNetWork {
     _dio.instance.interceptors.add(_auththenticationInterceptor);
   }
 
-  Future<ApiResponse<R>> sendRequest<R>(ApiRequest request) async {
+  Future<ApiResponse<R?>> sendRequest<R>(ApiRequest request) async {
     final data = await _dio.instance.request(
       data: request.body,
       queryParameters: request.query,

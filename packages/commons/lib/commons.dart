@@ -1,6 +1,6 @@
 library commons;
 
-import 'dart:convert';
+import 'dart:convert' as j;
 
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
@@ -10,6 +10,7 @@ import 'models/custom_printer.dart';
 export 'package:get/get.dart';
 export 'loading_overlay/loading_overlay.dart';
 export 'storage/storage.dart';
+export 'package:flutter_svg/flutter_svg.dart';
 
 abstract class ExtendModel {
   Map toJson();
@@ -70,7 +71,21 @@ Uri getUri(String baseUrl, String path, [bool secure = true]) {
   }
 }
 
+class Commons {
+  static Map<K, V> validateNull<K, V>(Map<K, V> value) {
+    value.removeWhere((key, value) {
+      if (value is Map || value is List) {
+        return value is Map ? value.isEmpty : (value as List).isEmpty;
+      } else {
+        return key == null || value == null || value == 'null' || value == '';
+      }
+    });
+    return value;
+  }
+}
+
 extension MapExtension<K, V> on Map<K, V> {
+  Map<K, V> get json => Map<K, V>.from(Commons.validateNull(this));
   Map<K, V> get prettyJson =>
-      json.decode(const JsonEncoder.withIndent('    ').convert(this));
+      j.json.decode(const j.JsonEncoder.withIndent(' ').convert(this));
 }
