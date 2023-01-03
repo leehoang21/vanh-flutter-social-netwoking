@@ -2,6 +2,7 @@
 
 import 'package:commons/commons.dart';
 import 'package:dio/dio.dart';
+import 'package:finplus/utils/utils.dart';
 
 import '../app_config/app_config.dart';
 
@@ -89,6 +90,10 @@ class ApiResponse<T> extends ExtendModel {
   }
 
   bool get error => !success;
+
+  void showNotification() {
+    Utils.showNotification(undecodeData is Map ? undecodeData['code'] : null);
+  }
 }
 
 abstract class BaseNetWork {

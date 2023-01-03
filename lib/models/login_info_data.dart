@@ -35,11 +35,11 @@ class LoginInfoData extends ExtendModel {
     data['userInfo'] = userInfo.toJson();
     data['trustDevice'] = trustDevice;
     data['useSmartOtp'] = useSmartOtp;
-    return data;
+    return data.json;
   }
 }
 
-class UserInfo {
+class UserInfo extends ExtendModel {
   late final int id;
   late String avatar;
   late String username;
@@ -74,6 +74,7 @@ class UserInfo {
     phoneNumber = json['phoneNumber'] ?? '';
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
@@ -85,6 +86,6 @@ class UserInfo {
     data['trustDevice'] = trustDevice;
     data['email'] = email;
     data['phoneNumber'] = phoneNumber;
-    return data;
+    return data.json;
   }
 }

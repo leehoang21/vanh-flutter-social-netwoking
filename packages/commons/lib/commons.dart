@@ -74,11 +74,12 @@ Uri getUri(String baseUrl, String path, [bool secure = true]) {
 class Commons {
   static Map<K, V> validateNull<K, V>(Map<K, V> value) {
     value.removeWhere((key, value) {
-      if (value is Map || value is List) {
-        return value is Map ? value.isEmpty : (value as List).isEmpty;
-      } else {
-        return key == null || value == null || value == 'null' || value == '';
-      }
+      return key == null ||
+          value == null ||
+          value == 'null' ||
+          value == '' ||
+          value is Map && value.isEmpty ||
+          value is List && value.isEmpty;
     });
     return value;
   }

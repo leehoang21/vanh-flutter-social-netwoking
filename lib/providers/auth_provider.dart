@@ -2,6 +2,7 @@ import 'package:commons/commons.dart';
 import 'package:commons/os_info/os_info.dart';
 import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/providers/api_path.dart';
+import 'package:finplus/utils/types.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '/base/base.dart';
@@ -15,29 +16,40 @@ enum LoginType {
 
 class AuthProvider extends BaseNetWork {
   Future<LoginInfoData?> login({required final LoginType type}) async {
-    try {
-      final Map<String, dynamic> params = {
-        'clientId': 'ftl',
-        'clientSecret': 'ftl',
-        'deviceUUID': OsInfo.uuid,
-        'platform': 'MOBILE',
-        'grantType': type.name,
-      };
+    final Map<String, dynamic> params = {
+      'clientId': 'ftl',
+      'clientSecret': 'ftl',
+      'deviceUUID': OsInfo.uuid,
+      'platform': 'MOBILE',
+      'grantType': type.name,
+    };
 
-      switch (type) {
-        case LoginType.facebook:
-          return _fbLogin(params);
+    final ApiResponse<LoginInfoData?>? res;
 
-        default:
-          return null;
+    switch (type) {
+      case LoginType.facebook:
+        res = await _fbLogin(params);
+        break;
+
+      default:
+        res = null;
+    }
+
+    if (res != null) {
+      if (res.success) {
+        Storage.put(KEY.USER_INFO, res.body);
+        return res.body;
+      } else {
+        res.showNotification();
+        return null;
       }
-    } catch (e) {
-      logE(e);
+    } else {
       return null;
     }
   }
 
-  Future<LoginInfoData?> _fbLogin(Map<String, dynamic> params) async {
+  Future<ApiResponse<LoginInfoData?>?> _fbLogin(
+      Map<String, dynamic> params) async {
     final fbRes = await FacebookAuth.instance.login();
 
     if (fbRes.status == LoginStatus.success) {
@@ -54,11 +66,7 @@ class AuthProvider extends BaseNetWork {
 
       final res = await sendRequest<LoginInfoData>(req);
 
-      if (res.success) {
-        return res.body;
-      } else {
-        return null;
-      }
+      return res;
     } else {
       logW(fbRes.status);
       return null;

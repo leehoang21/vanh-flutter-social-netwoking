@@ -7,9 +7,12 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      key: key,
-      controller: controller,
+    return SizedBox(
+      height: 48,
+      child: TextFormField(
+        key: key,
+        controller: controller,
+      ),
     );
   }
 }

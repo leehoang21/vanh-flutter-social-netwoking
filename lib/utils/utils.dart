@@ -1,15 +1,14 @@
 import 'package:commons/commons.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:finplus/widgets/app_snackbar/app_snackbar.dart';
+import 'package:flutter/material.dart';
 
 class Utils {
-  static void showNotification() {
+  static void showNotification(String? content) {
     Get.rawSnackbar(
-      // backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
+      padding: EdgeInsets.zero,
       snackPosition: SnackPosition.TOP,
-      borderRadius: 8,
-      // margin: const EdgeInsets.all(8),
-
-      messageText: const Text('data'),
+      messageText: AppSnackBar(content: content?.tr ?? ''),
     );
   }
 }
