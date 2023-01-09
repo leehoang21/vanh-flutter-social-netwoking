@@ -11,6 +11,7 @@ export 'package:get/get.dart';
 export 'loading_overlay/loading_overlay.dart';
 export 'storage/storage.dart';
 export 'package:flutter_svg/flutter_svg.dart';
+export 'package:uuid/uuid.dart';
 
 abstract class ExtendModel {
   Map toJson();
@@ -23,7 +24,8 @@ final logger = Logger(
   ),
 );
 
-void _log(Level level, dynamic message) {
+void _log(Level level, dynamic message,
+    [dynamic error, StackTrace? stackTrace]) {
   if (kDebugMode) {
     if (message is List) {
       logger.log(
@@ -34,19 +36,22 @@ void _log(Level level, dynamic message) {
                   : e is ExtendModel
                       ? e.toJson()
                       : e)
-              .toList());
+              .toList(),
+          error,
+          stackTrace);
     } else if (message is Map) {
       final json = {};
       message.forEach((key, value) {
         json[key] = value is ExtendModel ? value.toJson() : value;
       });
-      logger.log(level, json.prettyJson);
+      logger.log(level, json.prettyJson, error, stackTrace);
     } else if (message is Iterable<Map>) {
-      logger.log(level, message.map((e) => e.prettyJson).toList());
+      logger.log(
+          level, message.map((e) => e.prettyJson).toList(), error, stackTrace);
     } else if (message is ExtendModel) {
-      logger.log(level, message.toJson().prettyJson);
+      logger.log(level, message.toJson().prettyJson, error, stackTrace);
     } else {
-      logger.log(level, message);
+      logger.log(level, message, error, stackTrace);
     }
   }
 }
@@ -59,8 +64,8 @@ void logW(dynamic message) {
   _log(Level.warning, message);
 }
 
-void logE(dynamic message) {
-  _log(Level.error, message);
+void logE(dynamic message, [StackTrace? stackTrace]) {
+  _log(Level.error, message, null, stackTrace);
 }
 
 Uri getUri(String baseUrl, String path, [bool secure = true]) {

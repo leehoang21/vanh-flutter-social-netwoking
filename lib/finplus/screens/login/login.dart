@@ -32,6 +32,7 @@ class Login extends StatelessWidget {
           Scaffold(
             backgroundColor: Colors.transparent,
             body: ListView(
+              physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               children: [
                 ClipRRect(

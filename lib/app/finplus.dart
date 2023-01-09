@@ -1,7 +1,9 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/routes/finplus_routes.dart';
+import 'package:finplus/base/network/app_connection.dart';
 import 'package:flutter/material.dart';
 
+import '../global_controller.dart';
+import '../routes/finplus_routes.dart';
 import '../utils/styles_config.dart';
 
 class FinPlus extends StatelessWidget {
@@ -9,7 +11,9 @@ class FinPlus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(GlobalController());
     return GetMaterialApp(
+      onDispose: AppConnection.closeListenerConnection,
       debugShowCheckedModeBanner: false,
       navigatorKey: LoadingOverlay.instance.navigatorKey,
       getPages: AppNavigate.finplus,

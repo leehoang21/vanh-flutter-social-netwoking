@@ -1,3 +1,4 @@
+import 'package:commons/loading_overlay/loading_overlay.dart';
 import 'package:finplus/providers/auth_provider.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,10 @@ class LoginController extends GetxController {
   }
 
   Future<void> login(LoginType type) async {
-    final res = await _authProvider.login(type: type);
+    final res = await LoadingOverlay.load(_authProvider.login(type: type));
 
     if (res != null) {
-      Get.toNamed(Routes.home);
+      Get.offAllNamed(Routes.home);
     }
   }
 

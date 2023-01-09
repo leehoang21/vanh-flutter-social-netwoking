@@ -13,9 +13,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_sign_in: ^5.4.2
   firebase_core: ^2.3.0
-  flutter_facebook_auth: ^5.0.6
+  flutter_facebook_auth: ^5.0.7
   carousel_slider: ^4.1.1
   pull_to_refresh: ^2.0.0
+  connectivity_plus: ^3.0.2
+  internet_connection_checker: ^1.0.0+1
+
 
   ##internal packages
   commons:

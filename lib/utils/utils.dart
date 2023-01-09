@@ -12,3 +12,7 @@ class Utils {
     );
   }
 }
+
+extension LogExtension on Object {
+  void logEx([StackTrace? stackTrace]) => logE(this, stackTrace);
+}
