@@ -4,7 +4,6 @@ import 'package:commons/commons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class Storage {
   late final Box box;

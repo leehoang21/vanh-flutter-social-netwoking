@@ -56,10 +56,12 @@ class MarketProvider extends BaseNetWork {
       method: METHOD.GET,
       auth: false,
       query: params,
-      decoder: SymbolData.fromJson,
     );
 
-    final res = await sendRequest<SymbolData>(req);
+    final res = await sendRequest(
+      req,
+      decoder: SymbolData.fromJson,
+    );
 
     if (res.success) {
       (res.body as List).forEach((e) {

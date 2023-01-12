@@ -66,11 +66,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDwmJ2jGNWh_mCrZwqLQUUIXdbsIE4hkSU',
-    appId: '1:221459330613:ios:eafefbfae53bf9452ca37c',
+    appId: '1:221459330613:ios:3e766b08dc7dea822ca37c',
     messagingSenderId: '221459330613',
     projectId: 'ftl-finplus',
     storageBucket: 'ftl-finplus.appspot.com',
-    iosClientId: '221459330613-71i4d8bbuk5qg6f4trm9m261sufioog6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.finplus',
+    iosClientId:
+        '221459330613-ii04oria5usm339drlpq1kgb072el490.apps.googleusercontent.com',
+    iosBundleId: 'com.ftl.finplus',
   );
 }

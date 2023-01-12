@@ -57,14 +57,16 @@ class AuthProvider extends BaseNetWork {
         path: ApiPath.login,
         method: METHOD.POST,
         auth: false,
-        decoder: LoginInfoData.fromJson,
         body: {
           ...params,
           'accessToken': fbRes.accessToken?.token,
         }.json,
       );
 
-      final res = await sendRequest<LoginInfoData>(req);
+      final res = await sendRequest(
+        req,
+        decoder: LoginInfoData.fromJson,
+      );
 
       return res;
     } else {

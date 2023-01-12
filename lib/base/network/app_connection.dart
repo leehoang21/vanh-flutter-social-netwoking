@@ -16,7 +16,7 @@ class AppConnection {
 
   bool _hasConnect = true;
 
-  static Future<void> initial() async {
+  static Future<void> init() async {
     _instance = AppConnection._();
 
     await _instance._checkConnection();
@@ -38,7 +38,6 @@ class AppConnection {
       checkInterval: const Duration(seconds: 30),
     );
     _hasConnect = await internetChecker.hasConnection;
-    print(await internetChecker.hasConnection);
 
     _listeners.entries.forEach((element) {
       element.value(_hasConnect);

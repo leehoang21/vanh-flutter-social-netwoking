@@ -1,22 +1,19 @@
-import 'dart:developer';
-
+import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/community/community.dart';
 import 'package:flutter/material.dart';
+
+import 'home_controller.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () async {},
-            child: const Text('login'),
-          )
-        ],
-      ),
-    );
+    return GetBuilder<HomeController>(builder: (c) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Community(),
+      );
+    });
   }
 }

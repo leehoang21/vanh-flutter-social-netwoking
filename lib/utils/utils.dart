@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 class Utils {
   static void showNotification(String? content) {
+    if (Get.isSnackbarOpen) {
+      Get.closeAllSnackbars();
+    }
     Get.rawSnackbar(
       backgroundColor: Colors.transparent,
       padding: EdgeInsets.zero,

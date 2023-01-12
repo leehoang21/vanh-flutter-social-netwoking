@@ -1,8 +1,7 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/base/network/app_connection.dart';
 import 'package:finplus/providers/market_provider.dart';
 
-class GlobalController extends GetxController {
+class GlobalService extends GetxController {
   late final MarketProvider _marketProvider;
 
   @override
@@ -13,13 +12,8 @@ class GlobalController extends GetxController {
 
   @override
   void onReady() {
-    AppConnection.addListener((hasConnect) {});
+    MarketProvider.addListener((data) {});
 
-    MarketProvider.addListener((data) {
-      logD(data);
-    });
-
-    _marketProvider.getSymbolData(['AAA']);
     super.onReady();
   }
 }

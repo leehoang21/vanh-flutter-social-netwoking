@@ -1,13 +1,18 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:commons/commons.dart' hide Response;
 import 'package:dio/dio.dart';
 import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/base/network/app_connection.dart';
+import 'package:finplus/models/login_info_data.dart';
+import 'package:finplus/routes/finplus_routes.dart';
+import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/utils.dart';
+import 'package:flutter/foundation.dart';
+
+const int _maxRetry = 10;
 
 enum METHOD { GET, POST, PUT, DELETE }
 
@@ -31,7 +36,6 @@ class ApiRequest extends ExtendModel {
   final Map<String, dynamic>? body;
   late final Map<String, String>? headers;
   final bool auth;
-  final dynamic Function(Map json)? decoder;
 
   ApiRequest({
     required this.path,
@@ -39,7 +43,6 @@ class ApiRequest extends ExtendModel {
     this.query,
     this.body,
     required this.auth,
-    this.decoder,
     this.headers,
   });
 
@@ -50,7 +53,7 @@ class ApiRequest extends ExtendModel {
       'path': path,
       'query': query,
       'body': body,
-      'headers': headers,
+      'extraHeaders': headers,
     };
   }
 }
@@ -103,11 +106,16 @@ abstract class BaseNetWork {
 
   final bool? secure;
 
+  int get maxRetry => _maxRetry;
+
+  Duration get retryDelay => const Duration(seconds: 3);
+
   BaseNetWork({this.baseUrl, this.secure}) : _dio = _Dio() {
     _dio.instance.interceptors.add(_auththenticationInterceptor);
   }
 
-  Future<ApiResponse<R>> sendRequest<R>(ApiRequest request) async {
+  Future<ApiResponse<R>> sendRequest<R>(ApiRequest request,
+      {R Function(Map)? decoder, bool disableRetry = false}) async {
     try {
       final uri = getUri(baseUrl ?? AppConfig.info.baseUrl, request.path,
           secure ?? AppConfig.info.secure);
@@ -119,19 +127,21 @@ abstract class BaseNetWork {
         options: Options(
           method: request.method.name,
           headers: request.headers,
-          extra: {'auth': request.auth},
+          extra: {'auth': request.auth, 'disableRetry': disableRetry},
+          sendTimeout: 3000,
+          receiveTimeout: 30000,
         ),
       );
 
       final dynamic body;
       final List<R> items = [];
 
-      if (request.decoder != null) {
+      if (decoder != null) {
         if (data.data is List) {
           body = data.data;
-          items.addAll((data.data as List).map((e) => request.decoder!(e)));
+          items.addAll((data.data as List).map((e) => decoder(e)));
         } else {
-          body = request.decoder!(data.data);
+          body = decoder(data.data);
         }
       } else {
         body = data.data;
@@ -157,13 +167,23 @@ abstract class BaseNetWork {
   QueuedInterceptorsWrapper get _auththenticationInterceptor {
     return QueuedInterceptorsWrapper(
       onRequest: (options, handler) {
+        if (options.extra['auth'] == true) {
+          options.headers['Authorization'] = _accessToken;
+        }
         handler.next(options);
       },
       onResponse: (e, handler) {
         handler.next(e);
       },
-      onError: (e, handler) {
+      onError: (e, handler) async {
+        final bool disableRetry =
+            e.requestOptions.extra['disableRetry'] == true;
+
         if (_checkNeedRetry(e)) {
+          if (disableRetry) {
+            handler.next(e);
+            return;
+          }
           final id = const Uuid().v4();
 
           AppConnection.addListener((hasConnect) async {
@@ -178,11 +198,33 @@ abstract class BaseNetWork {
           if (e.response != null) {
             if (e.response?.statusCode == 401) {
               handler.resolve(e.response!);
+              Storage.delete(KEY.USER_INFO);
+              Get.offAllNamed(Routes.login);
             } else {
-              handler.resolve(e.response!);
+              int retryCount = 0;
+
+              Response res = e.response!;
+
+              if (disableRetry) {
+                handler.resolve(res);
+                return;
+              }
+              while (retryCount < maxRetry) {
+                await Future.delayed(retryDelay);
+                if (kDebugMode) {
+                  print('retry: ${e.requestOptions.uri.toString()}');
+                }
+
+                res = await _handleRetry(e.requestOptions);
+                if (res.statusCode == 200) {
+                  return;
+                } else {
+                  retryCount++;
+                }
+              }
+              handler.resolve(res);
             }
           } else {
-            logE(e);
             handler.next(e);
           }
         }
@@ -190,8 +232,18 @@ abstract class BaseNetWork {
     );
   }
 
+  String? get _accessToken {
+    final LoginInfoData? user =
+        Storage.get(KEY.USER_INFO, LoginInfoData.fromJson);
+    if (user != null) {
+      return 'Bearer ${user.accessToken}';
+    } else {
+      return null;
+    }
+  }
+
   bool _checkNeedRetry(DioError e) {
-    return e.type == DioErrorType.other && e.error is SocketException;
+    return e.type == DioErrorType.other && !AppConnection.hasConnection;
   }
 
   Future<Response> _handleRetry(RequestOptions requestOptions) async {
@@ -199,9 +251,4 @@ abstract class BaseNetWork {
 
     return res;
   }
-}
-
-extension ApiResponseExtension on ApiResponse {
-  List<T> toList<T>() =>
-      body is List ? (body as List).map((e) => e as T).toList() : [];
 }

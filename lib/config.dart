@@ -7,5 +7,6 @@ void setAppDevelopment() {
     secure: false,
     marketUrl: 'trading.shs.com.vn',
     marketSecure: true,
+    fetchCount: 20,
   );
 }

@@ -3,15 +3,18 @@ library commons;
 import 'dart:convert' as j;
 
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 
 import 'models/custom_printer.dart';
+// ignore: depend_on_referenced_packages
+import 'package:logger/logger.dart';
 
 export 'package:get/get.dart';
 export 'loading_overlay/loading_overlay.dart';
 export 'storage/storage.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:uuid/uuid.dart';
+export 'package:logger_flutter/logger_flutter.dart';
+export 'package:commons/app_logger/app_logger.dart';
 
 abstract class ExtendModel {
   Map toJson();
