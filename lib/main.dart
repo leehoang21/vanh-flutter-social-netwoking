@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:commons/commons.dart';
 import 'package:finplus/global.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +8,7 @@ import 'config.dart';
 
 Future<void> main() async {
   setAppDevelopment();
+  await Global.initial();
 
-  AppLogger.startLogger(
-    onInitial: Global.initial,
-    const FinPlus(),
-  );
+  runApp(const FinPlus());
 }

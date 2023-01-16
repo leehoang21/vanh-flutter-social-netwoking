@@ -4,13 +4,19 @@ import 'package:finplus/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 
 import 'base/app_config/app_config.dart';
 import 'base/network/app_connection.dart';
+import 'utils/app_logger.dart';
 
 class Global {
   static Future<void> initial() async {
     WidgetsFlutterBinding.ensureInitialized();
+    LogConsole.init();
+    ShakeDetector.autoStart(onPhoneShake: () {
+      Get.to(() => LogConsole(showCloseButton: true));
+    });
     AppConnection.init();
     await Storage.init();
     await OsInfo.init();

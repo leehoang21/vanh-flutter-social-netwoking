@@ -1,5 +1,4 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/base/network/app_connection.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +25,6 @@ class FinPlus extends StatelessWidget {
       theme: lightTheme,
       themeMode: ThemeMode.light,
       initialBinding: FinPlusBindings(),
-      builder: AppConfig.info.env == ENV.DEV
-          ? (context, child) {
-              return LogConsoleOnShake(child: child!);
-            }
-          : null,
     );
   }
 }

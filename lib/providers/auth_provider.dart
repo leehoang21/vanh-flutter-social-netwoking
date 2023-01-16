@@ -1,11 +1,12 @@
 import 'package:commons/commons.dart';
 import 'package:commons/os_info/os_info.dart';
-import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/providers/api_path.dart';
-import 'package:finplus/utils/types.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import '/base/base.dart';
+import '/models/login_info_data.dart';
+import '/providers/api_path.dart';
+import '/utils/types.dart';
+import '../utils/app_logger.dart';
 
 enum LoginType {
   facebook,

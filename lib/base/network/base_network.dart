@@ -12,6 +12,8 @@ import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../utils/app_logger.dart';
+
 const int _maxRetry = 10;
 
 enum METHOD { GET, POST, PUT, DELETE }
