@@ -104,7 +104,7 @@ class Login extends StatelessWidget {
                   padding: Spaces.h16,
                   child: Button(
                     type: ButtonType.gradient,
-                    onPressed: () {},
+                    onPressed: () => c.login(LoginType.admin),
                     child: const Text('Đăng nhập'),
                   ),
                 ),

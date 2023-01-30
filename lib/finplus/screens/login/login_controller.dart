@@ -23,7 +23,11 @@ class LoginController extends GetxController {
   }
 
   Future<void> login(LoginType type) async {
-    final res = await LoadingOverlay.load(_authProvider.login(type: type));
+    final res = await LoadingOverlay.load(_authProvider.login(
+      type: type,
+      username: username.text,
+      password: password.text,
+    ));
 
     if (res != null) {
       Get.offAllNamed(Routes.home);

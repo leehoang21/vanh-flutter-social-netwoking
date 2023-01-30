@@ -12,11 +12,15 @@ enum LoginType {
   facebook,
   google,
   apple,
-  account,
+  admin,
 }
 
 class AuthProvider extends BaseNetWork {
-  Future<LoginInfoData?> login({required final LoginType type}) async {
+  Future<LoginInfoData?> login({
+    required final LoginType type,
+    String? username,
+    String? password,
+  }) async {
     final Map<String, dynamic> params = {
       'clientId': 'ftl',
       'clientSecret': 'ftl',
@@ -30,6 +34,9 @@ class AuthProvider extends BaseNetWork {
     switch (type) {
       case LoginType.facebook:
         res = await _fbLogin(params);
+        break;
+      case LoginType.admin:
+        res = await _userLogin(params, username, password);
         break;
 
       default:
@@ -74,5 +81,26 @@ class AuthProvider extends BaseNetWork {
       logW(fbRes.status);
       return null;
     }
+  }
+
+  Future<ApiResponse<LoginInfoData?>?> _userLogin(
+    Map<String, dynamic> params,
+    String? username,
+    String? password,
+  ) {
+    final ApiRequest req = ApiRequest(
+      path: ApiPath.login,
+      method: METHOD.POST,
+      auth: false,
+      body: {...params, 'username': username, 'password': password},
+    );
+
+    final res = sendRequest(
+      req,
+      decoder: LoginInfoData.fromJson,
+      disableRetry: true,
+    );
+
+    return res;
   }
 }
