@@ -98,7 +98,6 @@ class AuthProvider extends BaseNetWork {
     final res = sendRequest(
       req,
       decoder: LoginInfoData.fromJson,
-      disableRetry: true,
     );
 
     return res;
