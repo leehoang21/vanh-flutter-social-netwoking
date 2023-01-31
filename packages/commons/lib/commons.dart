@@ -14,6 +14,8 @@ export 'storage/storage.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:uuid/uuid.dart';
 export 'package:logger_flutter/logger_flutter.dart';
+export 'package:collection/collection.dart';
+export 'package:commons/app_logger/models/network_info.dart';
 
 abstract class ExtendModel {
   Map toJson();
@@ -86,11 +88,12 @@ abstract class AppLoggerDefine {
   }
 }
 
-Uri getUri(String baseUrl, String path, [bool secure = true]) {
+Uri getUri(String baseUrl, String path, Map<String, String>? query,
+    [bool secure = true]) {
   if (secure) {
-    return Uri.https(baseUrl, path);
+    return Uri.https(baseUrl, path, query);
   } else {
-    return Uri.http(baseUrl, path);
+    return Uri.http(baseUrl, path, query);
   }
 }
 
