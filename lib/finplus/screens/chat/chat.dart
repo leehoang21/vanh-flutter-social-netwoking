@@ -1,10 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/chat_controller.dart';
 import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
 import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
 import 'package:finplus/utils/styles.dart';
-import 'package:finplus/utils/utils.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
 import 'package:flutter/cupertino.dart';

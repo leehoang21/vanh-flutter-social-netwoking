@@ -23,7 +23,6 @@ class GuestBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color primaryChat = context.t.primaryChat;
     final bool isDeleted = Random().nextBool();
 
     return Padding(
