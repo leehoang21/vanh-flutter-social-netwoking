@@ -53,7 +53,10 @@ class Button extends StatelessWidget {
 
     return SizedBox(
       height: 48,
-      child: TextButton(onPressed: onPressed, child: child),
+      child: TextButton(
+        onPressed: onPressed,
+        child: child,
+      ),
     );
   }
 }

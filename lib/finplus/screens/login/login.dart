@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/chat/chat_controller.dart';
+import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/providers/auth_provider.dart';
+import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +109,19 @@ class Login extends StatelessWidget {
                     type: ButtonType.gradient,
                     onPressed: () => c.login(LoginType.admin),
                     child: const Text('Đăng nhập'),
+                  ),
+                ),
+                Padding(
+                  padding: Spaces.a16,
+                  child: Button(
+                    type: ButtonType.gradient,
+                    onPressed: () => Get.toNamed(
+                      Routes.chat,
+                      arguments: ChatArgument(
+                        userChatWith: UserInfo(id: 13),
+                      ),
+                    ),
+                    child: const Text('Chat'),
                   ),
                 ),
                 Spaces.box16,
