@@ -32,9 +32,9 @@ class Utils {
         barrierDismissible: barrierDismissible,
         NotificationDialog(
           affirmativeBtnColor: affirmativeBtnColor,
-          confirmText: confirmText,
+          confirmText: confirmText ?? 'Confirm',
           onConfirmBtnPressed: onConfirmBtnPressed,
-          description: description ?? 'description',
+          description: description ?? 'Description',
           title: title ?? 'Notification',
           showCancelButton: showCancelButton,
         ),

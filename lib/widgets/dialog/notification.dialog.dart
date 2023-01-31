@@ -1,3 +1,4 @@
+import 'package:commons/commons.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/button/button.dart';
 import 'package:flutter/material.dart';
@@ -5,23 +6,23 @@ import 'package:flutter/material.dart';
 class NotificationDialog extends StatelessWidget {
   const NotificationDialog({
     Key? key,
-    this.title,
-    this.description,
-    this.confirmText,
+    this.title = 'Notification',
+    this.description = 'Description',
+    this.confirmText = 'Confirm',
     this.onConfirmBtnPressed,
     this.affirmativeBtnColor,
     this.showCancelButton = false,
     this.onCancelBtnPressed,
   }) : super(key: key);
 
-  final String? title;
+  final String title;
 
-  final String? description;
+  final String description;
 
   final Function()? onConfirmBtnPressed;
   final Function()? onCancelBtnPressed;
 
-  final String? confirmText;
+  final String confirmText;
 
   final Color? affirmativeBtnColor;
 
@@ -35,15 +36,14 @@ class NotificationDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (title != null && title!.isNotEmpty)
-              Text(
-                title!,
-                textAlign: TextAlign.center,
-                style: TextDefine.H2_B,
-              ),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextDefine.H2_B,
+            ),
             Spaces.box16,
             Text(
-              description ?? '',
+              description,
               style: TextDefine.P1_R.copyWith(
                 color: context.t.textContent,
               ),
@@ -53,7 +53,7 @@ class NotificationDialog extends StatelessWidget {
               padding: Spaces.t10,
               child: Button(
                 child: Text(
-                  confirmText ?? 'Confirm',
+                  confirmText,
                 ),
                 onPressed: onConfirmBtnPressed,
               ),
@@ -62,10 +62,10 @@ class NotificationDialog extends StatelessWidget {
               Padding(
                 padding: Spaces.t10,
                 child: Button(
-                  child: Text(
-                    confirmText ?? 'Cancel',
+                  child: const Text(
+                    'Cancel',
                   ),
-                  onPressed: onConfirmBtnPressed,
+                  onPressed: onCancelBtnPressed ?? Get.back,
                 ),
               ),
           ],
