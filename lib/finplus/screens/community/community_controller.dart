@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/providers/community_provider.dart';
+import 'package:finplus/providers/community_provider/community_provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CommunityController extends GetxController {
