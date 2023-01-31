@@ -1,18 +1,15 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/file_box.dart/file_box.dart';
 import 'package:finplus/finplus/screens/chat/image_box/image_box.dart';
 import 'package:finplus/finplus/screens/web_view/web_view_screen.dart';
 import 'package:finplus/utils/styles.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-const double _sizeAvatar = 30;
 
 class GuestBox extends StatelessWidget {
   final DateTime? diffTime;
@@ -50,28 +47,9 @@ class GuestBox extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                clipBehavior: Clip.antiAlias,
-                borderRadius: Decorate.avatarR,
-                child: CachedNetworkImage(
-                  imageUrl: '',
-                  color: primaryChat,
-                  errorWidget: (context, url, error) {
-                    return Container(
-                      width: _sizeAvatar,
-                      height: _sizeAvatar,
-                      color: primaryChat,
-                      child: Icon(
-                        CupertinoIcons.person_alt_circle,
-                        size: _sizeAvatar,
-                        color: context.t.background,
-                      ),
-                    );
-                  },
-                  fit: BoxFit.cover,
-                  width: _sizeAvatar,
-                  height: _sizeAvatar,
-                ),
+              const Avatar(
+                url: '',
+                size: 30,
               ),
               Spaces.boxW10,
               if (isDeleted)

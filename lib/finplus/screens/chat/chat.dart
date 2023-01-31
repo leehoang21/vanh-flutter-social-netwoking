@@ -5,6 +5,7 @@ import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
 import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/utils.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,19 +40,9 @@ class Chat extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ClipRRect(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: Decorate.avatarR,
-                    child: CachedNetworkImage(
-                      imageUrl: '',
-                      fit: BoxFit.cover,
-                      width: 40,
-                      height: 40,
-                      errorWidget: (context, url, error) => const Icon(
-                        CupertinoIcons.person_alt_circle,
-                        size: 40,
-                      ),
-                    ),
+                  const Avatar(
+                    url: '',
+                    size: 40,
                   ),
                   Spaces.box10,
                   Expanded(

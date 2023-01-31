@@ -76,7 +76,6 @@ class Decorate {
     ),
   );
   static const formFieldR = r15;
-  static const avatarR = r50;
   static const boxChatR = r20;
 }
 
