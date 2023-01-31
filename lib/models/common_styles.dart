@@ -4,10 +4,11 @@ const Color _grey = Color(0xFFD3D3D3);
 
 class _DarkConfigColor {
   static const Color _primary_01 = Color(0XFF172150);
-  static const Color _textDisable = _primary_01;
-  static const Color _backgroundColor = _primary_01;
-  static const Color _primaryChat = _primary_01;
-  static const Color _textContent = _primary_01;
+  static const Color _primary_04 = Color(0xff6fb98f);
+  static const Color _primaryChat = _primary_04;
+  static const Color _backgroundColor = _grey;
+  static const Color _textDisable = Color(0xFF8691B3);
+  static const Color _textContent = Color(0xFF333333);
   static const Color _backgroundFailLoad = _grey;
 }
 
