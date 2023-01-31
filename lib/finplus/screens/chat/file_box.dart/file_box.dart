@@ -1,18 +1,15 @@
-import 'package:finplus/models/chat_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:open_filex/open_filex.dart';
+
+enum DownloadState { complete, running }
 
 class FileBox extends StatelessWidget {
-  final RxChatData data;
   final Color? contentColor;
   final Color? backgroundColor;
   final VoidCallback onDownloadFile;
 
   const FileBox(
       {Key? key,
-      required this.data,
       this.contentColor,
       this.backgroundColor,
       required this.onDownloadFile})
@@ -22,6 +19,10 @@ class FileBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color contentColor = this.contentColor ?? context.t.background;
     final Color backgroundColor = this.backgroundColor ?? context.t.primaryChat;
+
+    const DownloadState? stateDownload = null;
+    const double perCentDownload = 0.0;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
@@ -37,18 +38,16 @@ class FileBox extends StatelessWidget {
         children: [
           SizedBox.square(
             dimension: 24,
-            child: data.downloadTaskStatus == DownloadTaskStatus.complete
+            child: stateDownload == DownloadState.complete
                 ? IconButton(
                     padding: EdgeInsets.zero,
-                    onPressed: data.filePath != null
-                        ? () => OpenFilex.open(data.filePath)
-                        : null,
+                    onPressed: () {},
                     icon: Icon(
                       Icons.file_download,
                       color: contentColor,
                     ),
                   )
-                : data.downloadTaskStatus == DownloadTaskStatus.running
+                : stateDownload == DownloadState.running
                     ? Stack(
                         children: [
                           Icon(
@@ -65,9 +64,7 @@ class FileBox extends StatelessWidget {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1,
                                   color: backgroundColor,
-                                  value:
-                                      data.value.downloadProgress?.toDouble() ??
-                                          0.0,
+                                  value: perCentDownload,
                                 ),
                               ),
                             ),
@@ -85,7 +82,7 @@ class FileBox extends StatelessWidget {
           ),
           Spaces.boxW8,
           Text(
-            data.resource.first.name ?? '',
+            'File name',
             style: TextStyle(color: contentColor),
           )
         ],

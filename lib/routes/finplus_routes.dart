@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/chat/chat_screen.dart';
+import 'package:finplus/finplus/screens/chat/chat.dart';
 
 import '../finplus/screens/chat/chat_bindings.dart';
 import '../finplus/screens/home/home.dart';
@@ -22,7 +22,7 @@ class AppNavigate {
     ),
     GetPage(
       name: Routes.chat,
-      page: () => const ChatScreen(),
+      page: () => const Chat(),
       binding: ChatBindings(),
     ),
     GetPage(

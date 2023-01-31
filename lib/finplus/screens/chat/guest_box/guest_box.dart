@@ -3,8 +3,6 @@ import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/file_box.dart/file_box.dart';
 import 'package:finplus/finplus/screens/chat/image_box/image_box.dart';
 import 'package:finplus/finplus/screens/web_view/web_view_screen.dart';
-import 'package:finplus/models/chat_data.dart';
-import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +13,11 @@ import 'package:url_launcher/url_launcher_string.dart';
 const double _sizeAvatar = 30;
 
 class GuestBox extends StatelessWidget {
-  final RxChatData dataChat;
   final DateTime? diffTime;
   final VoidCallback onDownloadFile;
 
   const GuestBox({
     super.key,
-    required this.dataChat,
     required this.onDownloadFile,
     this.diffTime,
   });
@@ -54,7 +50,7 @@ class GuestBox extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 borderRadius: AppBorderAndRadius.avatarBorderRadius,
                 child: CachedNetworkImage(
-                  imageUrl: dataChat.userAvatar,
+                  imageUrl: '',
                   color: primaryChat,
                   errorWidget: (context, url, error) {
                     return Container(
@@ -78,43 +74,11 @@ class GuestBox extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Flexible(
-                      child: Builder(builder: (context) {
-                        if (dataChat.value.resource.isNotEmpty &&
-                            dataChat.value.resource.first.urlOrigin != null)
-                          return _buidImage();
-                        if (dataChat.resource.isNotEmpty)
-                          return _buidFile(context);
-                        return Container(
-                          padding: Spaces.h16v10,
-                          child: Linkify(
-                            text: dataChat.content,
-                            onOpen: (link) async {
-                              if (await canLaunchUrlString(link.url)) {
-                                Get.to(() => WebViewScreen(url: link.url));
-                              }
-                            },
-                            linkStyle: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: primaryChat,
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: primaryChat,
-                              width: 1,
-                            ),
-                            borderRadius:
-                                AppBorderAndRadius.boxChatBorderRadius,
-                          ),
-                        );
-                      }),
+                      child: _buildContent(context),
                     ),
                     Spaces.boxW10,
                     Text(
-                      DateFormat('HH:mm').format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(dataChat.createTime) * 1000)),
+                      DateFormat('HH:mm').format(DateTime.now()),
                       textAlign: TextAlign.right,
                       style: TextDefine.P3_R
                           .copyWith(color: context.t.textDisable),
@@ -129,10 +93,46 @@ class GuestBox extends StatelessWidget {
     );
   }
 
+  Widget _buildContent(BuildContext context) {
+    bool isText = true;
+    bool isImage = false;
+    bool isFile = false;
+    if (isFile) return _buidFile(context);
+    if (isImage) return _buidImage();
+    if (isText) return _buildTextBox(context);
+  }
+
+  Widget _buildTextBox(BuildContext context) {
+    final Color primaryChat = context.t.primaryChat;
+    return Container(
+      padding: Spaces.h16v10,
+      child: Linkify(
+        text: '',
+        onOpen: (link) async {
+          if (await canLaunchUrlString(link.url)) {
+            Get.to(() => WebViewScreen(url: link.url));
+          }
+        },
+        linkStyle: TextStyle(
+          fontStyle: FontStyle.italic,
+          color: primaryChat,
+        ),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: primaryChat,
+          width: 1,
+        ),
+        borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+      ),
+    );
+  }
+
   Widget _buidImage() {
-    return ClipRRect(
+    return const ClipRRect(
       borderRadius: AppBorderAndRadius.boxChatBorderRadius,
-      child: ImageBox(images: [dataChat.value.resource.first.urlOrigin!]),
+      child: ImageBox(images: []),
     );
   }
 
@@ -140,7 +140,6 @@ class GuestBox extends StatelessWidget {
     return ClipRRect(
       borderRadius: AppBorderAndRadius.boxChatBorderRadius,
       child: FileBox(
-        data: dataChat,
         onDownloadFile: onDownloadFile,
         contentColor: context.t.textContent,
         backgroundColor: context.t.background,

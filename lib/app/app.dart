@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/network/app_connection.dart';
-import 'package:finplus/finplus/screens/chat/chat_controller.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:flutter/material.dart';
 

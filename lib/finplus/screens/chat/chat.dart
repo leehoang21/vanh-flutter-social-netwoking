@@ -3,14 +3,13 @@ import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/chat_controller.dart';
 import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
 import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
-import 'package:finplus/models/chat_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({
+class Chat extends StatelessWidget {
+  const Chat({
     super.key,
   });
 
@@ -84,62 +83,20 @@ class ChatScreen extends StatelessWidget {
                         child: Obx(
                           () => CustomSmartRefresher(
                             controller: controller.refreshController,
-                            onLoading: controller.onLoading,
-                            child: ListView.builder(
+                            child: ListView(
                               reverse: true,
                               controller: controller.scrollController,
-                              itemCount: controller.listChat.value.length,
-                              itemBuilder: (context, i) {
-                                final chat = controller.listChat.value[i];
-                                final RxChatData? nextData =
-                                    i + 1 < controller.listChat.value.length
-                                        ? controller.listChat.value[i + 1]
-                                        : null;
-
-                                DateTime? diffTime;
-
-                                if (nextData != null) {
-                                  print(
-                                      'day ${DateTime.fromMillisecondsSinceEpoch(int.parse(nextData.createTime) * 1000)}');
-                                  if (DateTime.fromMillisecondsSinceEpoch(
-                                              int.parse(nextData.createTime) *
-                                                  1000)
-                                          .difference(DateTime
-                                              .fromMillisecondsSinceEpoch(
-                                                  int.parse(controller
-                                                          .listChat
-                                                          .value[i]
-                                                          .createTime) *
-                                                      1000))
-                                          .inHours
-                                          .abs() >=
-                                      12) {
-                                    diffTime =
-                                        DateTime.fromMillisecondsSinceEpoch(
-                                            int.parse(controller.listChat
-                                                    .value[i].createTime) *
-                                                1000);
-                                  }
-                                }
-
-                                if (chat.value.userId == controller.userId) {
-                                  return MyBox(
-                                    diffTime: diffTime,
-                                    dataChat: chat,
-                                    onDownloadFile: () =>
-                                        controller.downloadFile(chat),
-                                    onDeleteMessage: () =>
-                                        controller.deleteMessage(chat),
-                                  );
-                                } else {
-                                  return GuestBox(
-                                    diffTime: diffTime,
-                                    dataChat: chat,
-                                    onDownloadFile: () =>
-                                        controller.downloadFile(chat),
-                                  );
-                                }
-                              },
+                              children: [
+                                MyBox(
+                                  diffTime: null,
+                                  onDownloadFile: () {},
+                                  onDeleteMessage: () {},
+                                ),
+                                GuestBox(
+                                  diffTime: null,
+                                  onDownloadFile: () {},
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -172,19 +129,18 @@ class ChatScreen extends StatelessWidget {
                                   : Row(
                                       children: [
                                         IconButton(
-                                          onPressed: controller.takePhoto,
+                                          onPressed: (){},
                                           icon: Icon(
                                               CupertinoIcons.photo_camera,
                                               color: theme.primaryChat),
                                         ),
                                         IconButton(
-                                          onPressed:
-                                              controller.selectImageFromLib,
+                                          onPressed:(){},
                                           icon: Icon(CupertinoIcons.photo,
                                               color: theme.primaryChat),
                                         ),
                                         IconButton(
-                                          onPressed: controller.pickFile,
+                                          onPressed:(){},
                                           icon: Icon(
                                               CupertinoIcons.arrow_up_doc,
                                               color: theme.primaryChat),
@@ -220,7 +176,7 @@ class ChatScreen extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                              onPressed: controller.sendMessage,
+                              onPressed:(){},
                               icon: Icon(CupertinoIcons.paperplane,
                                   color: theme.primaryChat),
                             ),
