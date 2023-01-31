@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/widgets/dialog/notification.dialog.dart';
+import 'package:finplus/widgets/dialog/notification_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '/widgets/app_snackbar/app_snackbar.dart';
