@@ -4,6 +4,7 @@ import 'package:finplus/finplus/screens/chat/chat_controller.dart';
 import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
 import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
 import 'package:finplus/utils/styles.dart';
+import 'package:finplus/utils/utils.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -113,12 +114,10 @@ class Chat extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Obx(
-                              () => controller.isExpandedInputField.value
+                              () => controller.isInputExpanded.value
                                   ? IconButton(
                                       onPressed: () => controller
-                                              .isExpandedInputField.value =
-                                          !controller
-                                              .isExpandedInputField.value,
+                                          .isInputExpanded.value = false,
                                       icon: Icon(
                                         CupertinoIcons.chevron_right,
                                         color: theme.primaryChat,

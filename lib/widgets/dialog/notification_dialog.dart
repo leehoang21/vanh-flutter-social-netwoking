@@ -10,7 +10,6 @@ class NotificationDialog extends StatelessWidget {
     this.description = 'Description',
     this.confirmText = 'Confirm',
     this.onConfirmBtnPressed,
-    this.affirmativeBtnColor,
     this.showCancelButton = false,
     this.onCancelBtnPressed,
   }) : super(key: key);
@@ -20,16 +19,16 @@ class NotificationDialog extends StatelessWidget {
   final String description;
 
   final Function()? onConfirmBtnPressed;
+
   final Function()? onCancelBtnPressed;
 
   final String confirmText;
-
-  final Color? affirmativeBtnColor;
 
   final bool showCancelButton;
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.t;
     return Dialog(
       child: Padding(
         padding: Spaces.a16,
@@ -61,11 +60,15 @@ class NotificationDialog extends StatelessWidget {
             if (showCancelButton)
               Padding(
                 padding: Spaces.t10,
-                child: Button(
-                  child: const Text(
-                    'Cancel',
-                  ),
+                child: TextButton(
                   onPressed: onCancelBtnPressed ?? Get.back,
+                  style: TextButton.styleFrom(
+                    backgroundColor: theme.backgroundFailLoad,
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: theme.background),
+                  ),
                 ),
               ),
           ],

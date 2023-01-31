@@ -19,8 +19,6 @@ class _LightConfigColor {
   static const Color _secondary_01 = Color.fromARGB(255, 81, 230, 173);
   static const Color _secondary_02 = Color.fromARGB(255, 20, 160, 111);
   static const Color _secondary_03 = Color(0xffb3de81);
-  /*Do not change _primaryChat to match _backgroundColor
-  _primaryChat is using for many icons in chat*/
   static const Color _primaryChat = _primary_04;
   static const Color _backgroundColor = Color(0xFFFFFFFF);
   static const Color _textDisable = Color(0xFF8691B3);
@@ -88,14 +86,19 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   @override
   ThemeExtension<CommonStyles> copyWith({
     Color? primary_01,
+    Color? background,
+    Color? textDisable,
+    Color? primaryChat,
+    Color? textContent,
+    Color? backgroundFailLoad,
   }) =>
       CommonStyles(
         primary_01: primary_01 ?? this.primary_01,
-        background: background,
-        textDisable: textDisable,
-        primaryChat: primaryChat,
-        textContent: textContent,
-        backgroundFailLoad: backgroundFailLoad,
+        background: background ?? this.background,
+        textDisable: textDisable ?? this.textDisable,
+        primaryChat: primaryChat ?? this.primaryChat,
+        textContent: textContent ?? this.textContent,
+        backgroundFailLoad: backgroundFailLoad ?? this.backgroundFailLoad,
       );
 
   @override

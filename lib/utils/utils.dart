@@ -23,7 +23,6 @@ class Utils {
     dynamic description,
     String? confirmText,
     dynamic Function()? onConfirmBtnPressed,
-    Color? affirmativeBtnColor,
     bool showCancelButton = false,
     bool barrierDismissible = true,
     String icon = '',
@@ -31,7 +30,6 @@ class Utils {
       Get.dialog(
         barrierDismissible: barrierDismissible,
         NotificationDialog(
-          affirmativeBtnColor: affirmativeBtnColor,
           confirmText: confirmText ?? 'Confirm',
           onConfirmBtnPressed: onConfirmBtnPressed,
           description: description ?? 'Description',

@@ -7,7 +7,7 @@ class ChatController extends GetxController {
 
   late final FocusNode messageFocusNode;
 
-  late final Rx<bool> isExpandedInputField;
+  late final Rx<bool> isInputExpanded;
 
   late final ScrollController scrollController;
 
@@ -17,7 +17,7 @@ class ChatController extends GetxController {
   void onInit() {
     textController = TextEditingController();
     messageFocusNode = FocusNode();
-    isExpandedInputField = Rx(false);
+    isInputExpanded = Rx(false);
     scrollController = ScrollController();
     refreshController = RefreshController();
 
@@ -28,14 +28,13 @@ class ChatController extends GetxController {
   void onReady() {
     textController.addListener(
       () {
-        if (isExpandedInputField.value == false)
-          isExpandedInputField.value = true;
+        if (isInputExpanded.value == false) isInputExpanded.value = true;
       },
     );
 
     messageFocusNode.addListener(
       () {
-        isExpandedInputField(messageFocusNode.hasFocus);
+        isInputExpanded(messageFocusNode.hasFocus);
       },
     );
     super.onReady();
