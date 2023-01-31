@@ -26,7 +26,7 @@ class Global {
 
     await setupRemoteConfig();
 
-    LoadingOverlay();
+    LoadingOverlay(barrierColor: Colors.black26);
   }
 
   static Future<void> setupRemoteConfig() async {

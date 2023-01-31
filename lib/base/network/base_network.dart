@@ -117,7 +117,7 @@ abstract class BaseNetWork {
   }
 
   Future<ApiResponse<R>> sendRequest<R>(ApiRequest request,
-      {R Function(Map)? decoder, bool disableRetry = false}) async {
+      {R Function(Map)? decoder}) async {
     try {
       final uri = getUri(baseUrl ?? AppConfig.info.baseUrl, request.path,
           secure ?? AppConfig.info.secure);
@@ -129,7 +129,10 @@ abstract class BaseNetWork {
         options: Options(
           method: request.method.name,
           headers: request.headers,
-          extra: {'auth': request.auth, 'disableRetry': disableRetry},
+          extra: {
+            'auth': request.auth,
+            'disableRetry': request.method != METHOD.GET
+          },
           sendTimeout: 3000,
           receiveTimeout: 30000,
         ),
@@ -191,7 +194,11 @@ abstract class BaseNetWork {
           AppConnection.addListener((hasConnect) async {
             if (hasConnect) {
               final res = await _handleRetry(e.requestOptions);
-              handler.resolve(res);
+              if (res != null) {
+                handler.resolve(res);
+              } else {
+                handler.next(e);
+              }
 
               AppConnection.removeListener(id);
             }
@@ -217,7 +224,11 @@ abstract class BaseNetWork {
                   print('retry: ${e.requestOptions.uri.toString()}');
                 }
 
-                res = await _handleRetry(e.requestOptions);
+                final nextData = await _handleRetry(e.requestOptions);
+
+                if (nextData != null) {
+                  res = nextData;
+                }
                 if (res.statusCode == 200) {
                   return;
                 } else {
@@ -248,9 +259,14 @@ abstract class BaseNetWork {
     return e.type == DioErrorType.other && !AppConnection.hasConnection;
   }
 
-  Future<Response> _handleRetry(RequestOptions requestOptions) async {
-    final res = await _dio.instance.fetch(requestOptions);
+  Future<Response?> _handleRetry(RequestOptions requestOptions) async {
+    try {
+      final Dio _dio = Dio();
+      final res = await _dio.fetch(requestOptions);
 
-    return res;
+      return res;
+    } catch (e) {
+      return null;
+    }
   }
 }
