@@ -61,6 +61,7 @@ class Decorate {
   static const BorderRadius r20 = BorderRadius.all(Radius.circular(20));
   static const BorderRadius r24 = BorderRadius.all(Radius.circular(24));
   static const BorderRadius r32 = BorderRadius.all(Radius.circular(32));
+  static const BorderRadius r50 = BorderRadius.all(Radius.circular(50));
   static const BorderRadius r24_top =
       BorderRadius.vertical(top: Radius.circular(24));
 
@@ -74,6 +75,9 @@ class Decorate {
       Radius.circular(8),
     ),
   );
+  static const formFieldR = r15;
+  static const avatarR = r50;
+  static const boxChatR = r20;
 }
 
 class TextDefine {
@@ -129,21 +133,6 @@ class TextDefine {
 
   static const TextStyle P5_M =
       TextStyle(fontSize: 11, fontWeight: FontWeight.w400);
-}
-
-class AppBorderAndRadius {
-  static const defaultRadius = Radius.circular(15);
-  static const radius20 = Radius.circular(20);
-  static const radius50 = Radius.circular(50);
-  static const formRadius = Radius.circular(15);
-
-  static const defaultBorderRadius = BorderRadius.all(defaultRadius);
-
-  static const formBorderRadius = BorderRadius.all(formRadius);
-
-  static const boxChatBorderRadius = BorderRadius.all(radius20);
-
-  static const avatarBorderRadius = BorderRadius.all(radius50);
 }
 
 extension BuildContextExtenion on BuildContext {

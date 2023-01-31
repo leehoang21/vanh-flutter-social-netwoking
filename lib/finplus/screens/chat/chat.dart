@@ -40,9 +40,9 @@ class Chat extends StatelessWidget {
                 children: [
                   ClipRRect(
                     clipBehavior: Clip.antiAlias,
-                    borderRadius: AppBorderAndRadius.avatarBorderRadius,
+                    borderRadius: Decorate.avatarR,
                     child: CachedNetworkImage(
-                      imageUrl: controller.userChatWith.value?.avatar ?? '',
+                      imageUrl: '',
                       fit: BoxFit.cover,
                       width: 40,
                       height: 40,
@@ -56,13 +56,13 @@ class Chat extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
-                          controller.userChatWith.value?.name ?? '',
+                          '',
                           overflow: TextOverflow.ellipsis,
                           style: TextDefine.T1_R,
                         ),
-                        const Text(
+                        Text(
                           'Đang online',
                           style: TextDefine.P3_R,
                         ),
@@ -80,24 +80,22 @@ class Chat extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: Obx(
-                          () => CustomSmartRefresher(
-                            controller: controller.refreshController,
-                            child: ListView(
-                              reverse: true,
-                              controller: controller.scrollController,
-                              children: [
-                                MyBox(
-                                  diffTime: null,
-                                  onDownloadFile: () {},
-                                  onDeleteMessage: () {},
-                                ),
-                                GuestBox(
-                                  diffTime: null,
-                                  onDownloadFile: () {},
-                                )
-                              ],
-                            ),
+                        child: CustomSmartRefresher(
+                          controller: controller.refreshController,
+                          child: ListView(
+                            reverse: true,
+                            controller: controller.scrollController,
+                            children: [
+                              MyBox(
+                                diffTime: null,
+                                onDownloadFile: () {},
+                                onDeleteMessage: () {},
+                              ),
+                              GuestBox(
+                                diffTime: null,
+                                onDownloadFile: () {},
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -115,12 +113,12 @@ class Chat extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Obx(
-                              () => controller.onExpandedInputField.value
+                              () => controller.isExpandedInputField.value
                                   ? IconButton(
                                       onPressed: () => controller
-                                              .onExpandedInputField.value =
+                                              .isExpandedInputField.value =
                                           !controller
-                                              .onExpandedInputField.value,
+                                              .isExpandedInputField.value,
                                       icon: Icon(
                                         CupertinoIcons.chevron_right,
                                         color: theme.primaryChat,
@@ -129,18 +127,18 @@ class Chat extends StatelessWidget {
                                   : Row(
                                       children: [
                                         IconButton(
-                                          onPressed: (){},
+                                          onPressed: () {},
                                           icon: Icon(
                                               CupertinoIcons.photo_camera,
                                               color: theme.primaryChat),
                                         ),
                                         IconButton(
-                                          onPressed:(){},
+                                          onPressed: () {},
                                           icon: Icon(CupertinoIcons.photo,
                                               color: theme.primaryChat),
                                         ),
                                         IconButton(
-                                          onPressed:(){},
+                                          onPressed: () {},
                                           icon: Icon(
                                               CupertinoIcons.arrow_up_doc,
                                               color: theme.primaryChat),
@@ -150,7 +148,7 @@ class Chat extends StatelessWidget {
                             ),
                             Expanded(
                               child: TextField(
-                                focusNode: controller.focusInputMessageField,
+                                focusNode: controller.messageFocusNode,
                                 controller: controller.textController,
                                 maxLines: 4,
                                 minLines: 1,
@@ -176,7 +174,7 @@ class Chat extends StatelessWidget {
                               ),
                             ),
                             IconButton(
-                              onPressed:(){},
+                              onPressed: () {},
                               icon: Icon(CupertinoIcons.paperplane,
                                   color: theme.primaryChat),
                             ),

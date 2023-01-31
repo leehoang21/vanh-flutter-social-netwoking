@@ -1,63 +1,50 @@
-
 import 'package:commons/commons.dart';
-import 'package:finplus/core/get_arguments.dart';
-import 'package:finplus/models/login_info_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ChatArgument {
-  final UserInfo userChatWith;
+class ChatController extends GetxController {
+  late final TextEditingController textController;
 
-  ChatArgument({
-    required this.userChatWith,
-  });
-}
+  late final FocusNode messageFocusNode;
 
-class ChatController extends GetxController with GetArguments<ChatArgument> {
-  final String userId = '0';
+  late final Rx<bool> isExpandedInputField;
 
-  final TextEditingController textController = TextEditingController();
+  late final ScrollController scrollController;
 
-  final FocusNode focusInputMessageField = FocusNode();
-
-  final Rx<bool> onExpandedInputField = Rx(false);
-
-  final ScrollController scrollController = ScrollController();
-
-  final RefreshController refreshController = RefreshController();
-
-  late Rxn<UserInfo> userChatWith;
+  late final RefreshController refreshController;
 
   @override
   void onInit() {
-    textController.addListener(
-      () {
-        if (onExpandedInputField.value == false)
-          onExpandedInputField.value = true;
-      },
-    );
-
-    focusInputMessageField.addListener(
-      () {
-        if (focusInputMessageField.hasFocus &&
-            onExpandedInputField.value == false)
-          onExpandedInputField.value = true;
-
-        if (!focusInputMessageField.hasFocus &&
-            onExpandedInputField.value == true)
-          onExpandedInputField.value = false;
-      },
-    );
-
-    userChatWith = Rxn(arguments?.userChatWith);
+    textController = TextEditingController();
+    messageFocusNode = FocusNode();
+    isExpandedInputField = Rx(false);
+    scrollController = ScrollController();
+    refreshController = RefreshController();
 
     super.onInit();
   }
 
   @override
+  void onReady() {
+    textController.addListener(
+      () {
+        if (isExpandedInputField.value == false)
+          isExpandedInputField.value = true;
+      },
+    );
+
+    messageFocusNode.addListener(
+      () {
+        isExpandedInputField(messageFocusNode.hasFocus);
+      },
+    );
+    super.onReady();
+  }
+
+  @override
   void dispose() {
     textController.dispose();
-    focusInputMessageField.dispose();
+    messageFocusNode.dispose();
     scrollController.dispose();
     super.dispose();
   }

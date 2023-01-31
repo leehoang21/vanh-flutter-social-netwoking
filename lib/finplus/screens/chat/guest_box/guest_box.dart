@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/file_box.dart/file_box.dart';
@@ -25,6 +27,8 @@ class GuestBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color primaryChat = context.t.primaryChat;
+    final bool isDeleted = Random().nextBool();
+
     return Padding(
       padding: Spaces.a10.copyWith(
         right: 20,
@@ -48,7 +52,7 @@ class GuestBox extends StatelessWidget {
             children: [
               ClipRRect(
                 clipBehavior: Clip.antiAlias,
-                borderRadius: AppBorderAndRadius.avatarBorderRadius,
+                borderRadius: Decorate.avatarR,
                 child: CachedNetworkImage(
                   imageUrl: '',
                   color: primaryChat,
@@ -57,9 +61,10 @@ class GuestBox extends StatelessWidget {
                       width: _sizeAvatar,
                       height: _sizeAvatar,
                       color: primaryChat,
-                      child: const Icon(
+                      child: Icon(
                         CupertinoIcons.person_alt_circle,
                         size: _sizeAvatar,
+                        color: context.t.background,
                       ),
                     );
                   },
@@ -69,23 +74,36 @@ class GuestBox extends StatelessWidget {
                 ),
               ),
               Spaces.boxW10,
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Flexible(
-                      child: _buildContent(context),
-                    ),
-                    Spaces.boxW10,
-                    Text(
-                      DateFormat('HH:mm').format(DateTime.now()),
-                      textAlign: TextAlign.right,
-                      style: TextDefine.P3_R
-                          .copyWith(color: context.t.textDisable),
-                    ),
-                  ],
-                ),
-              )
+              if (isDeleted)
+                Container(
+                  padding: Spaces.h16v10,
+                  child: Text(
+                    'Message had been deleted',
+                    style: TextStyle(color: context.t.textDisable),
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.t.backgroundFailLoad,
+                    borderRadius: Decorate.boxChatR,
+                  ),
+                )
+              else
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: _buildContent(context),
+                      ),
+                      Spaces.boxW10,
+                      Text(
+                        DateFormat('HH:mm').format(DateTime.now()),
+                        textAlign: TextAlign.right,
+                        style: TextDefine.P3_R
+                            .copyWith(color: context.t.textDisable),
+                      ),
+                    ],
+                  ),
+                )
             ],
           ),
         ],
@@ -94,12 +112,9 @@ class GuestBox extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    bool isText = true;
-    bool isImage = false;
-    bool isFile = false;
-    if (isFile) return _buidFile(context);
-    if (isImage) return _buidImage();
-    if (isText) return _buildTextBox(context);
+    // if (isFile) return _buidFile(context);
+    // if (isImage) return _buidImage();
+    return _buildTextBox(context);
   }
 
   Widget _buildTextBox(BuildContext context) {
@@ -124,21 +139,21 @@ class GuestBox extends StatelessWidget {
           color: primaryChat,
           width: 1,
         ),
-        borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+        borderRadius: Decorate.boxChatR,
       ),
     );
   }
 
   Widget _buidImage() {
     return const ClipRRect(
-      borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+      borderRadius: Decorate.boxChatR,
       child: ImageBox(images: []),
     );
   }
 
   Widget _buidFile(BuildContext context) {
     return ClipRRect(
-      borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+      borderRadius: Decorate.boxChatR,
       child: FileBox(
         onDownloadFile: onDownloadFile,
         contentColor: context.t.textContent,

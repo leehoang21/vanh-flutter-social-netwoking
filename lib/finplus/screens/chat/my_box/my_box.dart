@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/file_box.dart/file_box.dart';
 import 'package:finplus/finplus/screens/chat/image_box/image_box.dart';
@@ -23,7 +25,8 @@ class MyBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const bool isDeleted = false;
+    final bool isDeleted = Random().nextBool();
+
     return Padding(
       padding: Spaces.a10.copyWith(
         left: 20,
@@ -42,41 +45,29 @@ class MyBox extends StatelessWidget {
                 ),
               ),
             ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                DateFormat('HH:mm').format(
-                  DateTime.now(),
-                ),
-                textAlign: TextAlign.right,
-                style: TextDefine.P3_R.copyWith(color: context.t.textDisable),
-              ),
-              Spaces.boxW10,
-              if (isDeleted)
-                Container(
-                  padding: Spaces.h16v10,
-                  child: Text(
-                    'Message had been deleted',
-                    style: TextStyle(color: context.t.textDisable),
-                  ),
-                  decoration: BoxDecoration(
-                    color: context.t.backgroundFailLoad,
-                    borderRadius: AppBorderAndRadius.boxChatBorderRadius,
-                  ),
-                )
-              else
-                Flexible(
-                  child: Slidable(
+          Container(
+            alignment: Alignment.centerRight,
+            child: isDeleted
+                ? Container(
+                    padding: Spaces.h16v10,
+                    child: Text(
+                      'Message had been deleted',
+                      style: TextStyle(color: context.t.textDisable),
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.t.backgroundFailLoad,
+                      borderRadius: Decorate.boxChatR,
+                    ),
+                  )
+                : Slidable(
                     closeOnScroll: true,
                     endActionPane: ActionPane(
                       extentRatio: 0.26,
                       motion: const ScrollMotion(),
                       children: [
                         const Spacer(),
-                        CircleAvatar(
-                          backgroundColor: context.t.primaryChat,
+                        ClipRRect(
+                          borderRadius: Decorate.r50,
                           child: IconButton(
                             onPressed: onDeleteMessage,
                             icon: Icon(
@@ -87,10 +78,23 @@ class MyBox extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: _buildContent(context),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          DateFormat('HH:mm').format(
+                            DateTime.now(),
+                          ),
+                          textAlign: TextAlign.right,
+                          style: TextDefine.P3_R
+                              .copyWith(color: context.t.textDisable),
+                        ),
+                        Spaces.boxW10,
+                        Flexible(child: _buildContent(context)),
+                      ],
+                    ),
                   ),
-                ),
-            ],
           ),
         ],
       ),
@@ -98,12 +102,9 @@ class MyBox extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    bool isText = true;
-    bool isImage = false;
-    bool isFile = false;
-    if (isFile) return _buidFile();
-    if (isImage) return _buidImage();
-    if (isText) return _buildTextBox(context);
+    // if (isFile) return _buidFile();
+    // if (isImage) return _buidImage();
+    return _buildTextBox(context);
   }
 
   Widget _buildTextBox(BuildContext context) {
@@ -130,21 +131,21 @@ class MyBox extends StatelessWidget {
           color: primaryColor,
           width: 1,
         ),
-        borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+        borderRadius: Decorate.boxChatR,
       ),
     );
   }
 
   Widget _buidImage() {
     return const ClipRRect(
-      borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+      borderRadius: Decorate.boxChatR,
       child: ImageBox(images: []),
     );
   }
 
   Widget _buidFile() {
     return ClipRRect(
-      borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+      borderRadius: Decorate.boxChatR,
       child: FileBox(
         onDownloadFile: onDownloadFile,
       ),

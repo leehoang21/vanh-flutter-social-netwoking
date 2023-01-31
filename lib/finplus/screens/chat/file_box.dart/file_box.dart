@@ -31,7 +31,7 @@ class FileBox extends StatelessWidget {
           color: context.t.primaryChat,
           width: 1,
         ),
-        borderRadius: AppBorderAndRadius.boxChatBorderRadius,
+        borderRadius: Decorate.boxChatR,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
