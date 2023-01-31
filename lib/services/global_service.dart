@@ -1,5 +1,5 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/providers/market_provider.dart';
+import 'package:finplus/providers/market_provider/market_provider.dart';
 
 class GlobalService extends GetxController {
   late final MarketProvider _marketProvider;

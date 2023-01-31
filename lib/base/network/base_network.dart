@@ -2,12 +2,12 @@
 
 import 'dart:async';
 
+import 'package:commons/app_logger/app_logger.dart';
 import 'package:commons/commons.dart' hide Response;
 import 'package:dio/dio.dart';
 import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/base/network/app_connection.dart';
 import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/utils.dart';
 import 'package:flutter/foundation.dart';
@@ -34,7 +34,7 @@ class _Dio {
 class ApiRequest extends ExtendModel {
   final String path;
   final METHOD method;
-  final Map<String, String?>? query;
+  final Map<String, String>? query;
   final Map<String, dynamic>? body;
   late final Map<String, String>? headers;
   final bool auth;
@@ -120,12 +120,25 @@ abstract class BaseNetWork {
       {R Function(Map)? decoder}) async {
     try {
       final uri = getUri(baseUrl ?? AppConfig.info.baseUrl, request.path,
-          secure ?? AppConfig.info.secure);
+          request.query, secure ?? AppConfig.info.secure);
+
+      NetWorkInfo? info;
+
+      if (AppConfig.info.env == ENV.DEV ||
+          (AppConfig.info.env == ENV.PROD && kDebugMode)) {
+        info = NetWorkInfo(
+          method: request.method.name,
+          uri: uri.toString(),
+          body: request.body,
+          query: request.query,
+        );
+
+        AppLogger.addRequest(info);
+      }
 
       final data = await _dio.instance.request(
         uri.toString(),
         data: request.body,
-        queryParameters: request.query,
         options: Options(
           method: request.method.name,
           headers: request.headers,
@@ -137,6 +150,16 @@ abstract class BaseNetWork {
           receiveTimeout: 30000,
         ),
       );
+
+      if ((AppConfig.info.env == ENV.DEV ||
+              (AppConfig.info.env == ENV.PROD && kDebugMode)) &&
+          info != null) {
+        info.response = data.data;
+        info.statusCode = data.statusCode;
+        info.headers = data.requestOptions.headers;
+
+        AppLogger.addRequest(info);
+      }
 
       final dynamic body;
       final List<R> items = [];
@@ -161,8 +184,12 @@ abstract class BaseNetWork {
         items: items,
       );
     } catch (e, stackTrace) {
-      final uri = getUri(baseUrl ?? AppConfig.info.baseUrl, request.path,
-          secure ?? AppConfig.info.secure);
+      final uri = getUri(
+        baseUrl ?? AppConfig.info.baseUrl,
+        request.path,
+        request.query,
+        secure ?? AppConfig.info.secure,
+      );
       e.logEx(stackTrace);
       return ApiResponse(
           request: request, body: null, statusCode: null, realUri: uri);
@@ -208,7 +235,6 @@ abstract class BaseNetWork {
             if (e.response?.statusCode == 401) {
               handler.resolve(e.response!);
               Storage.delete(KEY.USER_INFO);
-              Get.offAllNamed(Routes.login);
             } else {
               int retryCount = 0;
 

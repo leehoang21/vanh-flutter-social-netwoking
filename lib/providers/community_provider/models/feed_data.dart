@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-import 'login_info_data.dart';
+import '../../../models/login_info_data.dart';
 
 enum FeedType {
   NONE,

@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:commons/commons.dart';
 import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/base/base.dart';
-import 'package:finplus/models/symbol_data.dart';
 import 'package:finplus/providers/api_path.dart';
+import 'package:finplus/providers/market_provider/models/symbol_data.dart';
 
 typedef ReceivedSymbolDataFunc = void Function(Map<String, dynamic> data);
 
