@@ -48,15 +48,16 @@ class NotificationDialog extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            Padding(
-              padding: Spaces.t10,
-              child: Button(
-                child: Text(
-                  confirmText,
+            if (onConfirmBtnPressed != null)
+              Padding(
+                padding: Spaces.t10,
+                child: Button(
+                  child: Text(  
+                    confirmText,
+                  ),
+                  onPressed: onConfirmBtnPressed,
                 ),
-                onPressed: onConfirmBtnPressed,
               ),
-            ),
             if (showCancelButton)
               Padding(
                 padding: Spaces.t10,
