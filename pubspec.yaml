@@ -19,6 +19,7 @@ dependencies:
   connectivity_plus: ^3.0.2
   internet_connection_checker: ^1.0.0+1
   firebase_remote_config: ^3.0.9
+  cryptography_flutter: ^2.0.2
 
   ##internal packages
   commons:

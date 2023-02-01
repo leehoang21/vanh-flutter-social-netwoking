@@ -9,4 +9,12 @@ class ApiPath {
 
   //community
   static const String feed = '$_prefix/community/feed';
+
+  //chat
+  static const String room = '$_prefix/chat/room';
+  static const String joinRoom = '$_prefix/chat/room/join';
+  static const String leftRoom = '$_prefix/chat/room/left';
+  static const String addUserToRoom = '$_prefix/chat/room/addUser';
+  static const String removeUserToRoom = '$_prefix/chat/room/removeUser';
+  static const String message = '$_prefix/chat/message';
 }
