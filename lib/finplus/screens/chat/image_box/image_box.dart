@@ -175,7 +175,7 @@ class ImageBox extends StatelessWidget {
           ),
           errorWidget: (context, url, error) => Container(
             padding: Spaces.a10,
-            color: context.t.backgroundLoadFail,
+            color: context.t.backgroundFailLoad,
             width: width,
             height: height ?? 250,
             child: const Center(

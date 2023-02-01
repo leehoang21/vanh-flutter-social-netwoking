@@ -41,7 +41,7 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   final Color textDisable;
   final Color primaryChat;
   final Color textContent;
-  final Color backgroundLoadFail;
+  final Color backgroundFailLoad;
   final Color shadow;
 
   const CommonStyles({
@@ -56,7 +56,7 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
     required this.textDisable,
     required this.primaryChat,
     required this.textContent,
-    required this.backgroundLoadFail,
+    required this.backgroundFailLoad,
     required this.shadow,
   });
 
@@ -67,7 +67,7 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
       textDisable: _DarkConfigColor._textDisable,
       primaryChat: _DarkConfigColor._primaryChat,
       textContent: _DarkConfigColor._textContent,
-      backgroundLoadFail: _DarkConfigColor._backgroundFailLoad,
+      backgroundFailLoad: _DarkConfigColor._backgroundFailLoad,
       shadow: _DarkConfigColor._shadow,
     );
   }
@@ -85,7 +85,7 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
       textDisable: _LightConfigColor._textDisable,
       primaryChat: _LightConfigColor._primaryChat,
       textContent: _LightConfigColor._textContent,
-      backgroundLoadFail: _LightConfigColor._backgroundFailLoad,
+      backgroundFailLoad: _LightConfigColor._backgroundFailLoad,
       shadow: _LightConfigColor._shadow,
     );
   }
@@ -106,7 +106,7 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
         textDisable: textDisable ?? this.textDisable,
         primaryChat: primaryChat ?? this.primaryChat,
         textContent: textContent ?? this.textContent,
-        backgroundLoadFail: backgroundFailLoad ?? this.backgroundFailLoad,
+        backgroundFailLoad: backgroundFailLoad ?? this.backgroundFailLoad,
         shadow: shadow ?? this.shadow,
       );
 
@@ -123,9 +123,9 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
       textDisable: Color.lerp(textDisable, other.textDisable, t) ?? textDisable,
       primaryChat: Color.lerp(primaryChat, other.primaryChat, t) ?? primaryChat,
       textContent: Color.lerp(textContent, other.textContent, t) ?? textContent,
-      backgroundLoadFail:
-          Color.lerp(backgroundLoadFail, other.backgroundLoadFail, t) ??
-              backgroundLoadFail,
+      backgroundFailLoad:
+          Color.lerp(backgroundFailLoad, other.backgroundFailLoad, t) ??
+              backgroundFailLoad,
       shadow: Color.lerp(shadow, other.shadow, t) ?? shadow,
     );
   }
