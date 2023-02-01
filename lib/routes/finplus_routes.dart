@@ -1,5 +1,7 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/chat/chat.dart';
 
+import '../finplus/screens/chat/chat_bindings.dart';
 import '../finplus/screens/home/home.dart';
 import '../finplus/screens/home/home_bindings.dart';
 import '../finplus/screens/login/login.dart';
@@ -8,6 +10,7 @@ import '../finplus/screens/login/login_bindings.dart';
 class Routes {
   static const String home = '/home';
   static const String login = '/login';
+  static const String chat = '/chat';
 }
 
 class AppNavigate {
@@ -16,6 +19,11 @@ class AppNavigate {
       name: Routes.home,
       page: () => const Home(),
       binding: HomeBindings(),
+    ),
+    GetPage(
+      name: Routes.chat,
+      page: () => const Chat(),
+      binding: ChatBindings(),
     ),
     GetPage(
       name: Routes.login,
