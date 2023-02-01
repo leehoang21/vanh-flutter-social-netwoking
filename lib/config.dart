@@ -5,8 +5,8 @@ void setAppDevelopment() {
     env: ENV.DEV,
     baseUrl: '123.31.12.162:3002',
     secure: false,
-    marketUrl: 'trading.shs.com.vn',
-    marketSecure: true,
+    marketUrl: '123.31.12.162:3002',
+    marketSecure: false,
     fetchCount: 20,
   );
 }

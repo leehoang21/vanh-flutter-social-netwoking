@@ -1,1 +1,1 @@
-enum KEY { USER_INFO }
+enum KEY { USER_INFO, CHAT_ROOM }

@@ -11,6 +11,13 @@ const _color = {
   'SUCCESS': Colors.green
 };
 
+const _colorMethod = {
+  'GET': Colors.green,
+  'POST': Colors.amber,
+  'PUT': Colors.blue,
+  'DELETE': Colors.red,
+};
+
 class NetworkLog extends StatefulWidget {
   const NetworkLog({super.key});
 
@@ -40,7 +47,18 @@ class _NetworkLogState extends State<NetworkLog> {
                   child: Row(
                     children: [
                       Expanded(
-                          child: Text('${data[i].method} : ${data[i].uri}')),
+                          child: Text.rich(TextSpan(children: [
+                        TextSpan(
+                          text: data[i].method,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: _colorMethod[data[i].method],
+                          ),
+                        ),
+                        const TextSpan(text: ' '),
+                        TextSpan(text: data[i].uri),
+                      ]))),
                       Column(
                         children: [
                           Text(
