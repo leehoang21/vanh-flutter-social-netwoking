@@ -1,9 +1,9 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/widget/community_popular_group.dart';
+import 'package:finplus/finplus/screens/community/popular_group/community_popular_group.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-import 'widget/community_new_feed.dart';
+import 'new_feed/community_new_feed.dart';
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});
