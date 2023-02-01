@@ -1,10 +1,9 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/community_popular_group_screen.dart';
+import 'package:finplus/finplus/screens/community/widget/community_popular_group.dart';
 import 'package:finplus/utils/styles.dart';
-import 'package:finplus/utils/svg.dart';
 import 'package:flutter/material.dart';
 
-import 'community_new_feed_screen.dart';
+import 'widget/community_new_feed.dart';
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});
@@ -16,12 +15,12 @@ class CommunityScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFFFFF),
         leading: IconButton(
-          onPressed: Get.back,
-          icon: SvgPicture.asset(
-            SvgIcon.back_arrow_icon,
-            color: Colors.black,
-          ),
-        ),
+            onPressed: Get.back,
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.black,
+              size: 24,
+            )),
         elevation: 0,
         actions: [
           IconButton(
@@ -33,14 +32,16 @@ class CommunityScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon: SvgPicture.asset(
-              SvgIcon.group_icon,
+            icon: const Icon(
+              Icons.group,
+              color: Color(0xff14C53B),
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon: SvgPicture.asset(
-              SvgIcon.ring_icon,
+            icon: const Icon(
+              Icons.notifications_rounded,
+              color: Color(0xff14C53B),
             ),
           ),
         ],
@@ -74,11 +75,9 @@ class CommunityScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 16),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: Image.asset(
-                            SvgIcon.avatar_icon,
-                            width: 38,
-                            height: 38,
-                            fit: BoxFit.fill,
+                          child: const Placeholder(
+                            fallbackHeight: 38,
+                            fallbackWidth: 38,
                           ),
                         ),
                       ),
@@ -146,7 +145,12 @@ class CommunityScreen extends StatelessWidget {
               ),
             ),
           ),
-          const CommunityNewFeedScreen(),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: 1,
+              (context, index) => const CommunityNewFeed(),
+            ),
+          ),
         ],
       ),
     );

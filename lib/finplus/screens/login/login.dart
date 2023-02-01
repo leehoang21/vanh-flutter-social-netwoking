@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/community/community.dart';
+import 'package:finplus/finplus/screens/community/community_screen.dart';
 import 'package:finplus/providers/auth_provider.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
@@ -30,6 +32,11 @@ class Login extends StatelessWidget {
             ),
           ),
           Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Get.to(() => CommunityScreen());
+              },
+            ),
             backgroundColor: Colors.transparent,
             body: ListView(
               physics: const ClampingScrollPhysics(),
