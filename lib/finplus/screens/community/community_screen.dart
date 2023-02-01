@@ -138,12 +138,7 @@ class CommunityScreen extends StatelessWidget {
           ),
           const CommunityPopularGroupScreen(),
           const SliverPadding(
-            padding: EdgeInsets.only(
-              left: 12,
-              right: 12,
-              bottom: 10,
-              top: 22,
-            ),
+            padding: EdgeInsets.only(left: 12, right: 12, bottom: 10, top: 22),
             sliver: SliverToBoxAdapter(
               child: Text(
                 'New Feed',

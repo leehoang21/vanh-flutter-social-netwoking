@@ -3,7 +3,6 @@ import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:flutter/material.dart';
 
-
 class CommunityNewFeedScreen extends StatelessWidget {
   const CommunityNewFeedScreen({super.key});
 
@@ -141,9 +140,12 @@ class CommunityNewFeedScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Image.asset(
-                Picture.popular_group,
-                width: double.infinity,
+              SizedBox(
+                child: Image.asset(
+                  Picture.popular_group,
+                  fit: BoxFit.cover,
+                ),
+                width: double.maxFinite,
               ),
               Padding(
                 padding: const EdgeInsets.all(12),
