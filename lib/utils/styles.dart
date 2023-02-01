@@ -35,6 +35,8 @@ class Spaces {
       EdgeInsets.symmetric(vertical: 16, horizontal: 12);
   static const EdgeInsetsGeometry h16v25 =
       EdgeInsets.symmetric(vertical: 25, horizontal: 16);
+  static const EdgeInsets h4v6 =
+      EdgeInsets.symmetric(vertical: 4, horizontal: 6);
 }
 
 class Decorate {
@@ -105,8 +107,14 @@ class TextDefine {
   static const TextStyle P4_M =
       TextStyle(fontSize: 10, fontWeight: FontWeight.w500);
 
+  static const TextStyle P4_B =
+      TextStyle(fontSize: 15, fontWeight: FontWeight.w600);
+
   static const TextStyle P5_M =
       TextStyle(fontSize: 11, fontWeight: FontWeight.w400);
+
+  static const TextStyle P6_M =
+      TextStyle(fontSize: 13, fontWeight: FontWeight.w500);
 }
 
 extension BuildContextExtenion on BuildContext {
