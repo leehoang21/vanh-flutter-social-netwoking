@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:commons/commons.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Storage {
@@ -10,10 +10,11 @@ class Storage {
 
   static late final Storage _instance;
 
-  static Future<Storage> init() async {
+  static Future<void> init() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
-    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
     String? keyEncrpt = await secureStorage.read(key: 'encrpt');
     keyEncrpt ??= const Uuid().v4();
     secureStorage.write(key: 'encrpt', value: keyEncrpt);
@@ -35,7 +36,6 @@ class Storage {
     final Box box = await Hive.openBox(boxName,
         encryptionCipher: HiveAesCipher(encryptionKey));
     _instance = Storage._internal(box);
-    return _instance;
   }
 
   Storage._internal(this.box);
@@ -50,7 +50,11 @@ class Storage {
       } else {
         _instance.box.put(key.toString(), value);
       }
-    } catch (_) {}
+    } catch (_) {
+      if (kDebugMode) {
+        print(_);
+      }
+    }
   }
 
   static void putList<T>(dynamic key, T value) {
@@ -61,7 +65,11 @@ class Storage {
       } else {
         _instance.box.put(key.toString(), value);
       }
-    } catch (_) {}
+    } catch (_) {
+      if (kDebugMode) {
+        print(_);
+      }
+    }
   }
 
   static T? get<T>(dynamic key, [T Function(Map data)? decoder]) {
@@ -74,6 +82,9 @@ class Storage {
         return data;
       }
     } catch (_) {
+      if (kDebugMode) {
+        print(_);
+      }
       return null;
     }
   }
@@ -88,6 +99,9 @@ class Storage {
         return data;
       }
     } catch (_) {
+      if (kDebugMode) {
+        print(_);
+      }
       return null;
     }
   }
