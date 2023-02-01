@@ -17,6 +17,7 @@ export 'package:logger_flutter/logger_flutter.dart';
 export 'package:collection/collection.dart';
 export 'package:commons/app_logger/models/network_info.dart';
 export 'package:hive/hive.dart';
+export 'package:commons/custom_tooltip/custom_tooltip.dart';
 
 abstract class ExtendModel {
   Map toJson();
