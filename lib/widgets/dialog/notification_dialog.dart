@@ -18,9 +18,9 @@ class NotificationDialog extends StatelessWidget {
 
   final String description;
 
-  final Function()? onConfirmBtnPressed;
+  final VoidCallback? onConfirmBtnPressed;
 
-  final Function()? onCancelBtnPressed;
+  final VoidCallback? onCancelBtnPressed;
 
   final String confirmText;
 
@@ -52,7 +52,7 @@ class NotificationDialog extends StatelessWidget {
               Padding(
                 padding: Spaces.t10,
                 child: Button(
-                  child: Text(  
+                  child: Text(
                     confirmText,
                   ),
                   onPressed: onConfirmBtnPressed,
@@ -64,7 +64,7 @@ class NotificationDialog extends StatelessWidget {
                 child: TextButton(
                   onPressed: onCancelBtnPressed ?? Get.back,
                   style: TextButton.styleFrom(
-                    backgroundColor: theme.backgroundFailLoad,
+                    backgroundColor: theme.backgroundLoadFail,
                   ),
                   child: Text(
                     'Cancel',

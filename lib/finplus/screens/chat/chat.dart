@@ -48,12 +48,12 @@ class Chat extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
-                          '',
+                          'Tên người đang chat',
                           overflow: TextOverflow.ellipsis,
                           style: TextDefine.T1_R,
                         ),
                         Text(
-                          'Đang online',
+                          'Trực tuyến',
                           style: TextDefine.P3_R,
                         ),
                       ],
@@ -72,20 +72,26 @@ class Chat extends StatelessWidget {
                       Expanded(
                         child: CustomSmartRefresher(
                           controller: controller.refreshController,
-                          child: ListView(
-                            reverse: true,
-                            controller: controller.scrollController,
-                            children: [
-                              MyBox(
-                                diffTime: null,
-                                onDownloadFile: () {},
-                                onDeleteMessage: () {},
-                              ),
-                              GuestBox(
-                                diffTime: null,
-                                onDownloadFile: () {},
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: ListView(
+                              reverse: true,
+                              controller: controller.scrollController,
+                              children: [
+                                MyBox(
+                                  diffTime: DateTime(2000, 10, 10),
+                                  onDownloadFile: () {},
+                                  onDeleteMessage: () {},
+                                  onReact: (indexReaction) {},
+                                ),
+                                GuestBox(
+                                  diffTime: DateTime(2000, 10, 10),
+                                  onReact: (indexReaction) {},
+                                  onDownloadFile: () {},
+                                  // onDragReply: () {},
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

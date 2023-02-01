@@ -20,7 +20,6 @@ class ChatController extends GetxController {
     isInputExpanded = Rx(false);
     scrollController = ScrollController();
     refreshController = RefreshController();
-
     super.onInit();
   }
 

@@ -17,6 +17,7 @@ class Spaces {
   static const Widget box64 = SizedBox.square(dimension: 64);
   static const Widget box96 = SizedBox.square(dimension: 96);
 
+  static const Widget boxW2 = SizedBox(width: 2);
   static const Widget boxW5 = SizedBox(width: 5);
   static const Widget boxW8 = SizedBox(width: 8);
   static const Widget boxW10 = SizedBox(width: 10);
@@ -24,11 +25,13 @@ class Spaces {
   static const Widget boxH5 = SizedBox(height: 5);
   static const Widget boxH16 = SizedBox(height: 16);
 
+  static const EdgeInsets a3 = EdgeInsets.all(3);
   static const EdgeInsets a4 = EdgeInsets.all(4);
   static const EdgeInsets a8 = EdgeInsets.all(8);
   static const EdgeInsets a10 = EdgeInsets.all(10);
   static const EdgeInsets a16 = EdgeInsets.all(16);
 
+  static const EdgeInsets h4 = EdgeInsets.symmetric(horizontal: 4);
   static const EdgeInsets h8 = EdgeInsets.symmetric(horizontal: 8);
   static const EdgeInsets h16 = EdgeInsets.symmetric(horizontal: 16);
   static const EdgeInsets h20 = EdgeInsets.symmetric(horizontal: 20);
@@ -38,6 +41,8 @@ class Spaces {
   static const EdgeInsets v12 = EdgeInsets.symmetric(vertical: 12);
   static const EdgeInsets v16 = EdgeInsets.symmetric(vertical: 16);
 
+  static const EdgeInsets h8v16 =
+      EdgeInsets.symmetric(vertical: 8, horizontal: 16);
   static const EdgeInsets h16v10 =
       EdgeInsets.symmetric(vertical: 10, horizontal: 16);
   static const EdgeInsets h16v12 =
@@ -50,6 +55,7 @@ class Spaces {
     horizontal: 10,
     vertical: 11,
   );
+  
   static const EdgeInsets t10 = EdgeInsets.only(top: 10);
 }
 
@@ -134,6 +140,6 @@ class TextDefine {
       TextStyle(fontSize: 11, fontWeight: FontWeight.w400);
 }
 
-extension BuildContextExtenion on BuildContext {
+extension BuildContextExtension on BuildContext {
   CommonStyles get t => Theme.of(this).extension<CommonStyles>()!;
 }

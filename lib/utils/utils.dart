@@ -22,7 +22,7 @@ class Utils {
     String? title,
     dynamic description,
     String? confirmText,
-    dynamic Function()? onConfirmBtnPressed,
+    VoidCallback? onConfirmBtnPressed,
     bool showCancelButton = false,
     bool barrierDismissible = true,
     String icon = '',

@@ -4,8 +4,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CustomSmartRefresher extends StatelessWidget {
   final RefreshController controller;
-  final void Function()? onLoading;
-  final Function()? onRefresh;
+  final VoidCallback? onLoading;
+  final VoidCallback? onRefresh;
   final Widget child;
   final Axis? scrollDirection;
   const CustomSmartRefresher({
@@ -38,7 +38,7 @@ class CustomSmartRefresher extends StatelessWidget {
           } else if (mode == LoadStatus.failed) {
             body = const Text('Please try again');
           } else if (mode == LoadStatus.canLoading) {
-            body = const Text('Realease to load more');
+            body = const Text('Release to load more');
           } else {
             body = const Text('');
           }
