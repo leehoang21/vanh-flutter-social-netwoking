@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 const Color _grey = Color(0xFFD3D3D3);
-
 class _DarkConfigColor {
   static const Color _primary_01 = Color(0XFF172150);
   static const Color _primary_04 = Color(0xff6fb98f);

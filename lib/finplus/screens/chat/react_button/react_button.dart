@@ -1,6 +1,6 @@
+import 'package:commons/custom_tooltip/custom_tooltip.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
-import 'package:finplus/widgets/custom_tooltip/custom_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
