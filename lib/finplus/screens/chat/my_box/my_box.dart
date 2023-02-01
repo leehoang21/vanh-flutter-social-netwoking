@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
-import 'package:finplus/finplus/screens/web_view/web_view_screen.dart';
+import 'package:finplus/finplus/screens/web_view/web_view.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:flutter/cupertino.dart';
