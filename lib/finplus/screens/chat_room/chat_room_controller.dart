@@ -16,7 +16,6 @@ class ChatRoomController extends GetxController {
   @override
   void onInit() {
     _chatProvider = ChatProvider();
-
     chatRoom = Rx(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
             ?.map((e) => RxChatRoomInfo(e))
             .toList() ??

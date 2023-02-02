@@ -9,6 +9,10 @@ class SvgIcon {
   static const String fun_icon = '${_prefixIcon}fun_icon.svg';
   static const String love_icon = '${_prefixIcon}love_icon.svg';
   static const String cool_icon = '${_prefixIcon}cool_icon.svg';
+  static const String no_data_icon = '${_prefixIcon}un_select_icon.svg';
+  static const String search_icon = '${_prefixIcon}search_icon.svg';
+  static const String add_icon = '${_prefixIcon}add_icon.svg';
+  static const String close_icon = '${_prefixIcon}close_icon.svg';
 }
 
 class Picture {
