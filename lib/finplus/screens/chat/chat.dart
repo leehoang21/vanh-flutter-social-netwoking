@@ -31,10 +31,7 @@ class Chat extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: theme.primaryChat,
-              leading: IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(CupertinoIcons.chevron_left),
-              ),
+              leading: const BackButton(),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
