@@ -1,8 +1,8 @@
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class CommunityNewFeed extends StatelessWidget {
-  const CommunityNewFeed({super.key});
+class FeedContainer extends StatelessWidget {
+  const FeedContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -331,7 +331,7 @@ class CommunityNewFeed extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           )

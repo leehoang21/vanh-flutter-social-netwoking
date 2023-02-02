@@ -1,8 +1,8 @@
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class CommunityPopularGroupScreen extends StatelessWidget {
-  const CommunityPopularGroupScreen({super.key});
+class PopularGroup extends StatelessWidget {
+  const PopularGroup({super.key});
 
   @override
   Widget build(BuildContext context) {
