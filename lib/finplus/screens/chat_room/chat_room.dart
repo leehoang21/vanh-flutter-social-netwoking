@@ -35,12 +35,17 @@ class ChatRoom extends StatelessWidget {
               icon: Obx(
                 () => SvgPicture.asset(
                   isShowSearch.value ? SvgIcon.close_icon : SvgIcon.search_icon,
+                  color: theme.background,
                 ),
               ),
             ),
             IconButton(
               onPressed: () {},
-              icon: SvgPicture.asset(SvgIcon.add_icon),
+              color: theme.background,
+              icon: SvgPicture.asset(
+                SvgIcon.add_icon,
+                color: theme.background,
+              ),
             ),
           ],
         ),
