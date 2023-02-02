@@ -19,5 +19,4 @@ class SvgIcon {
 
 class Picture {
   static const String login_background = '${_prefixImage}login_background.png';
-  static const String avatar_example = '${_prefixImage}avatar_example.png';
 }

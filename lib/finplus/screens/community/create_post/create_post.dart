@@ -1,4 +1,5 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
@@ -147,19 +148,14 @@ class CreatePostScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 4,
-                        ),
-                        width: 38,
-                        height: 38,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            Picture.avatar_example,
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
                           ),
-                        ),
-                      ),
+                          child: const Avatar(
+                            url: '',
+                            size: 38,
+                          )),
                       Spaces.box10,
                       const Text(
                         'Trần Thuỳ Linh',
