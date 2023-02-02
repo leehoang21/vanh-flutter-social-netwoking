@@ -45,6 +45,8 @@ class Spaces {
       EdgeInsets.symmetric(vertical: 8, horizontal: 16);
   static const EdgeInsets h16v10 =
       EdgeInsets.symmetric(vertical: 10, horizontal: 16);
+  static const EdgeInsets h10v6 =
+      EdgeInsets.symmetric(vertical: 6, horizontal: 10);
   static const EdgeInsets h16v12 =
       EdgeInsets.symmetric(vertical: 12, horizontal: 16);
   static const EdgeInsets h12v16 =
