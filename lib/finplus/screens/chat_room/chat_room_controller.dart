@@ -1,5 +1,3 @@
-import 'package:commons/app_logger/app_devtools/app_devtools.dart';
-import 'package:commons/app_logger/app_logger.dart';
 import 'package:finplus/providers/chat_provider/chat_provider.dart';
 import 'package:finplus/providers/chat_provider/models/chat_room_info.dart';
 import 'package:finplus/utils/types.dart';
@@ -13,6 +11,11 @@ class ChatRoomController extends GetxController {
   late final Rx<List<RxChatRoomInfo>> chatRoom;
 
   late final RefreshController refreshController;
+
+  late final RxString textSearch;
+
+  late final Rx<bool> isShowSearch;
+
   @override
   void onInit() {
     _chatProvider = ChatProvider();
@@ -22,6 +25,8 @@ class ChatRoomController extends GetxController {
         []);
 
     refreshController = RefreshController();
+    textSearch = RxString('');
+    isShowSearch = Rx(false);
     super.onInit();
   }
 
@@ -38,5 +43,21 @@ class ChatRoomController extends GetxController {
   Future<void> reload() async {
     await _getRoom();
     refreshController.refreshCompleted();
+  }
+
+  void onSubmitSearch(String value) {
+    textSearch(value);
+  }
+
+  ///Show/Hide field search
+  void btnSearchHandler() {
+    isShowSearch(!isShowSearch.value);
+    if (!isShowSearch.value) textSearch('');
+  }
+
+  @override
+  void onClose() {
+    refreshController.dispose();
+    super.onClose();
   }
 }

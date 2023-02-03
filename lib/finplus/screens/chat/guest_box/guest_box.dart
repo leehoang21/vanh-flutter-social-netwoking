@@ -150,7 +150,7 @@ class GuestBox extends StatelessWidget {
         padding: Spaces.h16v10,
         child: Linkify(
           text: 'Nội dung tin nhắn',
-          onOpen: (link) async {
+          onOpen: (link) {
             LaunchUrl.launch(link.url);
           },
           linkStyle: TextStyle(

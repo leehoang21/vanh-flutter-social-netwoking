@@ -1,8 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
 import 'package:finplus/finplus/screens/chat/user_react_mbs/user_react_mbs.dart';
-import 'package:finplus/finplus/screens/web_view/web_view.dart';
-import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/launch_url.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class MyBox extends StatelessWidget {
   final DateTime? diffTime;
@@ -157,9 +154,9 @@ class MyBox extends StatelessWidget {
         padding: Spaces.h16v10,
         child: Linkify(
           text:
-              'Nội dung tin nhắn https://www.bing.com/search?q=LinkableElement+flutter&cvid=dba5d757f1534711a26c71bc1659addb&aqs=edge..69i57j69i64.1577j0j1&pglt=163&FORM=ANNTA1&PC=U531',
+              'Nội dung tin nhắn',
           style: TextStyle(color: contentColor),
-          onOpen: (link) async {
+          onOpen: (link) {
             LaunchUrl.launch(link.url);
           },
           linkStyle: TextStyle(
