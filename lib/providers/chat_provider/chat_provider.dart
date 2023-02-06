@@ -12,25 +12,19 @@ import 'models/chat_room_info.dart';
 enum ROOM_TYPE {
   GROUP_PRIVATE(
       icon: SvgIcon.private_icon,
-      value: 'GROUP_PRIVATE',
-      name: 'Nhóm riêng tư',
+      title: 'Nhóm riêng tư',
       desc: 'Chỉ admin mới có thể thay đổi thông tin nhóm'),
   GROUP_PUBLIC(
       icon: SvgIcon.public_icon,
-      value: 'GROUP_PUBLIC',
-      name: 'Nhóm công khai',
+      title: 'Nhóm công khai',
       desc: 'Thành viên trong nhóm có thể thay đổi thông tin nhóm');
 
-  final String value;
   final String icon;
-  final String name;
+  final String title;
   final String desc;
 
   const ROOM_TYPE(
-      {required this.value,
-      required this.name,
-      required this.desc,
-      required this.icon});
+      {required this.title, required this.desc, required this.icon});
   factory ROOM_TYPE.from(String? value) =>
       values.firstWhereOrNull((element) => element.name == value) ??
       ROOM_TYPE.GROUP_PRIVATE;
@@ -58,7 +52,7 @@ class ChatProvider extends BaseNetWork {
       {required final String name, required final ROOM_TYPE type}) async {
     final params = {
       'name': name,
-      'type': type.value,
+      'type': type.name,
     };
 
     final ApiRequest req = ApiRequest(

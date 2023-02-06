@@ -1,8 +1,8 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
-import 'package:finplus/utils/launch_url.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
+import 'package:finplus/utils/utils.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/drag_reply/drag_reply.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +148,7 @@ class GuestBox extends StatelessWidget {
         child: Linkify(
           text: 'Nội dung tin nhắn',
           onOpen: (link) {
-            LaunchUrl.launch(link.url);
+            Utils.launchUrl(link.url);
           },
           linkStyle: TextStyle(
             fontStyle: FontStyle.italic,

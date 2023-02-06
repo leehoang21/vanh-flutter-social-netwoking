@@ -1,9 +1,9 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
 import 'package:finplus/finplus/screens/chat/user_react_mbs/user_react_mbs.dart';
-import 'package:finplus/utils/launch_url.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
+import 'package:finplus/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -153,11 +153,10 @@ class MyBox extends StatelessWidget {
       return Container(
         padding: Spaces.h16v10,
         child: Linkify(
-          text:
-              'Nội dung tin nhắn',
+          text: 'Nội dung tin nhắn',
           style: TextStyle(color: contentColor),
           onOpen: (link) {
-            LaunchUrl.launch(link.url);
+            Utils.launchUrl(link.url);
           },
           linkStyle: TextStyle(
             fontStyle: FontStyle.italic,
