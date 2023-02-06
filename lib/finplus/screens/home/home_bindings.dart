@@ -9,6 +9,5 @@ class HomeBindings extends Bindings {
   void dependencies() {
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => CommunityController());
-    Get.lazyPut(() => CreatePostController());
   }
 }
