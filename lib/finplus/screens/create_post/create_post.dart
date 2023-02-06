@@ -133,31 +133,54 @@ class CreatePostScreen extends StatelessWidget {
                       padding: Spaces.h16v12,
                       child: Obx(
                         () {
-                          if (controller.images.value != null)
-                            return Wrap(
-                              runSpacing: 10,
-                              spacing: 10,
-                              alignment: WrapAlignment.start,
-                              children: controller.images.value
-                                  .mapIndexed(
-                                    (index, e) => Stack(
-                                      children: [
-                                        if (e is String)
-                                          Image.file(
-                                            File(e),
-                                            width: Get.width / 2 - 21,
-                                            height: Get.width / 2 - 21,
-                                            fit: BoxFit.cover,
+                          if (controller.images.value.isEmpty) {
+                            return const SizedBox();
+                          }
+                          final int remaining =
+                              controller.images.value.length - 4;
+                          final images = controller.images.value.getRange(0, 4);
+
+                          return Wrap(
+                            runSpacing: 10,
+                            spacing: 10,
+                            alignment: WrapAlignment.start,
+                            children: images
+                                .mapIndexed(
+                                  (index, e) => Stack(
+                                    children: [
+                                      if (e is String)
+                                        Image.file(
+                                          File(e),
+                                          width: Get.width / 2 - 21,
+                                          height: Get.width / 2 - 21,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      if (index == 3 && remaining > 0)
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black38,
                                           ),
-                                      ],
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          return const SizedBox();
+                                          alignment: Alignment.center,
+                                          width: Get.width / 2 - 21,
+                                          height: Get.width / 2 - 21,
+                                          child: Text(
+                                            '+${remaining.toString()}',
+                                            style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                )
+                                .toList(),
+                          );
                         },
                       ),
                     ),
+                    Spaces.box42,
                   ],
                 ),
               ),
