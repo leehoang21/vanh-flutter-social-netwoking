@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/community/popular_group/popular_group.dart';
+import 'package:finplus/finplus/screens/create_post/create_post.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/button/button.dart';
@@ -88,31 +89,32 @@ class Community extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: TextField(
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xFFF6F7F8),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFF6F7F8),
-                              ),
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(
+                              CreatePostScreen(),
+                            );
+                          },
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            padding: Spaces.h16v10,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                              color: Color(0xFFF6F7F8),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Color(0xFFF6F7F8),
+                            child: const Text(
+                              'Bạn đang nghĩ gì',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 12,
+                                color: Color(0xFF767272),
                               ),
-                            ),
-                            hintText: 'Bạn đang nghĩ gì',
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12,
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

@@ -64,6 +64,20 @@ class Utils {
     final image = await _picker.pickImage(source: source);
     return image?.path;
   }
+
+   static Future<Rx<List>> pickMultipleImages(Rx<List<dynamic>> images) async {
+    final ImagePicker _picker = ImagePicker();
+
+    final pickedImages =
+        await _picker.pickMultiImage(requestFullMetadata: false);
+
+    if (pickedImages.isNotEmpty) {
+      images.update((val) {
+        val?.addAll(pickedImages.map((e) => e.path));
+      });
+    }
+    return images;
+  }
 }
 
 extension LogExtension on Object {

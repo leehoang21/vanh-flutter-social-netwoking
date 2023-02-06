@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '../../../utils/utils.dart';
 
 class CreatePostController extends GetxController {
   late final Rx<List<dynamic>> images;
@@ -10,16 +11,7 @@ class CreatePostController extends GetxController {
     super.onInit();
   }
 
-  Future<void> pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-
-    final pickedImages =
-        await _picker.pickMultiImage(requestFullMetadata: false);
-
-    if (pickedImages.isNotEmpty) {
-      images.update((val) {
-        val?.addAll(pickedImages.map((e) => e.path));
-      });
-    }
+  void pickImage() {
+    Utils.pickMultipleImages(images);
   }
 }
