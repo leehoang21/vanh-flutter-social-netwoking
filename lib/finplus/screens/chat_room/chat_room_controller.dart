@@ -1,5 +1,6 @@
 import 'package:finplus/providers/chat_provider/chat_provider.dart';
 import 'package:finplus/providers/chat_provider/models/chat_room_info.dart';
+import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/user_storage.dart';
 import 'package:get/get.dart';
@@ -50,9 +51,21 @@ class ChatRoomController extends GetxController {
   }
 
   ///Show/Hide field search
-  void btnSearchHandler() {
+  void onIconSearchPress() {
     isShowSearch(!isShowSearch.value);
     if (!isShowSearch.value) textSearch('');
+  }
+
+  void createChatRoomHandler() {
+    Get.toNamed(
+      Routes.create_chat_room,
+    )?.then((value) {
+      if (value == true)
+        chatRoom(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
+                ?.map((e) => RxChatRoomInfo(e))
+                .toList() ??
+            []);
+    });
   }
 
   @override

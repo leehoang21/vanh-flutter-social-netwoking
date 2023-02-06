@@ -28,6 +28,7 @@ dependencies:
   url_launcher: ^6.1.8
   flutter_slidable: ^2.0.0
   flutter_inappwebview: ^5.7.2+3
+  image_picker: ^0.8.6+1
   ##internal packages
   commons:
       path: ./packages/commons

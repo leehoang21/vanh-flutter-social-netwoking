@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/app_config/app_config.dart';
+import 'package:finplus/utils/svg.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/user_storage.dart';
 
@@ -9,8 +10,27 @@ import 'models/chat_room_info.dart';
 
 // ignore: camel_case_types
 enum ROOM_TYPE {
-  GROUP_PRIVATE;
+  GROUP_PRIVATE(
+      icon: SvgIcon.private_icon,
+      value: 'GROUP_PRIVATE',
+      name: 'Nhóm riêng tư',
+      desc: 'Chỉ admin mới có thể thay đổi thông tin nhóm'),
+  GROUP_PUBLIC(
+      icon: SvgIcon.public_icon,
+      value: 'GROUP_PUBLIC',
+      name: 'Nhóm công khai',
+      desc: 'Thành viên trong nhóm có thể thay đổi thông tin nhóm');
 
+  final String value;
+  final String icon;
+  final String name;
+  final String desc;
+
+  const ROOM_TYPE(
+      {required this.value,
+      required this.name,
+      required this.desc,
+      required this.icon});
   factory ROOM_TYPE.from(String? value) =>
       values.firstWhereOrNull((element) => element.name == value) ??
       ROOM_TYPE.GROUP_PRIVATE;
@@ -34,11 +54,11 @@ class ChatProvider extends BaseNetWork {
     }
   }
 
-  Future<void> createRoom(
+  Future<RxChatRoomInfo?> createRoom(
       {required final String name, required final ROOM_TYPE type}) async {
     final params = {
       'name': name,
-      'type': type.name,
+      'type': type.value,
     };
 
     final ApiRequest req = ApiRequest(
@@ -48,10 +68,20 @@ class ChatProvider extends BaseNetWork {
       body: params,
     );
 
-    final res = await sendRequest(req);
+    final res = await sendRequest(req, decoder: ChatRoomInfo.fromJson);
 
     if (res.success) {
-    } else {}
+      final infoRoom = res.body;
+      final chatRoom = UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
+              ?.map((e) => e)
+              .toList() ??
+          [];
+      chatRoom.add(infoRoom);
+      UserStorage.putList(KEY.CHAT_ROOM, chatRoom);
+      return RxChatRoomInfo(infoRoom);
+    } else {
+      return null;
+    }
   }
 
   Future<void> updateRoom(

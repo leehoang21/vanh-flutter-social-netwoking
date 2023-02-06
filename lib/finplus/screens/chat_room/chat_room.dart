@@ -18,7 +18,6 @@ class ChatRoom extends StatelessWidget {
       builder: (c) => Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          centerTitle: true,
           leading: const BackButton(),
           title: Obx(
             () => c.isShowSearch.value
@@ -35,7 +34,7 @@ class ChatRoom extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              onPressed: c.btnSearchHandler,
+              onPressed: c.onIconSearchPress,
               icon: Obx(
                 () => SvgPicture.asset(
                   c.isShowSearch.value
@@ -46,7 +45,7 @@ class ChatRoom extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: c.createChatRoomHandler,
               color: theme.background,
               icon: SvgPicture.asset(
                 SvgIcon.add_icon,

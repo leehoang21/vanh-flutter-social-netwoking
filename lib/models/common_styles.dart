@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color _grey = Color(0xFFD3D3D3);
+
 class _DarkConfigColor {
   static const Color _primary_01 = Color(0XFF172150);
   static const Color _primary_04 = Color(0xff6fb98f);
@@ -29,13 +30,13 @@ class _LightConfigColor {
 }
 
 class CommonStyles extends ThemeExtension<CommonStyles> {
-  final Color? primary_01;
-  final Color? primary_02;
-  final Color? primary_03;
-  final Color? primary_04;
-  final Color? secondary_01;
-  final Color? secondary_02;
-  final Color? secondary_03;
+  final Color primary_02;
+  final Color primary_03;
+  final Color primary_01;
+  final Color primary_04;
+  final Color secondary_01;
+  final Color secondary_02;
+  final Color secondary_03;
   final Color background;
   final Color textDisable;
   final Color primaryChat;
@@ -44,13 +45,13 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   final Color shadow;
 
   const CommonStyles({
-    this.primary_01,
-    this.primary_02,
-    this.primary_03,
-    this.primary_04,
-    this.secondary_01,
-    this.secondary_02,
-    this.secondary_03,
+    required this.primary_01,
+    required this.primary_02,
+    required this.primary_03,
+    required this.primary_04,
+    required this.secondary_01,
+    required this.secondary_02,
+    required this.secondary_03,
     required this.background,
     required this.textDisable,
     required this.primaryChat,
@@ -62,6 +63,12 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   factory CommonStyles.dark() {
     return const CommonStyles(
       primary_01: _DarkConfigColor._primary_01,
+      primary_02: _LightConfigColor._primary_02,
+      primary_03: _LightConfigColor._primary_03,
+      primary_04: _LightConfigColor._primary_04,
+      secondary_01: _LightConfigColor._secondary_01,
+      secondary_02: _LightConfigColor._secondary_02,
+      secondary_03: _LightConfigColor._secondary_03,
       background: _DarkConfigColor._backgroundColor,
       textDisable: _DarkConfigColor._textDisable,
       primaryChat: _DarkConfigColor._primaryChat,
@@ -92,6 +99,12 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   @override
   ThemeExtension<CommonStyles> copyWith({
     Color? primary_01,
+    Color? primary_02,
+    Color? primary_03,
+    Color? primary_04,
+    Color? secondary_01,
+    Color? secondary_02,
+    Color? secondary_03,
     Color? background,
     Color? textDisable,
     Color? primaryChat,
@@ -101,6 +114,12 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   }) =>
       CommonStyles(
         primary_01: primary_01 ?? this.primary_01,
+        primary_02: primary_02 ?? this.primary_02,
+        primary_03: primary_03 ?? this.primary_03,
+        primary_04: primary_04 ?? this.primary_04,
+        secondary_01: secondary_01 ?? this.secondary_01,
+        secondary_02: secondary_02 ?? this.secondary_02,
+        secondary_03: secondary_03 ?? this.secondary_03,
         background: background ?? this.background,
         textDisable: textDisable ?? this.textDisable,
         primaryChat: primaryChat ?? this.primaryChat,
@@ -117,7 +136,16 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
     }
 
     return CommonStyles(
-      primary_01: Color.lerp(primary_01, other.primary_01, t),
+      primary_01: Color.lerp(primary_01, other.primary_01, t) ?? primary_01,
+      primary_02: Color.lerp(primary_02, other.primary_02, t) ?? primary_02,
+      primary_03: Color.lerp(primary_03, other.primary_03, t) ?? primary_03,
+      primary_04: Color.lerp(primary_04, other.primary_04, t) ?? primary_04,
+      secondary_01:
+          Color.lerp(secondary_01, other.secondary_01, t) ?? secondary_01,
+      secondary_02:
+          Color.lerp(secondary_02, other.secondary_02, t) ?? secondary_02,
+      secondary_03:
+          Color.lerp(secondary_03, other.secondary_03, t) ?? secondary_03,
       background: Color.lerp(background, other.background, t) ?? background,
       textDisable: Color.lerp(textDisable, other.textDisable, t) ?? textDisable,
       primaryChat: Color.lerp(primaryChat, other.primaryChat, t) ?? primaryChat,
