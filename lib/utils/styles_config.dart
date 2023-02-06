@@ -7,7 +7,7 @@ ThemeData get lightTheme {
   final _color = CommonStyles.light();
   final outlineBorder = OutlineInputBorder(
     borderRadius: Decorate.r8,
-    borderSide: BorderSide(width: 1, color: _color.primary_03!),
+    borderSide: BorderSide(width: 1, color: _color.primary_03),
   );
 
   return ThemeData(
@@ -19,11 +19,11 @@ ThemeData get lightTheme {
     inputDecorationTheme: InputDecorationTheme(
       contentPadding: Spaces.h8,
       filled: true,
-      fillColor: _color.primary_02!.withOpacity(0.3),
+      fillColor: _color.primary_02.withOpacity(0.3),
       border: outlineBorder,
       enabledBorder: outlineBorder,
       focusedBorder: outlineBorder.copyWith(
-        borderSide: BorderSide(width: 2, color: _color.secondary_01!),
+        borderSide: BorderSide(width: 2, color: _color.secondary_01),
       ),
     ),
     textButtonTheme: TextButtonThemeData(

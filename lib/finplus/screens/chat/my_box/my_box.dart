@@ -1,14 +1,14 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
-import 'package:finplus/finplus/screens/web_view/web_view.dart';
+import 'package:finplus/finplus/screens/chat/user_react_mbs/user_react_mbs.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
+import 'package:finplus/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class MyBox extends StatelessWidget {
   final DateTime? diffTime;
@@ -118,12 +118,12 @@ class MyBox extends StatelessWidget {
                               ),
                               child: _buildContent(),
                             ),
-                            //Show if message have react
-                            // Positioned(
-                            //   bottom: 0,
-                            //   right: 0,
-                            //   child: _buildReactOfMessage(),
-                            // ),
+                            // Show if message have react
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: _buildReactOfMessage(),
+                            ),
                           ],
                         ),
                       ),
@@ -155,10 +155,8 @@ class MyBox extends StatelessWidget {
         child: Linkify(
           text: 'Nội dung tin nhắn',
           style: TextStyle(color: contentColor),
-          onOpen: (link) async {
-            if (await canLaunchUrlString(link.url)) {
-              Get.to(() => WebViewScreen(url: link.url));
-            }
+          onOpen: (link) {
+            Utils.launchUrl(link.url);
           },
           linkStyle: TextStyle(
             fontStyle: FontStyle.italic,
@@ -193,49 +191,55 @@ class MyBox extends StatelessWidget {
   //   );
   // }
 
-  // Widget _buildReactOfMessage() {
-  //   return Builder(
-  //     builder: (context) {
-  //       final theme = context.t;
-  //       return Row(
-  //         children: [
-  //           Spaces.boxW5,
-  //           Container(
-  //             padding: Spaces.a4,
-  //             decoration: BoxDecoration(
-  //               color: theme.background,
-  //               borderRadius: Decorate.r15,
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                   blurRadius: 1,
-  //                   color: theme.shadow,
-  //                 ),
-  //               ],
-  //             ),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.start,
-  //               children: [
-  //                 SvgPicture.asset(
-  //                   SvgIcon.angry_icon,
-  //                   width: 14,
-  //                 ),
-  //                 Spaces.boxW2,
-  //                 SvgPicture.asset(
-  //                   SvgIcon.angry_icon,
-  //                   width: 14,
-  //                 ),
-  //                 Spaces.boxW5,
-  //                 const Text(
-  //                   '0',
-  //                   style: TextDefine.P3_R,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
+  Widget _buildReactOfMessage() {
+    return Builder(
+      builder: (context) {
+        final theme = context.t;
+        return GestureDetector(
+          onTap: () => Get.bottomSheet(
+            const UserReactMbs(),
+            isScrollControlled: true,
+            ignoreSafeArea: false,
+          ),
+          child: Row(
+            children: [
+              Spaces.boxW5,
+              Container(
+                padding: Spaces.a4,
+                decoration: BoxDecoration(
+                  color: theme.background,
+                  borderRadius: Decorate.r15,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 1,
+                      color: theme.shadow,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset(
+                      SvgIcon.angry_icon,
+                      width: 14,
+                    ),
+                    Spaces.boxW2,
+                    SvgPicture.asset(
+                      SvgIcon.angry_icon,
+                      width: 14,
+                    ),
+                    Spaces.boxW5,
+                    const Text(
+                      '0',
+                      style: TextDefine.P3_R,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
