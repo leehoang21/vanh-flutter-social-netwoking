@@ -33,6 +33,7 @@ class Spaces {
 
   static const EdgeInsets h4 = EdgeInsets.symmetric(horizontal: 4);
   static const EdgeInsets h8 = EdgeInsets.symmetric(horizontal: 8);
+  static const EdgeInsets h10 = EdgeInsets.symmetric(horizontal: 10);
   static const EdgeInsets h16 = EdgeInsets.symmetric(horizontal: 16);
   static const EdgeInsets h20 = EdgeInsets.symmetric(horizontal: 20);
 
@@ -57,7 +58,7 @@ class Spaces {
     horizontal: 10,
     vertical: 11,
   );
-  
+
   static const EdgeInsets t10 = EdgeInsets.only(top: 10);
   static const EdgeInsets h4v6 =
       EdgeInsets.symmetric(vertical: 4, horizontal: 6);

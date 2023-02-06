@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '/widgets/button/button.dart';
 import '/widgets/text_input/text_input.dart';
+import '../community/create_post/create_post.dart';
 import 'login_controller.dart';
 
 class Login extends StatelessWidget {
@@ -104,7 +105,9 @@ class Login extends StatelessWidget {
                   padding: Spaces.h16,
                   child: Button(
                     type: ButtonType.gradient,
-                    onPressed: () => c.login(LoginType.admin),
+                    onPressed: () => Get.to(
+                      CreatePostScreen(),
+                    ),
                     child: const Text('Đăng nhập'),
                   ),
                 ),
