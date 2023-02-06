@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/create_post/create_post_controller.dart';
+import 'package:finplus/finplus/screens/create_post/create_post_controller.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
-import '../../../../utils/styles.dart';
-import '../../../../utils/svg.dart';
+import '../../../utils/styles.dart';
+import '../../../utils/svg.dart';
 
 class CreatePostScreen extends StatelessWidget {
   CreatePostScreen({super.key});

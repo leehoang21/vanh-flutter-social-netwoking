@@ -2,7 +2,7 @@ import 'package:commons/commons.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/svg.dart';
+import '../../../utils/svg.dart';
 
 class CreatePostMbs extends StatelessWidget {
   const CreatePostMbs({super.key});
