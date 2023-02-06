@@ -12,7 +12,7 @@ class CreateChatRoomController extends GetxController {
 
   late final Rx<ROOM_TYPE> roomType;
 
-  late final Rx<File?> imagePath;
+  late final RxnString imagePath;
 
   late final Rx<bool> enableCreate;
 
@@ -21,7 +21,7 @@ class CreateChatRoomController extends GetxController {
     _chatProvider = ChatProvider();
     nameRoomController = TextEditingController();
     roomType = Rx(ROOM_TYPE.GROUP_PUBLIC);
-    imagePath = Rx(null);
+    imagePath = RxnString();
     enableCreate = Rx(false);
     super.onInit();
   }

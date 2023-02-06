@@ -62,7 +62,7 @@ class UserReactMbs extends StatelessWidget {
                           child: Row(
                             children: [
                               const Avatar(
-                                url: '',
+                                value: '',
                               ),
                               Spaces.boxW5,
                               const Expanded(

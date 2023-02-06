@@ -51,7 +51,7 @@ class SelectRoomTypeMbs extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      e.name,
+                                      e.title,
                                       style: TextDefine.P1_M,
                                     ),
                                     Spaces.box8,

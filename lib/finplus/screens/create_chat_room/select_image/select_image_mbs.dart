@@ -7,7 +7,7 @@ import 'package:finplus/widgets/custom_mbs/custom_mbs.dart';
 import 'package:flutter/material.dart';
 
 class SelectImageMbs extends StatelessWidget {
-  final Function(File image) onSelected;
+  final Function(String imagePath) onSelected;
   const SelectImageMbs({
     super.key,
     required this.onSelected,

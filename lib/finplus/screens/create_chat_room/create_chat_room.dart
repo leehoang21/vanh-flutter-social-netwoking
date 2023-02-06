@@ -5,6 +5,7 @@ import 'package:finplus/finplus/screens/create_chat_room/create_chat_room_contro
 import 'package:finplus/finplus/screens/create_chat_room/select_image/select_image_mbs.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/button/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,37 +46,22 @@ class CreateChatRoom extends StatelessWidget {
                     child: InkWell(
                       onTap: () => Get.bottomSheet(
                         SelectImageMbs(
-                          onSelected: (value) {
-                            c.imagePath(value);
-                          },
+                          onSelected: c.imagePath,
                         ),
                         ignoreSafeArea: false,
                         isScrollControlled: true,
                       ),
-                      child: CircleAvatar(
-                        backgroundColor: theme.primary_03,
-                        radius: 102 / 2,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100 / 2),
-                          child: Obx(
-                            () => c.imagePath.value == null
-                                ? Container(
-                                    width: 100,
-                                    height: 100,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        SvgIcon.camera_icon,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    color: theme.background,
-                                  )
-                                : Image.file(
-                                    File(c.imagePath.value!.path),
-                                    fit: BoxFit.cover,
-                                    width: 100,
-                                    height: 100,
-                                  ),
+                      child: Obx(
+                        () => Avatar(
+                          value: c.imagePath.value ?? '',
+                          valueType: VALUE_TYPE.PATH,
+                          borderWidth: 2,
+                          size: 100,
+                          icon: Center(
+                            child: SvgPicture.asset(
+                              SvgIcon.camera_icon,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
@@ -109,7 +95,7 @@ class CreateChatRoom extends StatelessWidget {
                         children: [
                           Obx(
                             () => Text(
-                              c.roomType.value.name,
+                              c.roomType.value.title,
                               style: TextDefine.P1_R,
                             ),
                           ),

@@ -18,7 +18,6 @@ class ChatRoom extends StatelessWidget {
       builder: (c) => Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          leading: const BackButton(),
           title: Obx(
             () => c.isShowSearch.value
                 ? TextFormField(
@@ -56,9 +55,8 @@ class ChatRoom extends StatelessWidget {
         ),
         body: Obx(
           () {
-            final listRooms = c.chatRoom.value
-                .where((room) => room.name.contains(c.textSearch.value))
-                .toList();
+            final listRooms = c.resultSearchHandler();
+
             if (listRooms.isEmpty)
               return SizedBox(
                 child: Center(
@@ -91,7 +89,7 @@ class ChatRoom extends StatelessWidget {
                       child: Row(
                         children: [
                           const Avatar(
-                            url: '',
+                            value: '',
                             size: 50,
                           ),
                           Spaces.boxW10,

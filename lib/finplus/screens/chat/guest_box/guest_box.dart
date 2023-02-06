@@ -61,7 +61,7 @@ class GuestBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Avatar(
-                    url: '',
+                    value: '',
                     size: 30,
                   ),
                   Spaces.boxW10,

@@ -52,20 +52,26 @@ class ChatRoomController extends GetxController {
 
   ///Show/Hide field search
   void onIconSearchPress() {
-    isShowSearch(!isShowSearch.value);
+    isShowSearch.toggle();
     if (!isShowSearch.value) textSearch('');
   }
 
-  void createChatRoomHandler() {
-    Get.toNamed(
+  Future<void> createChatRoomHandler() async {
+    final value = await Get.toNamed(
       Routes.create_chat_room,
-    )?.then((value) {
-      if (value == true)
-        chatRoom(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
-                ?.map((e) => RxChatRoomInfo(e))
-                .toList() ??
-            []);
-    });
+    );
+
+    if (value == true)
+      chatRoom(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
+              ?.map((e) => RxChatRoomInfo(e))
+              .toList() ??
+          []);
+  }
+
+  List<RxChatRoomInfo> resultSearchHandler() {
+    return chatRoom.value
+        .where((room) => room.name.contains(textSearch.value))
+        .toList();
   }
 
   @override

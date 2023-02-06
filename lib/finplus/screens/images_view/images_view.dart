@@ -13,14 +13,26 @@ class ImageViewArgument {
   });
 }
 
-class ImagesView extends StatelessWidget {
+class ImagesView extends StatefulWidget {
   const ImagesView({Key? key}) : super(key: key);
 
   @override
+  State<ImagesView> createState() => _ImagesViewState();
+}
+
+class _ImagesViewState extends State<ImagesView> {
+  late final ImageViewArgument? argument;
+  late final PageController pageController;
+
+  @override
+  void initState() {
+    argument = Get.arguments as ImageViewArgument?;
+    pageController = PageController(initialPage: argument?.index ?? 0);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final ImageViewArgument? argument = Get.arguments as ImageViewArgument?;
-    final PageController pageController =
-        PageController(initialPage: argument?.index ?? 0);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -40,5 +52,11 @@ class ImagesView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 }
