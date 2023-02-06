@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/create_post/create_post_controller.dart';
+import 'package:finplus/finplus/screens/create_post/preview_images_post.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -156,19 +157,26 @@ class CreatePostScreen extends StatelessWidget {
                                           fit: BoxFit.cover,
                                         ),
                                       if (index == 3 && remaining > 0)
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.black38,
-                                          ),
-                                          alignment: Alignment.center,
-                                          width: Get.width / 2 - 21,
-                                          height: Get.width / 2 - 21,
-                                          child: Text(
-                                            '+${remaining.toString()}',
-                                            style: const TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
+                                        InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              const PreviewImagesPost(),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.black38,
+                                            ),
+                                            alignment: Alignment.center,
+                                            width: Get.width / 2 - 21,
+                                            height: Get.width / 2 - 21,
+                                            child: Text(
+                                              '+${remaining.toString()}',
+                                              style: const TextStyle(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         )
