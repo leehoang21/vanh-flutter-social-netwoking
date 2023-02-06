@@ -89,7 +89,7 @@ class CreatePostScreen extends StatelessWidget {
                                 vertical: 4,
                               ),
                               child: const Avatar(
-                                url: '',
+                                value: '',
                                 size: 38,
                               )),
                           Spaces.box10,
