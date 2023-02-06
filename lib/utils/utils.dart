@@ -1,6 +1,10 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/webview/webview.dart';
+import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/widgets/dialog/notification_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '/widgets/app_snackbar/app_snackbar.dart';
 import 'app_logger.dart';
@@ -37,6 +41,29 @@ class Utils {
           showCancelButton: showCancelButton,
         ),
       );
+
+  static Future<void> launchUrl(String url) async {
+    if (await canLaunchUrlString(url)) {
+      if (url.startsWith('http') || url.startsWith('https')) {
+        Get.toNamed(
+          Routes.webview,
+          arguments: WebViewArgument(
+            url: url,
+          ),
+        );
+      } else {
+        await launchUrlString(url);
+      }
+    } else {
+      logD('Can\'t launch url');
+    }
+  }
+
+  static Future<String?> pickImage(ImageSource source) async {
+    final ImagePicker _picker = ImagePicker();
+    final image = await _picker.pickImage(source: source);
+    return image?.path;
+  }
 }
 
 extension LogExtension on Object {
