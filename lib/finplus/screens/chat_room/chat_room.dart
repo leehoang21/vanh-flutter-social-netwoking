@@ -16,7 +16,6 @@ class ChatRoom extends StatelessWidget {
     final theme = context.t;
     return GetBuilder<ChatRoomController>(
       builder: (c) => Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Obx(
             () => c.isShowSearch.value
@@ -55,9 +54,7 @@ class ChatRoom extends StatelessWidget {
         ),
         body: Obx(
           () {
-            final listRooms = c.resultSearchHandler();
-
-            if (listRooms.isEmpty)
+            if (c.searchRooms.isEmpty)
               return SizedBox(
                 child: Center(
                   child: Column(
@@ -79,9 +76,9 @@ class ChatRoom extends StatelessWidget {
               controller: c.refreshController,
               onRefresh: c.reload,
               child: ListView.builder(
-                itemCount: listRooms.length,
+                itemCount: c.searchRooms.length,
                 itemBuilder: (_, i) {
-                  final item = listRooms[i];
+                  final item = c.searchRooms[i];
                   return InkWell(
                     onTap: () {},
                     child: Padding(

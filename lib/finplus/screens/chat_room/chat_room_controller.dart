@@ -68,11 +68,9 @@ class ChatRoomController extends GetxController {
           []);
   }
 
-  List<RxChatRoomInfo> resultSearchHandler() {
-    return chatRoom.value
-        .where((room) => room.name.contains(textSearch.value))
-        .toList();
-  }
+  List<RxChatRoomInfo> get searchRooms => chatRoom.value
+      .where((room) => room.name.contains(textSearch.value))
+      .toList();
 
   @override
   void onClose() {
