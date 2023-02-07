@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finplus/finplus/screens/images_view/images_view.dart';
+import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -188,8 +189,9 @@ class ImageBox extends StatelessWidget {
   }
 
   void _gotoImagesView({int index = 0}) {
-    Get.to(
-      () => ImagesView(
+    Get.toNamed(
+      Routes.images_view,
+      arguments: ImageViewArgument(
         urlImages: images,
         index: index,
       ),

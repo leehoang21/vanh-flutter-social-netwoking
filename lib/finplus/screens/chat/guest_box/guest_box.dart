@@ -1,14 +1,13 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
-import 'package:finplus/finplus/screens/web_view/web_view.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
+import 'package:finplus/utils/utils.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/drag_reply/drag_reply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class GuestBox extends StatelessWidget {
   final DateTime? diffTime;
@@ -62,7 +61,7 @@ class GuestBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Avatar(
-                    url: '',
+                    value: '',
                     size: 30,
                   ),
                   Spaces.boxW10,
@@ -148,10 +147,8 @@ class GuestBox extends StatelessWidget {
         padding: Spaces.h16v10,
         child: Linkify(
           text: 'Nội dung tin nhắn',
-          onOpen: (link) async {
-            if (await canLaunchUrlString(link.url)) {
-              Get.to(() => WebViewScreen(url: link.url));
-            }
+          onOpen: (link) {
+            Utils.launchUrl(link.url);
           },
           linkStyle: TextStyle(
             fontStyle: FontStyle.italic,

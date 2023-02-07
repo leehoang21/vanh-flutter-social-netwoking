@@ -21,6 +21,7 @@ class Spaces {
   static const Widget boxW5 = SizedBox(width: 5);
   static const Widget boxW8 = SizedBox(width: 8);
   static const Widget boxW10 = SizedBox(width: 10);
+  static const Widget boxW16 = SizedBox(width: 16);
 
   static const Widget boxH5 = SizedBox(height: 5);
   static const Widget boxH16 = SizedBox(height: 16);
@@ -49,13 +50,15 @@ class Spaces {
       EdgeInsets.symmetric(vertical: 12, horizontal: 16);
   static const EdgeInsets h12v16 =
       EdgeInsets.symmetric(vertical: 16, horizontal: 12);
+  static const EdgeInsetsGeometry h16v20 =
+      EdgeInsets.symmetric(vertical: 20, horizontal: 16);
   static const EdgeInsetsGeometry h16v25 =
       EdgeInsets.symmetric(vertical: 25, horizontal: 16);
   static const EdgeInsetsGeometry h10v11 = EdgeInsets.symmetric(
     horizontal: 10,
     vertical: 11,
   );
-  
+
   static const EdgeInsets t10 = EdgeInsets.only(top: 10);
   static const EdgeInsets h4v6 =
       EdgeInsets.symmetric(vertical: 4, horizontal: 6);
@@ -93,6 +96,9 @@ class TextDefine {
 
   static const TextStyle H2_B =
       TextStyle(fontSize: 22, fontWeight: FontWeight.w600);
+
+  static const TextStyle H2_M =
+      TextStyle(fontSize: 22, fontWeight: FontWeight.w500);
 
   static const TextStyle T1_R = TextStyle(fontSize: 18);
 

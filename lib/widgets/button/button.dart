@@ -1,7 +1,7 @@
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-enum ButtonType { plat, gradient }
+enum ButtonType { plat, gradient, fill }
 
 class Button extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -31,18 +31,34 @@ class Button extends StatelessWidget {
                       LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
-                          colors: [
-                            theme.secondary_02 ?? Colors.transparent,
-                            theme.secondary_01 ?? Colors.transparent
-                          ])
+                          colors: [theme.secondary_02, theme.secondary_01])
                   : null,
             ),
             child: TextButton(
               onPressed: onPressed,
               style: TextButton.styleFrom(
                 backgroundColor: Colors.transparent,
-                disabledBackgroundColor: theme.secondary_01?.withOpacity(0.4),
+                disabledBackgroundColor: theme.secondary_01.withOpacity(0.4),
                 disabledForegroundColor: Colors.white,
+              ),
+              child: child,
+            ),
+          ),
+        );
+      case ButtonType.fill:
+        return SizedBox(
+          height: 48,
+          width: double.infinity,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: TextButton(
+              onPressed: onPressed,
+              style: TextButton.styleFrom(
+                backgroundColor: theme.primary_01,
+                disabledBackgroundColor: theme.primary_01.withOpacity(0.4),
+                disabledForegroundColor: theme.background,
               ),
               child: child,
             ),
