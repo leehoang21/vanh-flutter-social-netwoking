@@ -137,9 +137,14 @@ class CreatePostScreen extends StatelessWidget {
                           if (controller.images.value.isEmpty) {
                             return const SizedBox();
                           }
+                          int length = controller.images.value.length;
+                          if (length > 4) {
+                            length = 4;
+                          }
                           final int remaining =
                               controller.images.value.length - 4;
-                          final images = controller.images.value.getRange(0, 4);
+                          final images =
+                              controller.images.value.getRange(0, length);
 
                           return Wrap(
                             runSpacing: 10,
