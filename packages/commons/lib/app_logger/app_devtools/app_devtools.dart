@@ -20,7 +20,7 @@ class AppDevTools extends StatelessWidget {
               ]),
               Expanded(
                   child: TabBarView(children: [
-                LogConsole(showCloseButton: true),
+                LogConsole(),
                 const NetworkLog(),
               ])),
             ],

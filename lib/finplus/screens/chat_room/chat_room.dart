@@ -16,8 +16,11 @@ class ChatRoom extends StatelessWidget {
             itemCount: c.chatRoom.value.length,
             itemBuilder: (_, i) {
               final item = c.chatRoom.value[i];
-              return Row(
-                children: [Text(item.name)],
+              return InkWell(
+                onTap: () => c.navigateToRoom(item),
+                child: Row(
+                  children: [Text(item.name)],
+                ),
               );
             },
           ),

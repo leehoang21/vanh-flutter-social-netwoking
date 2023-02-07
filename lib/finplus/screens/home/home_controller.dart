@@ -26,3 +26,9 @@ class HomeController extends GetxController {
     super.onClose();
   }
 }
+
+mixin HomeControllerMinxin on GetxController {
+  final HomeController _h = Get.find();
+
+  LoginInfoData? get userInfo => _h.userInfo.value;
+}

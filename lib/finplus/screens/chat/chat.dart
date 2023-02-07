@@ -27,14 +27,9 @@ class Chat extends StatelessWidget {
 
     return GetBuilder<ChatController>(
         init: ChatController(),
-        builder: (controller) {
+        builder: (c) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: theme.primaryChat,
-              leading: IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(CupertinoIcons.chevron_left),
-              ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -71,12 +66,12 @@ class Chat extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CustomSmartRefresher(
-                          controller: controller.refreshController,
+                          controller: c.refreshController,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: ListView(
                               reverse: true,
-                              controller: controller.scrollController,
+                              controller: c.scrollController,
                               children: [
                                 MyBox(
                                   diffTime: DateTime(2000, 10, 10),
@@ -109,10 +104,10 @@ class Chat extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Obx(
-                              () => controller.isInputExpanded.value
+                              () => c.isInputExpanded.value
                                   ? IconButton(
-                                      onPressed: () => controller
-                                          .isInputExpanded.value = false,
+                                      onPressed: () =>
+                                          c.isInputExpanded.value = false,
                                       icon: Icon(
                                         CupertinoIcons.chevron_right,
                                         color: theme.primaryChat,
@@ -142,8 +137,8 @@ class Chat extends StatelessWidget {
                             ),
                             Expanded(
                               child: TextField(
-                                focusNode: controller.messageFocusNode,
-                                controller: controller.textController,
+                                focusNode: c.messageFocusNode,
+                                controller: c.textController,
                                 maxLines: 4,
                                 minLines: 1,
                                 textInputAction: TextInputAction.none,
