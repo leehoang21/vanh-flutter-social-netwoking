@@ -5,7 +5,7 @@ import '../chat_provider.dart';
 class RxChatRoomInfo extends Rx<ChatRoomInfo> {
   RxChatRoomInfo(super.initial);
 
-  String get sId => value.sId;
+  String get id => value.id;
   ROOM_TYPE get type => value.type;
   String get name => value.name;
   int get lastMsgTime => value.lastMsgTime;
@@ -21,7 +21,7 @@ class RxChatRoomInfo extends Rx<ChatRoomInfo> {
 }
 
 class ChatRoomInfo extends ExtendModel {
-  late final String sId;
+  late final String id;
 
   late final ROOM_TYPE type;
 
@@ -48,7 +48,7 @@ class ChatRoomInfo extends ExtendModel {
   late final int createdAt;
 
   ChatRoomInfo(
-      {required this.sId,
+      {required this.id,
       required this.type,
       required this.name,
       required this.lastMsgTime,
@@ -63,7 +63,7 @@ class ChatRoomInfo extends ExtendModel {
       required this.createdAt});
 
   ChatRoomInfo.fromJson(Map<dynamic, dynamic> json) {
-    sId = json['_id'] ?? '';
+    id = json['_id'] ?? '';
     type = ROOM_TYPE.from(json['type']);
     name = json['name'] ?? '';
     lastMsgTime = json['lastMsgTime'] ?? DateTime.now().millisecondsSinceEpoch;
@@ -81,7 +81,7 @@ class ChatRoomInfo extends ExtendModel {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
+    data['_id'] = id;
     data['type'] = type.name;
     data['name'] = name;
     data['lastMsgTime'] = lastMsgTime;
