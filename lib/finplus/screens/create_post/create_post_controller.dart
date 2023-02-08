@@ -1,17 +1,129 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/home/home_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
+import '../../../providers/community_provider/community_provider.dart';
+import '../../../utils/styles.dart';
+import '../../../utils/svg.dart';
 import '../../../utils/utils.dart';
 
-class CreatePostController extends GetxController {
+class CreatePostController extends GetxController with HomeControllerMinxin {
+  late final CommunityProvider _communityProvider;
   late final Rx<List<dynamic>> images;
+  late final RxBool enablePost;
+  late final FocusNode focusNode;
+  late final int groupId;
+  late final FEED_TYPE type;
+  late final List<String>? attachment;
+  late final int? parentId;
+  late final bool isCommentable;
+  late final TextEditingController postContentController;
 
   @override
   void onInit() {
+    _communityProvider = CommunityProvider();
+    enablePost = false.obs;
     images = Rx([]);
+    focusNode = FocusNode();
+    isCommentable = true;
+    postContentController = TextEditingController();
+    groupId = 2;
+    type = FEED_TYPE.POST;
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    postContentController.addListener(() {
+      enablePost(
+        postContentController.text.trim().isNotEmpty,
+      );
+    });
+    super.onReady();
+  }
+
+  Future<void> createFeed() async {
+    if (userInfo != null) {
+      final res = await _communityProvider.createFeed(
+        groupId: groupId,
+        content: postContentController.text,
+        type: type,
+        userInfo: userInfo!.userInfo,
+      );
+    }
   }
 
   void pickImage() {
     Utils.pickMultipleImages(images);
+  }
+
+  KeyboardActionsConfig buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          displayArrows: false,
+          toolbarAlignment: MainAxisAlignment.start,
+          focusNode: focusNode,
+          toolbarButtons: [
+            (node) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Spaces.box24,
+                  InkWell(
+                    child: SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: SvgPicture.asset(SvgIcon.choose_stocks),
+                    ),
+                    onTap: () {},
+                  ),
+                  Spaces.box16,
+                  InkWell(
+                    child: SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: SvgPicture.asset(SvgIcon.emojis),
+                    ),
+                    onTap: () {},
+                  ),
+                  Spaces.box16,
+                  InkWell(
+                    child: SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: SvgPicture.asset(SvgIcon.image),
+                    ),
+                    onTap: () {
+                      pickImage();
+                    },
+                  ),
+                  Spaces.box16,
+                  InkWell(
+                    child: SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: SvgPicture.asset(SvgIcon.camera),
+                    ),
+                    onTap: () {},
+                  ),
+                ],
+              );
+            },
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  void onClose() {
+    focusNode.dispose();
+    postContentController.dispose();
+    super.onClose();
   }
 }
