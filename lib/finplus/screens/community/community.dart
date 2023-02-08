@@ -1,7 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/community/community_controller.dart';
 import 'package:finplus/finplus/screens/community/popular_group/popular_group.dart';
-import 'package:finplus/finplus/screens/create_post/create_post.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/button/button.dart';
@@ -50,11 +49,7 @@ class Community extends StatelessWidget {
                         ),
                         Expanded(
                           child: InkWell(
-                            onTap: () {
-                              Get.to(
-                                () => CreatePost(),
-                              );
-                            },
+                            onTap: () => Get.toNamed(Routes.create_post),
                             child: Container(
                               alignment: Alignment.centerLeft,
                               padding: Spaces.h16v10,

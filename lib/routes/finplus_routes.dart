@@ -3,6 +3,8 @@ import 'package:finplus/finplus/screens/chat/chat.dart';
 import 'package:finplus/finplus/screens/chat_room/chat_room.dart';
 import 'package:finplus/finplus/screens/create_chat_room/create_chat_room.dart';
 import 'package:finplus/finplus/screens/create_chat_room/create_chat_room_bindings.dart';
+import 'package:finplus/finplus/screens/create_post/create_post.dart';
+import 'package:finplus/finplus/screens/create_post/create_post_bindings.dart';
 import 'package:finplus/finplus/screens/images_view/images_view.dart';
 import 'package:finplus/finplus/screens/webview/webview.dart';
 
@@ -18,6 +20,7 @@ class Routes {
   static const String login = '/login';
   static const String chat_room = '/chat_room';
   static const String create_chat_room = '/create_chat_room';
+  static const String create_post = '/create_post';
   static const String chat = '/chat';
   static const String webview = '/webview';
   static const String images_view = '/images_view';
@@ -57,6 +60,11 @@ class AppNavigate {
     GetPage(
       name: Routes.images_view,
       page: () => const ImagesView(),
+    ),
+    GetPage(
+      name: Routes.create_post,
+      page: () => CreatePost(),
+      binding: CreatePostBindings(),
     ),
   ];
 }
