@@ -78,7 +78,7 @@ class ChatRoom extends StatelessWidget {
                     itemBuilder: (_, i) {
                       final item = c.searchRooms[i];
                       return InkWell(
-                        onTap: () {},
+                        onTap: () => c.navigateToRoom(c.searchRooms[i]),
                         child: Padding(
                           padding: Spaces.a10,
                           child: Row(

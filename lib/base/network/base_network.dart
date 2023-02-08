@@ -240,7 +240,9 @@ abstract class BaseNetWork {
 
               Response res = e.response!;
 
-              if (disableRetry) {
+              if (disableRetry ||
+                  !['INTERNAL_SERVER_ERROR', 'TIMEOUT', 'TIMEOUT_ERROR']
+                      .contains(res.data['code'])) {
                 handler.resolve(res);
                 return;
               }

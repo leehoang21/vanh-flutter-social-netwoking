@@ -10,6 +10,10 @@ import 'models/chat_room_info.dart';
 
 // ignore: camel_case_types
 enum ROOM_TYPE {
+  DIRECT(
+      icon: SvgIcon.private_icon,
+      title: 'Chat với bạn bè',
+      desc: 'Người dùng có thể thay đổi thông tin'),
   GROUP_PRIVATE(
       icon: SvgIcon.private_icon,
       title: 'Nhóm riêng tư',
@@ -78,7 +82,7 @@ class ChatProvider extends BaseNetWork {
     }
   }
 
-  Future<void> updateRoom(
+  Future<bool> updateRoom(
       {required final String name, required final String id}) async {
     final params = {
       'name': name,
@@ -94,11 +98,10 @@ class ChatProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-    } else {}
+    return res.success;
   }
 
-  Future<void> deleteRoom({required final String id}) async {
+  Future<bool> deleteRoom({required final String id}) async {
     final params = {'_id': id};
 
     final ApiRequest req = ApiRequest(
@@ -110,11 +113,10 @@ class ChatProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-    } else {}
+    return res.success;
   }
 
-  Future<void> joinRoom({required final String roomId}) async {
+  Future<bool> joinRoom({required final String roomId}) async {
     final params = {'roomId': roomId};
 
     final ApiRequest req = ApiRequest(
@@ -126,11 +128,10 @@ class ChatProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-    } else {}
+    return res.success;
   }
 
-  Future<void> leftRoom({required final String roomId}) async {
+  Future<bool> leftRoom({required final String roomId}) async {
     final params = {'roomId': roomId};
 
     final ApiRequest req = ApiRequest(
@@ -142,8 +143,7 @@ class ChatProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-    } else {}
+    return res.success;
   }
 
   Future<void> addUserToRoom(
@@ -190,6 +190,25 @@ class ChatProvider extends BaseNetWork {
       method: METHOD.GET,
       auth: true,
       query: params,
+    );
+
+    final res = await sendRequest(req);
+
+    if (res.success) {
+    } else {}
+  }
+
+  Future<void> sendMessage(
+      {required final String roomId, required final String content}) async {
+    final params = {
+      'roomId': roomId,
+      'content': content,
+    };
+    final ApiRequest req = ApiRequest(
+      path: ApiPath.message,
+      method: METHOD.POST,
+      auth: true,
+      body: params,
     );
 
     final res = await sendRequest(req);
