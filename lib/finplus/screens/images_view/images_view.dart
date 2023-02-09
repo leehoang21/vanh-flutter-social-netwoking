@@ -13,11 +13,11 @@ enum IMAGE_TYPE {
 }
 
 class ImageViewArgument {
-  final List<String> listImages;
+  final List<String> images;
   final int index;
   final IMAGE_TYPE imageType;
   ImageViewArgument(
-      {required this.listImages, required this.index, required this.imageType});
+      {required this.images, required this.index, required this.imageType});
 }
 
 class ImagesView extends StatefulWidget {
@@ -49,13 +49,13 @@ class _ImagesViewState extends State<ImagesView> {
         extendBodyBehindAppBar: true,
         body: PhotoViewGallery.builder(
           pageController: pageController,
-          itemCount: argument?.listImages.length,
+          itemCount: argument?.images.length,
           builder: (_, i) => PhotoViewGalleryPageOptions(
             imageProvider: argument?.imageType == IMAGE_TYPE.URL
-                ? CachedNetworkImageProvider(argument?.listImages[i] ?? '')
-                : Image.file(File(argument?.listImages[i] ?? '')).image,
+                ? CachedNetworkImageProvider(argument?.images[i] ?? '')
+                : Image.file(File(argument?.images[i] ?? '')).image,
             heroAttributes:
-                PhotoViewHeroAttributes(tag: argument?.listImages[i] ?? ''),
+                PhotoViewHeroAttributes(tag: argument?.images[i] ?? ''),
           ),
         ),
       ),

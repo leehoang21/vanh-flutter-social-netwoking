@@ -175,7 +175,7 @@ class CreatePost extends StatelessWidget {
                                           Get.toNamed(
                                             Routes.images_view,
                                             arguments: ImageViewArgument(
-                                              listImages:
+                                              images:
                                                   controller.images.value,
                                               index: index,
                                               imageType: IMAGE_TYPE.PATH,
@@ -213,10 +213,7 @@ class CreatePost extends StatelessWidget {
                                     )
                                     .toList(),
                               );
-                              // return ImageBox(
-                              //   images: controller.images.value,
-                              //   image_type: IMAGE_TYPE.PATH,
-                              // );
+                            
                             },
                           ),
                         ),

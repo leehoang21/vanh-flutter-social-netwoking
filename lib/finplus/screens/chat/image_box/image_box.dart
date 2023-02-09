@@ -192,7 +192,7 @@ class ImageBox extends StatelessWidget {
     Get.toNamed(
       Routes.images_view,
       arguments: ImageViewArgument(
-        listImages: images,
+        images: images,
         index: index,
         imageType: IMAGE_TYPE.URL,
       ),
