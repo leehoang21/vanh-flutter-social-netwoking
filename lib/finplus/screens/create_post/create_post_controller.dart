@@ -48,15 +48,13 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
   }
 
   Future<void> createFeed() async {
-    if (enablePost.value) {
-      if (userInfo != null) {
-        final res = await _communityProvider.createFeed(
-          groupId: groupId,
-          content: content.text,
-          type: type,
-          userInfo: userInfo!.userInfo,
-        );
-      }
+    if (userInfo != null && enablePost.value) {
+      final res = await _communityProvider.createFeed(
+        groupId: groupId,
+        content: content.text,
+        type: type,
+        userInfo: userInfo!.userInfo,
+      );
       Get.back();
     }
   }

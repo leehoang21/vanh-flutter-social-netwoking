@@ -70,10 +70,10 @@ class CreatePost extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: const Color(0xFFD9D9D9),
+                const Divider(
+                  height: 0,
+                  thickness: 1,
+                  color: Color(0xFFD9D9D9),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
