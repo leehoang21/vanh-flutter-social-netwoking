@@ -12,10 +12,7 @@ import '../../../utils/styles.dart';
 import '../../../utils/svg.dart';
 
 class CreatePost extends StatelessWidget {
-  CreatePost({super.key});
-  final controller = Get.put(
-    CreatePostController(),
-  );
+  const CreatePost({super.key});
 
   @override
   Widget build(BuildContext context) {
