@@ -7,14 +7,23 @@ import '../../../utils/utils.dart';
 
 class CreatePostController extends GetxController with HomeControllerMinxin {
   late final CommunityProvider _communityProvider;
+
   late final Rx<List<String>> images;
+
   late final RxBool enablePost;
+
   late final FocusNode focusNode;
+
   late final int groupId;
+
   late final FEED_TYPE type;
+
   late final List<String>? attachment;
+
   late final int? parentId;
+
   late final bool isCommentable;
+
   late final TextEditingController content;
 
   @override
@@ -38,21 +47,17 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
     super.onReady();
   }
 
-  void onSubmit() {
-    if (enablePost.value) {
-      createFeed();
-      Get.back();
-    }
-  }
-
   Future<void> createFeed() async {
-    if (userInfo != null) {
-      final res = await _communityProvider.createFeed(
-        groupId: groupId,
-        content: content.text,
-        type: type,
-        userInfo: userInfo!.userInfo,
-      );
+    if (enablePost.value) {
+      if (userInfo != null) {
+        final res = await _communityProvider.createFeed(
+          groupId: groupId,
+          content: content.text,
+          type: type,
+          userInfo: userInfo!.userInfo,
+        );
+      }
+      Get.back();
     }
   }
 

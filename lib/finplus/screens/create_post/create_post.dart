@@ -51,7 +51,7 @@ class CreatePost extends StatelessWidget {
                       Obx(
                         () {
                           return TextButton(
-                              onPressed: controller.onSubmit,
+                              onPressed: controller.createFeed,
                               child: const Text(
                                 'Post',
                                 style: TextStyle(
@@ -111,7 +111,7 @@ class CreatePost extends StatelessWidget {
                           ),
                           child: KeyboardActions(
                             disableScroll: true,
-                            config: buildConfig(context, controller),
+                            config: buildConfig(context),
                             child: TextField(
                               controller: controller.content,
                               scrollPhysics:
@@ -213,8 +213,8 @@ class CreatePost extends StatelessWidget {
   }
 }
 
-KeyboardActionsConfig buildConfig(
-    BuildContext context, CreatePostController controller) {
+KeyboardActionsConfig buildConfig(BuildContext context) {
+  final controller = Get.find<CreatePostController>();
   return KeyboardActionsConfig(
     keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
     keyboardBarColor: Colors.grey[200],
@@ -254,9 +254,7 @@ KeyboardActionsConfig buildConfig(
                     height: 22,
                     child: SvgPicture.asset(SvgIcon.image),
                   ),
-                  onTap: () {
-                    controller.pickImage();
-                  },
+                  onTap: controller.pickImage,
                 ),
                 Spaces.box16,
                 InkWell(
