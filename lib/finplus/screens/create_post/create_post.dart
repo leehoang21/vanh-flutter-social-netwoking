@@ -53,34 +53,6 @@ class CreatePost extends StatelessWidget {
                       ),
                       Obx(
                         () {
-                          // return InkWell(
-                          //   onTap: controller.enablePost.value
-                          //       ? controller.createFeed
-                          //       : null,
-                          //   child: Container(
-                          //     height: 24,
-                          //     width: 48,
-                          //     padding: Spaces.h10v6,
-                          //     decoration: BoxDecoration(
-                          //       color: controller.enablePost.value
-                          //           ? const Color(0xFF17AB37)
-                          //           : Colors.white,
-                          //       borderRadius: const BorderRadius.all(
-                          //         Radius.circular(3),
-                          //       ),
-                          //     ),
-                          //     child: Text(
-                          //       'Post',
-                          //       style: TextStyle(
-                          //         fontSize: 13,
-                          //         fontWeight: FontWeight.w500,
-                          //         color: controller.enablePost.value
-                          //             ? Colors.white
-                          //             : Colors.black,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // );
                           return TextButton(
                               onPressed: controller.onSubmit,
                               child: const Text(
