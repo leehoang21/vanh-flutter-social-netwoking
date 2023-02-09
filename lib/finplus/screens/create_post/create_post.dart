@@ -41,7 +41,7 @@ class CreatePost extends StatelessWidget {
                           child: SvgPicture.asset(
                             SvgIcon.close,
                           ),
-                          onTap: () => Get.back(),
+                          onTap: Get.back,
                         ),
                       ),
                       const Text(
@@ -53,34 +53,49 @@ class CreatePost extends StatelessWidget {
                       ),
                       Obx(
                         () {
-                          return InkWell(
-                            onTap: () => controller.enablePost.value
-                                ? controller.createFeed()
-                                : null,
-                            child: Container(
-                              height: 24,
-                              width: 48,
-                              padding: Spaces.h10v6,
-                              decoration: BoxDecoration(
-                                color: controller.enablePost.value
-                                    ? const Color(0xFF17AB37)
-                                    : Colors.white,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(3),
-                                ),
-                              ),
-                              child: Text(
+                          // return InkWell(
+                          //   onTap: controller.enablePost.value
+                          //       ? controller.createFeed
+                          //       : null,
+                          //   child: Container(
+                          //     height: 24,
+                          //     width: 48,
+                          //     padding: Spaces.h10v6,
+                          //     decoration: BoxDecoration(
+                          //       color: controller.enablePost.value
+                          //           ? const Color(0xFF17AB37)
+                          //           : Colors.white,
+                          //       borderRadius: const BorderRadius.all(
+                          //         Radius.circular(3),
+                          //       ),
+                          //     ),
+                          //     child: Text(
+                          //       'Post',
+                          //       style: TextStyle(
+                          //         fontSize: 13,
+                          //         fontWeight: FontWeight.w500,
+                          //         color: controller.enablePost.value
+                          //             ? Colors.white
+                          //             : Colors.black,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // );
+                          return TextButton(
+                              onPressed: controller.onSubmit,
+                              child: const Text(
                                 'Post',
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
-                                  color: controller.enablePost.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: Colors.white,
                                 ),
                               ),
-                            ),
-                          );
+                              style: TextButton.styleFrom(
+                                backgroundColor: controller.enablePost.value
+                                    ? const Color(0xFF17AB37)
+                                    : Colors.grey,
+                              ));
                         },
                       ),
                     ],
@@ -127,7 +142,7 @@ class CreatePost extends StatelessWidget {
                           ),
                           child: KeyboardActions(
                             disableScroll: true,
-                            config: controller.buildConfig(context),
+                            config: buildConfig(context, controller),
                             child: TextField(
                               controller: controller.postContentController,
                               scrollPhysics:
@@ -175,8 +190,7 @@ class CreatePost extends StatelessWidget {
                                           Get.toNamed(
                                             Routes.images_view,
                                             arguments: ImageViewArgument(
-                                              images:
-                                                  controller.images.value,
+                                              images: controller.images.value,
                                               index: index,
                                               imageType: IMAGE_TYPE.PATH,
                                             ),
@@ -213,7 +227,6 @@ class CreatePost extends StatelessWidget {
                                     )
                                     .toList(),
                               );
-                            
                             },
                           ),
                         ),
@@ -229,4 +242,67 @@ class CreatePost extends StatelessWidget {
       },
     );
   }
+}
+
+KeyboardActionsConfig buildConfig(
+    BuildContext context, CreatePostController controller) {
+  return KeyboardActionsConfig(
+    keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+    keyboardBarColor: Colors.grey[200],
+    nextFocus: true,
+    actions: [
+      KeyboardActionsItem(
+        displayArrows: false,
+        toolbarAlignment: MainAxisAlignment.start,
+        focusNode: controller.focusNode,
+        toolbarButtons: [
+          (node) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Spaces.box24,
+                InkWell(
+                  child: SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: SvgPicture.asset(SvgIcon.choose_stocks),
+                  ),
+                  onTap: () {},
+                ),
+                Spaces.box16,
+                InkWell(
+                  child: SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: SvgPicture.asset(SvgIcon.emojis),
+                  ),
+                  onTap: () {},
+                ),
+                Spaces.box16,
+                InkWell(
+                  child: SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: SvgPicture.asset(SvgIcon.image),
+                  ),
+                  onTap: () {
+                    controller.pickImage();
+                  },
+                ),
+                Spaces.box16,
+                InkWell(
+                  child: SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: SvgPicture.asset(SvgIcon.camera),
+                  ),
+                  onTap: () {},
+                ),
+              ],
+            );
+          },
+        ],
+      ),
+    ],
+  );
 }

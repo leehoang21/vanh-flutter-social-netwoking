@@ -1,11 +1,8 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 import '../../../providers/community_provider/community_provider.dart';
-import '../../../utils/styles.dart';
-import '../../../utils/svg.dart';
 import '../../../utils/utils.dart';
 
 class CreatePostController extends GetxController with HomeControllerMinxin {
@@ -36,11 +33,16 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
   @override
   void onReady() {
     postContentController.addListener(() {
-      enablePost(
-        postContentController.text.trim().isNotEmpty,
-      );
+      enablePost(postContentController.text.trim().isNotEmpty);
     });
     super.onReady();
+  }
+
+  void onSubmit() {
+    if (enablePost.value) {
+      createFeed();
+      Get.back();
+    }
   }
 
   Future<void> createFeed() async {
@@ -62,68 +64,6 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
       });
       // images.addAll(imagesPath);
     }
-  }
-
-  KeyboardActionsConfig buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [
-        KeyboardActionsItem(
-          displayArrows: false,
-          toolbarAlignment: MainAxisAlignment.start,
-          focusNode: focusNode,
-          toolbarButtons: [
-            (node) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Spaces.box24,
-                  InkWell(
-                    child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: SvgPicture.asset(SvgIcon.choose_stocks),
-                    ),
-                    onTap: () {},
-                  ),
-                  Spaces.box16,
-                  InkWell(
-                    child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: SvgPicture.asset(SvgIcon.emojis),
-                    ),
-                    onTap: () {},
-                  ),
-                  Spaces.box16,
-                  InkWell(
-                    child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: SvgPicture.asset(SvgIcon.image),
-                    ),
-                    onTap: () {
-                      pickImage();
-                    },
-                  ),
-                  Spaces.box16,
-                  InkWell(
-                    child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: SvgPicture.asset(SvgIcon.camera),
-                    ),
-                    onTap: () {},
-                  ),
-                ],
-              );
-            },
-          ],
-        ),
-      ],
-    );
   }
 
   @override
