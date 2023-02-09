@@ -62,7 +62,6 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
       images.update((val) {
         val?.addAll(imagesPath);
       });
-      // images.addAll(imagesPath);
     }
   }
 
