@@ -10,7 +10,7 @@ import '../../../utils/utils.dart';
 
 class CreatePostController extends GetxController with HomeControllerMinxin {
   late final CommunityProvider _communityProvider;
-  late final Rx<List<dynamic>> images;
+  late final Rx<List<String>> images;
   late final RxBool enablePost;
   late final FocusNode focusNode;
   late final int groupId;
@@ -54,8 +54,14 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
     }
   }
 
-  void pickImage() {
-    Utils.pickMultipleImages(images);
+  Future<void> pickImage() async {
+    final List<String> imagesPath = await Utils.pickMultipleImages();
+    if (imagesPath != null) {
+      images.update((val) {
+        val?.addAll(imagesPath);
+      });
+      // images.addAll(imagesPath);
+    }
   }
 
   KeyboardActionsConfig buildConfig(BuildContext context) {

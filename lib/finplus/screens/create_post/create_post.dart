@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/create_post/create_post_controller.dart';
-import 'package:finplus/finplus/screens/create_post/preview_images_post.dart';
+import 'package:finplus/finplus/screens/images_view/images_view.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
+import '../../../routes/finplus_routes.dart';
 import '../../../utils/styles.dart';
 import '../../../utils/svg.dart';
 
@@ -169,23 +170,28 @@ class CreatePost extends StatelessWidget {
                                 alignment: WrapAlignment.start,
                                 children: images
                                     .mapIndexed(
-                                      (index, e) => Stack(
-                                        children: [
-                                          if (e is String)
+                                      (index, e) => InkWell(
+                                        onTap: () {
+                                          Get.toNamed(
+                                            Routes.images_view,
+                                            arguments: ImageViewArgument(
+                                              listImages:
+                                                  controller.images.value,
+                                              index: index,
+                                              imageType: IMAGE_TYPE.PATH,
+                                            ),
+                                          );
+                                        },
+                                        child: Stack(
+                                          children: [
                                             Image.file(
                                               File(e),
                                               width: Get.width / 2 - 21,
                                               height: Get.width / 2 - 21,
                                               fit: BoxFit.cover,
                                             ),
-                                          if (index == 3 && remaining > 0)
-                                            InkWell(
-                                              onTap: () {
-                                                Get.to(
-                                                  const PreviewImagesPost(),
-                                                );
-                                              },
-                                              child: Container(
+                                            if (index == 3 && remaining > 0)
+                                              Container(
                                                 decoration: const BoxDecoration(
                                                   color: Colors.black38,
                                                 ),
@@ -200,13 +206,17 @@ class CreatePost extends StatelessWidget {
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                              ),
-                                            )
-                                        ],
+                                              )
+                                          ],
+                                        ),
                                       ),
                                     )
                                     .toList(),
                               );
+                              // return ImageBox(
+                              //   images: controller.images.value,
+                              //   image_type: IMAGE_TYPE.PATH,
+                              // );
                             },
                           ),
                         ),

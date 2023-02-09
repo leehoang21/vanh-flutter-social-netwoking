@@ -65,18 +65,17 @@ class Utils {
     return image?.path;
   }
 
-   static Future<Rx<List>> pickMultipleImages(Rx<List<dynamic>> images) async {
+  static Future<List<String>> pickMultipleImages() async {
     final ImagePicker _picker = ImagePicker();
 
     final pickedImages =
         await _picker.pickMultiImage(requestFullMetadata: false);
+    final List<String> imagesPath = [];
 
     if (pickedImages.isNotEmpty) {
-      images.update((val) {
-        val?.addAll(pickedImages.map((e) => e.path));
-      });
+      imagesPath.addAll(pickedImages.map((e) => e.path));
     }
-    return images;
+    return imagesPath;
   }
 }
 

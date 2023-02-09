@@ -54,17 +54,17 @@ class AppNavigate {
       binding: CreateChatRoomBindings(),
     ),
     GetPage(
+      name: Routes.create_post,
+      page: () => CreatePost(),
+      binding: CreatePostBindings(),
+    ),
+    GetPage(
       name: Routes.webview,
       page: () => const WebView(),
     ),
     GetPage(
       name: Routes.images_view,
       page: () => const ImagesView(),
-    ),
-    GetPage(
-      name: Routes.create_post,
-      page: () => CreatePost(),
-      binding: CreatePostBindings(),
     ),
   ];
 }
