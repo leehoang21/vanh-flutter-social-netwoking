@@ -113,7 +113,7 @@ class CreatePost extends StatelessWidget {
                             disableScroll: true,
                             config: buildConfig(context, controller),
                             child: TextField(
-                              controller: controller.postContentController,
+                              controller: controller.content,
                               scrollPhysics:
                                   const NeverScrollableScrollPhysics(),
                               keyboardType: TextInputType.text,

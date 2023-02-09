@@ -15,7 +15,7 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
   late final List<String>? attachment;
   late final int? parentId;
   late final bool isCommentable;
-  late final TextEditingController postContentController;
+  late final TextEditingController content;
 
   @override
   void onInit() {
@@ -24,7 +24,7 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
     images = Rx([]);
     focusNode = FocusNode();
     isCommentable = true;
-    postContentController = TextEditingController();
+    content = TextEditingController();
     groupId = 2;
     type = FEED_TYPE.POST;
     super.onInit();
@@ -32,8 +32,8 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
 
   @override
   void onReady() {
-    postContentController.addListener(() {
-      enablePost(postContentController.text.trim().isNotEmpty);
+    content.addListener(() {
+      enablePost(content.text.trim().isNotEmpty);
     });
     super.onReady();
   }
@@ -49,7 +49,7 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
     if (userInfo != null) {
       final res = await _communityProvider.createFeed(
         groupId: groupId,
-        content: postContentController.text,
+        content: content.text,
         type: type,
         userInfo: userInfo!.userInfo,
       );
@@ -68,7 +68,7 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
   @override
   void onClose() {
     focusNode.dispose();
-    postContentController.dispose();
+    content.dispose();
     super.onClose();
   }
 }
