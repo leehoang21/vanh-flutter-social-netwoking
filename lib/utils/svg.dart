@@ -17,6 +17,12 @@ class SvgIcon {
   static const String public_icon = '${_prefixIcon}public_icon.svg';
   static const String camera_icon = '${_prefixIcon}camera_icon.svg';
   static const String image_icon = '${_prefixIcon}image_icon.svg';
+  static const String close = '${_prefixIcon}close.svg';
+  static const String add_circle = '${_prefixIcon}add_circle.svg';
+  static const String camera = '${_prefixIcon}camera.svg';
+  static const String choose_stocks = '${_prefixIcon}choose_stocks.svg';
+  static const String emojis = '${_prefixIcon}emojis.svg';
+  static const String image = '${_prefixIcon}image.svg';
 }
 
 class Picture {

@@ -64,6 +64,19 @@ class Utils {
     final image = await _picker.pickImage(source: source);
     return image?.path;
   }
+
+  static Future<List<String>> pickMultipleImages() async {
+    final ImagePicker _picker = ImagePicker();
+
+    final pickedImages =
+        await _picker.pickMultiImage(requestFullMetadata: false);
+    final List<String> imagesPath = [];
+
+    if (pickedImages.isNotEmpty) {
+      imagesPath.addAll(pickedImages.map((e) => e.path));
+    }
+    return imagesPath;
+  }
 }
 
 extension LogExtension on Object {
