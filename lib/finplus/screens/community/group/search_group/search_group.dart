@@ -68,6 +68,7 @@ class SearchGroup extends StatelessWidget {
                   tabs: [
                     Tab(
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                             SvgIcon.add_circle,
