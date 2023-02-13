@@ -12,19 +12,18 @@ enum GROUP_TYPE {
   PRIVATE,
 }
 
-// ignore: must_be_immutable
-class GroupModel extends StatelessWidget {
-  GroupModel({
+class GroupInfoRow extends StatelessWidget {
+  const GroupInfoRow({
     super.key,
     required this.groupName,
     required this.groupType,
     required this.numberMember,
     required this.coverGroupImage,
   });
-  String groupName;
-  GROUP_TYPE groupType;
-  int numberMember;
-  String coverGroupImage;
+  final String groupName;
+  final GROUP_TYPE groupType;
+  final int numberMember;
+  final String coverGroupImage;
 
   @override
   Widget build(BuildContext context) {
@@ -56,45 +55,37 @@ class GroupModel extends StatelessWidget {
                     ),
                     Spaces.box10,
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 12,
-                              width: 12,
-                              child: SvgPicture.asset(
-                                SvgIcon.private_group,
-                              ),
-                            ),
-                            Spaces.boxW5,
-                            const Text(
-                              'Nhóm riêng tư',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          height: 12,
+                          width: 12,
+                          child: SvgPicture.asset(
+                            SvgIcon.private_group,
+                          ),
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 12,
-                              width: 12,
-                              child: SvgPicture.asset(
-                                SvgIcon.member,
-                              ),
-                            ),
-                            Spaces.boxW5,
-                            Text(
-                              '$numberMember',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                        Spaces.boxW5,
+                        const Text(
+                          'Nhóm riêng tư',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          height: 12,
+                          width: 12,
+                          child: SvgPicture.asset(
+                            SvgIcon.member,
+                          ),
+                        ),
+                        Spaces.boxW5,
+                        Text(
+                          '$numberMember',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ],
                     ),

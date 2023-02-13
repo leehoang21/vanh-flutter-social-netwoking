@@ -65,32 +65,36 @@ class SortGroupMbs extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               final item = _sortType[index];
-              return Container(
-                padding: Spaces.h20v12,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(item.icon),
-                    Spaces.box14,
-                    Text(
-                      item.sortType,
-                      style: TextDefine.T2_M,
-                    ),
-                    const Spacer(),
-                    Obx(
-                      () => SizedBox(
-                        height: 17,
-                        width: 17,
-                        child: Radio<SORT_TYPE>(
-                          activeColor: theme.secondary_02,
-                          value: item.type,
-                          groupValue: controller.selectedSortType.value,
-                          onChanged: (value) =>
-                              controller.onSelectedSortType(item.type),
+              return InkWell(
+                onTap: () {
+                  controller.onSelectedSortType(item.type);
+                },
+                child: Container(
+                  padding: Spaces.h20v12,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset(item.icon),
+                      Spaces.box14,
+                      Text(
+                        item.sortType,
+                        style: TextDefine.T2_M,
+                      ),
+                      const Spacer(),
+                      Obx(
+                        () => SizedBox(
+                          height: 17,
+                          width: 17,
+                          child: Radio<SORT_TYPE>(
+                            activeColor: theme.secondary_02,
+                            value: item.type,
+                            groupValue: controller.selectedSortType.value,
+                            onChanged: (value) {},
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

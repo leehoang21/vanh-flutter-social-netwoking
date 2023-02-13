@@ -3,7 +3,6 @@ import 'package:finplus/finplus/screens/community/group/search_group/search_grou
 import 'package:finplus/finplus/screens/community/group/search_group/search_group_result/search_group_result.dart';
 import 'package:finplus/finplus/screens/community/group/search_group/sort_group_mbs/sort_group_mbs.dart';
 import 'package:finplus/utils/svg.dart';
-import 'package:finplus/widgets/custom_tabbar/custom_tabbar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../utils/styles.dart';
@@ -35,9 +34,7 @@ class SearchGroup extends StatelessWidget {
                 child: Row(
                   children: [
                     InkWell(
-                      onTap: () => Get.bottomSheet(
-                        const SortGroupMbs(),
-                      ),
+                      onTap: () => Get.bottomSheet(const SortGroupMbs()),
                       child: SvgPicture.asset(
                         SvgIcon.group_sort,
                         color: const Color(0xFF17AB37),
@@ -61,17 +58,13 @@ class SearchGroup extends StatelessWidget {
             initialIndex: 1,
             child: Column(
               children: [
-                CustomTabBar(
-                  backgroundColor: const Color(0xFF17AB37),
-                  unselectedBackgroundColor: const Color(0xFFC1BABA),
-                  contentPadding: Spaces.h16v10,
-                  radius: 12,
-                  labelStyle: TextDefine.P2_M.copyWith(
-                    color: Colors.white,
-                  ),
-                  unselectedLabelStyle: TextDefine.P2_M.copyWith(
-                    color: Colors.black,
-                  ),
+                TabBar(
+                  labelPadding: Spaces.h16v10,
+                  labelColor: Colors.black,
+                  labelStyle: TextDefine.P2_M,
+                  unselectedLabelColor: Colors.black,
+                  unselectedLabelStyle: TextDefine.P2_M,
+                  indicatorColor: const Color(0xFF17AB37),
                   tabs: [
                     Tab(
                       child: Row(
@@ -100,12 +93,8 @@ class SearchGroup extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       Container(),
-                      const Expanded(
-                        child: SearchGroupResult(),
-                      ),
-                      const Expanded(
-                        child: SearchGroupResult(),
-                      ),
+                      const SearchGroupResult(),
+                      const SearchGroupResult(),
                     ],
                   ),
                 ),
@@ -117,4 +106,3 @@ class SearchGroup extends StatelessWidget {
     );
   }
 }
-
