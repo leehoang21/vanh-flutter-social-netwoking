@@ -81,17 +81,23 @@ class Community extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Nhóm phổ biến',
                       style: TextDefine.P6_M,
                     ),
-                    Text(
-                      'Xem tất cả',
-                      style: TextStyle(
-                        color: Color(0xFF17AB37),
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                      ),
+                      onPressed: () => Get.toNamed(Routes.search_group),
+                      child: const Text(
+                        'Xem tất cả',
+                        style: TextStyle(
+                          color: Color(0xFF17AB37),
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
