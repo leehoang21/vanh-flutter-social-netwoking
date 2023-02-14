@@ -1,46 +1,8 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/community/group/search_group/search_group_controller.dart';
 import 'package:finplus/utils/styles.dart';
-import 'package:finplus/utils/svg.dart';
 import 'package:finplus/widgets/custom_mbs/custom_mbs.dart';
 import 'package:flutter/material.dart';
-
-// ignore: camel_case_types
-enum SORT_TYPE {
-  MOST_FREQUENTLY,
-  SORT_BY_A_Z,
-  RECENTLY,
-}
-
-class SortType {
-  final String icon;
-  final String sortType;
-  final SORT_TYPE type;
-
-  const SortType({
-    required this.icon,
-    required this.sortType,
-    required this.type,
-  });
-}
-
-const _sortType = [
-  SortType(
-    icon: SvgIcon.frequent,
-    sortType: 'Truy cập thường xuyên nhất',
-    type: SORT_TYPE.MOST_FREQUENTLY,
-  ),
-  SortType(
-    icon: SvgIcon.sort_a_z,
-    sortType: 'Sắp xếp theo bảng chữ cái',
-    type: SORT_TYPE.SORT_BY_A_Z,
-  ),
-  SortType(
-    icon: SvgIcon.clock,
-    sortType: 'Tham gia gần đây',
-    type: SORT_TYPE.RECENTLY,
-  ),
-];
 
 class SortGroupMbs extends StatelessWidget {
   const SortGroupMbs({super.key});
@@ -64,7 +26,7 @@ class SortGroupMbs extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              final item = _sortType[index];
+              final item = controller.getSortType(index);
               return InkWell(
                 onTap: () {
                   controller.onSelectedSortType(item.type);
@@ -101,7 +63,7 @@ class SortGroupMbs extends StatelessWidget {
             separatorBuilder: (context, index) => const Divider(
               thickness: 1,
             ),
-            itemCount: _sortType.length,
+            itemCount: controller.sortTypeLength,
           )
         ],
       ),

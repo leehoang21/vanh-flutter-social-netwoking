@@ -1,5 +1,3 @@
-import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/group/search_group/search_group_controller.dart';
 import 'package:finplus/finplus/screens/community/group/search_group/search_group_result/group_info_row.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ class SearchGroupResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SearchGroupController controller = Get.find<SearchGroupController>();
     return ListView.separated(
       itemBuilder: (context, index) {
         return const GroupInfoRow(
