@@ -1,11 +1,11 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/search_group/search_group_controller.dart';
-import 'package:finplus/finplus/screens/community/search_group/search_group_result/search_group_result.dart';
-import 'package:finplus/finplus/screens/community/search_group/sort_group_mbs/sort_group_mbs.dart';
+import 'package:finplus/finplus/screens/search_group/search_group_controller.dart';
+import 'package:finplus/finplus/screens/search_group/search_group_result/search_group_result.dart';
+import 'package:finplus/finplus/screens/search_group/sort_group_mbs/sort_group_mbs.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utils/styles.dart';
+import '../../../utils/styles.dart';
 
 class SearchGroup extends StatelessWidget {
   const SearchGroup({super.key});

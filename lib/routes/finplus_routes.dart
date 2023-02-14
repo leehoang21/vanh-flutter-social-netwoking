@@ -1,7 +1,7 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/chat.dart';
 import 'package:finplus/finplus/screens/chat_room/chat_room.dart';
-import 'package:finplus/finplus/screens/community/search_group/search_group_binding.dart';
+import 'package:finplus/finplus/screens/search_group/search_group_binding.dart';
 import 'package:finplus/finplus/screens/create_chat_room/create_chat_room.dart';
 import 'package:finplus/finplus/screens/create_chat_room/create_chat_room_bindings.dart';
 import 'package:finplus/finplus/screens/create_post/create_post.dart';
@@ -11,7 +11,7 @@ import 'package:finplus/finplus/screens/webview/webview.dart';
 
 import '../finplus/screens/chat/chat_bindings.dart';
 import '../finplus/screens/chat_room/chat_room_bindings.dart';
-import '../finplus/screens/community/search_group/search_group.dart';
+import '../finplus/screens/search_group/search_group.dart';
 import '../finplus/screens/home/home.dart';
 import '../finplus/screens/home/home_bindings.dart';
 import '../finplus/screens/login/login.dart';

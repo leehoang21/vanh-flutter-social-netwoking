@@ -4,7 +4,7 @@ import 'package:finplus/utils/svg.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../utils/styles.dart';
+import '../../../../../utils/styles.dart';
 
 // ignore: camel_case_types
 enum GROUP_TYPE {

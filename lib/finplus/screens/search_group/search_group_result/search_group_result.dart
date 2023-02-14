@@ -1,4 +1,4 @@
-import 'package:finplus/finplus/screens/community/search_group/search_group_result/group_info_row/group_info_row.dart';
+import 'package:finplus/finplus/screens/search_group/search_group_result/group_info_row/group_info_row.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 

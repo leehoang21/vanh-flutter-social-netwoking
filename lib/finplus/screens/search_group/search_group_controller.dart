@@ -1,6 +1,6 @@
 import 'package:commons/commons.dart';
 
-import '../../../../utils/svg.dart';
+import '../../../utils/svg.dart';
 
 // ignore: camel_case_types
 enum SORT_TYPE {
