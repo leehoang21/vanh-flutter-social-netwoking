@@ -12,7 +12,7 @@ import '../home/home_controller.dart';
 class ChatRoomController extends GetxController with HomeControllerMinxin {
   late final ChatProvider _chatProvider;
 
-  late final Rx<List<RxChatRoomInfo>> chatRoom;
+  late final Rx<List<RxChatRoomInfo>> rooms;
 
   late final RefreshController refreshController;
 
@@ -23,7 +23,7 @@ class ChatRoomController extends GetxController with HomeControllerMinxin {
   @override
   void onInit() {
     _chatProvider = ChatProvider();
-    chatRoom = Rx(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
+    rooms = Rx(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
             ?.map((e) => RxChatRoomInfo(e))
             .toList() ??
         []);
@@ -41,10 +41,13 @@ class ChatRoomController extends GetxController with HomeControllerMinxin {
   }
 
   Future<void> _getRoom() async {
-    chatRoom.value = await _chatProvider.getRoom();
+    final rooms = await _chatProvider.getRoom();
+    if (rooms.isNotEmpty) {
+      this.rooms(rooms);
+    }
   }
 
-  Future<void> reload() async {
+  Future<void> onRefresh() async {
     await _getRoom();
     refreshController.refreshCompleted();
   }
@@ -65,13 +68,13 @@ class ChatRoomController extends GetxController with HomeControllerMinxin {
     );
 
     if (value == true)
-      chatRoom(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
+      rooms(UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
               ?.map((e) => RxChatRoomInfo(e))
               .toList() ??
           []);
   }
 
-  List<RxChatRoomInfo> get searchRooms => chatRoom.value
+  List<RxChatRoomInfo> get searchRooms => rooms.value
       .where((room) => room.name.contains(textSearch.value))
       .toList();
 

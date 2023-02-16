@@ -1,4 +1,5 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 
 import '../chat_provider.dart';
 
@@ -18,6 +19,7 @@ class RxChatRoomInfo extends Rx<ChatRoomInfo> {
   int? get updatedBy => value.updatedBy;
   int? get updatedAt => value.updatedAt;
   int get createdAt => value.createdAt;
+  ChatMessageData? get lastMsg => value.lastMsg;
 }
 
 class ChatRoomInfo extends ExtendModel {
@@ -40,6 +42,8 @@ class ChatRoomInfo extends ExtendModel {
   late final List<int> adminIds;
 
   late final int createdBy;
+
+  ChatMessageData? lastMsg;
 
   int? updatedBy;
 
@@ -76,6 +80,9 @@ class ChatRoomInfo extends ExtendModel {
     updatedBy = json['updatedBy'];
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'] ?? DateTime.now().millisecondsSinceEpoch;
+    if (json['lastMsg'] != null) {
+      lastMsg = ChatMessageData.fromJson(json['lastMsg']);
+    }
   }
 
   @override
@@ -94,6 +101,7 @@ class ChatRoomInfo extends ExtendModel {
     data['updatedBy'] = updatedBy;
     data['updatedAt'] = updatedAt;
     data['createdAt'] = createdAt;
+    data['lastMsg'] = lastMsg?.toJson();
     return data;
   }
 }

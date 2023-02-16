@@ -3,6 +3,7 @@ library commons;
 import 'dart:convert' as j;
 
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import 'models/custom_printer.dart';
 // ignore: depend_on_referenced_packages
@@ -90,7 +91,7 @@ abstract class AppLoggerDefine {
   }
 }
 
-Uri getUri(String baseUrl, String path, Map<String, String>? query,
+Uri getUri(String baseUrl, String path, Map<String, String?>? query,
     [bool secure = true]) {
   if (secure) {
     return Uri.https(baseUrl, path, query);
@@ -110,6 +111,21 @@ class Commons {
           value is List && value.isEmpty;
     });
     return value;
+  }
+
+  static DateTime formatStringToDate(String? time, [String? format]) {
+    final inputFormat = DateFormat(format ?? 'dd/MM/yyyy');
+    if (time != null) {
+      return inputFormat.parse(time);
+    } else {
+      return DateTime.now();
+    }
+  }
+
+  static String formatDateToDisplay(DateTime? time, [String? outputFormat]) {
+    final output = DateFormat(outputFormat ?? 'dd/MM/yyyy');
+    if (time == null) return '';
+    return output.format(time);
   }
 }
 

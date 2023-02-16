@@ -34,7 +34,7 @@ class _Dio {
 class ApiRequest extends ExtendModel {
   final String path;
   final METHOD method;
-  final Map<String, String>? query;
+  final Map<String, String?>? query;
   final Map<String, dynamic>? body;
   late final Map<String, String>? headers;
   final bool auth;
@@ -118,6 +118,8 @@ abstract class BaseNetWork {
 
   Future<ApiResponse<R>> sendRequest<R>(ApiRequest request,
       {R Function(Map)? decoder}) async {
+    dynamic undecodeData;
+    int? statusCode;
     try {
       final uri = getUri(baseUrl ?? AppConfig.info.baseUrl, request.path,
           request.query, secure ?? AppConfig.info.secure);
@@ -151,11 +153,14 @@ abstract class BaseNetWork {
         ),
       );
 
+      undecodeData = data.data;
+      statusCode = data.statusCode;
+
       if ((AppConfig.info.env == ENV.DEV ||
               (AppConfig.info.env == ENV.PROD && kDebugMode)) &&
           info != null) {
-        info.response = data.data;
-        info.statusCode = data.statusCode;
+        info.response = undecodeData;
+        info.statusCode = statusCode;
         info.headers = data.requestOptions.headers;
 
         AppLogger.addRequest(info);
@@ -178,7 +183,7 @@ abstract class BaseNetWork {
       return ApiResponse<R>(
         statusCode: data.statusCode,
         body: body,
-        undecodeData: data.data,
+        undecodeData: undecodeData,
         request: request,
         realUri: data.realUri,
         items: items,
@@ -192,7 +197,12 @@ abstract class BaseNetWork {
       );
       e.logEx(stackTrace);
       return ApiResponse(
-          request: request, body: null, statusCode: null, realUri: uri);
+        request: request,
+        body: undecodeData,
+        undecodeData: undecodeData,
+        statusCode: statusCode,
+        realUri: uri,
+      );
     }
   }
 

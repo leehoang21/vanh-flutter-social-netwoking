@@ -1,5 +1,7 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/app_config/app_config.dart';
+import 'package:finplus/providers/chat_provider/chat_storage.dart';
+import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/user_storage.dart';
@@ -180,11 +182,18 @@ class ChatProvider extends BaseNetWork {
     } else {}
   }
 
-  Future<void> getMessage({required final String roomId}) async {
+  Future<List<RxChatMessageData>?> getMessage(
+      {required final String roomId,
+      final int? lastTime,
+      final int? from}) async {
     final params = {
       'roomId': roomId,
-      'fetchCount': AppConfig.info.fetchCount.toString(),
-    };
+      if (from == null) 'fetchCount': AppConfig.info.fetchCount.toString(),
+      if (from == null) 'lastTime': lastTime?.toString(),
+      'from': from?.toString(),
+      if (from != null) 'to': lastTime?.toString(),
+    }.json;
+
     final ApiRequest req = ApiRequest(
       path: ApiPath.message,
       method: METHOD.GET,
@@ -192,10 +201,31 @@ class ChatProvider extends BaseNetWork {
       query: params,
     );
 
-    final res = await sendRequest(req);
+    final res = await sendRequest(req, decoder: ChatMessageData.fromJson);
 
     if (res.success) {
-    } else {}
+      final List<RxChatMessageData> newMsg = [];
+      final msgList = ChatStorage.getMessage(roomId: roomId);
+
+      res.items.forEach((element) {
+        final mes = msgList.firstWhereOrNull((e) => e.id == element.id);
+
+        if (mes != null) {
+          mes.copy(element);
+        } else {
+          msgList.add(element);
+          newMsg.add(RxChatMessageData(element));
+        }
+      });
+
+      msgList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+      ChatStorage.saveMessage(roomId: roomId, value: msgList);
+
+      return newMsg;
+    } else {
+      return null;
+    }
   }
 
   Future<void> sendMessage(

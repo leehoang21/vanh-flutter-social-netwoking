@@ -1,5 +1,8 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:finplus/providers/chat_provider/chat_provider.dart';
+import 'package:finplus/providers/chat_provider/chat_storage.dart';
+import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/providers/chat_provider/models/chat_room_info.dart';
 import 'package:finplus/utils/get_arguments_mixin.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +14,8 @@ class ChatArguments {
   ChatArguments({required this.roomInfo});
 }
 
-class ChatController extends GetxController with GetArguments<ChatArguments> {
+class ChatController extends GetxController
+    with GetArguments<ChatArguments>, HomeControllerMinxin {
   late final ChatProvider _chatProvider;
 
   late final TextEditingController textController;
@@ -20,9 +24,9 @@ class ChatController extends GetxController with GetArguments<ChatArguments> {
 
   late final Rx<bool> isInputExpanded;
 
-  late final ScrollController scrollController;
-
   late final RefreshController refreshController;
+
+  late final Rx<List<RxChatMessageData>> messages;
 
   @override
   void onInit() {
@@ -34,17 +38,18 @@ class ChatController extends GetxController with GetArguments<ChatArguments> {
 
     isInputExpanded = Rx(false);
 
-    scrollController = ScrollController();
-
     refreshController = RefreshController();
+
+    messages = Rx<List<RxChatMessageData>>(
+        ChatStorage.getMessage(roomId: arguments?.roomInfo.id)
+            .map((e) => RxChatMessageData(e))
+            .toList());
     super.onInit();
   }
 
   @override
   void onReady() {
-    if (arguments != null) {
-      _chatProvider.getMessage(roomId: arguments!.roomInfo.id);
-    }
+    _getMessage();
     textController.addListener(
       () {
         if (isInputExpanded.value == false) isInputExpanded.value = true;
@@ -59,11 +64,22 @@ class ChatController extends GetxController with GetArguments<ChatArguments> {
     super.onReady();
   }
 
+  Future<void> _getMessage() async {
+    if (arguments != null) {
+      final newMsg =
+          await _chatProvider.getMessage(roomId: arguments!.roomInfo.id);
+      if (newMsg?.isNotEmpty == true) {
+        messages.update((val) {
+          val?.insertAll(0, newMsg!);
+        });
+      }
+    }
+  }
+
   @override
   void dispose() {
     textController.dispose();
     messageFocusNode.dispose();
-    scrollController.dispose();
     super.dispose();
   }
 }
