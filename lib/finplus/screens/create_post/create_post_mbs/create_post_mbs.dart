@@ -21,7 +21,6 @@ class CreatePostMbs extends StatelessWidget {
           BoxShadow(
             color: Color(0xFF8E8C8C),
             blurRadius: 2,
-            
           ),
         ],
       ),

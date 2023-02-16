@@ -48,9 +48,11 @@ class CreatePost extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Obx(
-                        () {
-                          return TextButton(
+                      SizedBox(
+                        width: 48,
+                        child: Obx(
+                          () {
+                            return TextButton(
                               onPressed: controller.createFeed,
                               child: const Text(
                                 'Post',
@@ -64,8 +66,10 @@ class CreatePost extends StatelessWidget {
                                 backgroundColor: controller.enablePost.value
                                     ? const Color(0xFF17AB37)
                                     : Colors.grey,
-                              ));
-                        },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
