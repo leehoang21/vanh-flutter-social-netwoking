@@ -36,9 +36,9 @@ class RxChatMessageData extends Rx<ChatMessageData> {
   List<int> get mentionIds => value.mentionIds;
 }
 
-class ChatMessageData {
+class ChatMessageData extends ExtendModel {
   late final String id;
-  late final MESSAGE_TYPE type;
+  late MESSAGE_TYPE type;
   late final String roomId;
   late String content;
   late final int sender; // user id người gửi
@@ -66,11 +66,11 @@ class ChatMessageData {
     createdAt = DateTime.now().microsecondsSinceEpoch;
   }
 
-  ChatMessageData.fromJson(Map<String, dynamic> json) {
+  ChatMessageData.fromJson(Map<dynamic, dynamic> json) {
     id = json['_id'] ?? -1;
     type = MESSAGE_TYPE.from(json['type']);
     roomId = json['roomId'] ?? '';
-    content = json['content'];
+    content = json['content'] ?? '';
     sender = json['sender'] ?? -1;
     replyFor = json['replyFor'] != null
         ? ChatMessageData.fromJson(json['replyFor'])
@@ -83,6 +83,7 @@ class ChatMessageData {
     mentionIds = json['mentionIds']?.cast<int>() ?? [];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = id;
@@ -95,6 +96,15 @@ class ChatMessageData {
     data['createdBy'] = createdBy;
     data['createdAt'] = createdAt;
     return data;
+  }
+
+  void copy(ChatMessageData data) {
+    switch (data.type) {
+      case MESSAGE_TYPE.MESSAGE_REMOVED:
+        type = data.type;
+        break;
+      default:
+    }
   }
 }
 
