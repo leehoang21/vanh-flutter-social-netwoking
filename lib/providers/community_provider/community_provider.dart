@@ -1,4 +1,5 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/models/login_info_data.dart';
 
 import '/base/app_config/app_config.dart';
 import '/base/base.dart';
@@ -28,13 +29,15 @@ class CommunityProvider extends BaseNetWork {
     }
   }
 
-  Future<void> createFeed({
+  Future<FeedData?> createFeed({
     required final int groupId,
     required final String content,
     required final FEED_TYPE type,
+    required final UserInfo userInfo,
     final List<String>? attachment,
     final int? parentId,
     final bool isCommentable = true,
+
   }) async {
     final params = {
       'groupId': groupId,
@@ -52,6 +55,11 @@ class CommunityProvider extends BaseNetWork {
       body: params,
     );
 
-    final res = await sendRequest(req, decoder: FeedData.fromJson);
+    final res = await sendRequest(req);
+    if (res.success) {
+      return FeedData(id: res.body['feedId'], createdAt: DateTime.now(), createdBy: userInfo.id, parentId: res.body['feedId'], userInfo: userInfo);
+    } else {
+      return null;
+    }
   }
 }

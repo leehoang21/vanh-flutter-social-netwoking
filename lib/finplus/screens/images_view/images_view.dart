@@ -1,16 +1,23 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+// ignore: camel_case_types
+enum IMAGE_TYPE {
+  URL,
+  PATH,
+}
+
 class ImageViewArgument {
-  final List<String> urlImages;
+  final List<String> images;
   final int index;
-  ImageViewArgument({
-    required this.urlImages,
-    required this.index,
-  });
+  final IMAGE_TYPE imageType;
+  ImageViewArgument(
+      {required this.images, required this.index, required this.imageType});
 }
 
 class ImagesView extends StatefulWidget {
@@ -42,12 +49,13 @@ class _ImagesViewState extends State<ImagesView> {
         extendBodyBehindAppBar: true,
         body: PhotoViewGallery.builder(
           pageController: pageController,
-          itemCount: argument?.urlImages.length,
+          itemCount: argument?.images.length,
           builder: (_, i) => PhotoViewGalleryPageOptions(
-            imageProvider:
-                CachedNetworkImageProvider(argument?.urlImages[i] ?? ''),
+            imageProvider: argument?.imageType == IMAGE_TYPE.URL
+                ? CachedNetworkImageProvider(argument?.images[i] ?? '')
+                : Image.file(File(argument?.images[i] ?? '')).image,
             heroAttributes:
-                PhotoViewHeroAttributes(tag: argument?.urlImages[i] ?? ''),
+                PhotoViewHeroAttributes(tag: argument?.images[i] ?? ''),
           ),
         ),
       ),
