@@ -184,3 +184,34 @@ class TextDefine {
 extension BuildContextExtension on BuildContext {
   CommonStyles get t => Theme.of(this).extension<CommonStyles>()!;
 }
+
+extension CommonsThemeExtension on CommonStyles {
+  InputDecoration get defaultTextInput {
+    final outlineBorder = OutlineInputBorder(
+      borderRadius: Decorate.r8,
+      borderSide: BorderSide(width: 1, color: primary_03),
+    );
+    return InputDecoration(
+      contentPadding: Spaces.h8,
+      filled: true,
+      fillColor: primary_02.withOpacity(0.3),
+      border: outlineBorder,
+      enabledBorder: outlineBorder,
+      focusedBorder: outlineBorder.copyWith(
+        borderSide: BorderSide(width: 1, color: primary_03),
+      ),
+    );
+  }
+
+  InputDecoration get noneTextInput {
+    return const InputDecoration(
+      fillColor: Colors.transparent,
+      border: InputBorder.none,
+      errorBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      focusedErrorBorder: InputBorder.none,
+    );
+  }
+}

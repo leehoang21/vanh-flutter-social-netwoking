@@ -43,6 +43,7 @@ class UserInfo extends ExtendModel {
   late final int id;
   late String avatar;
   late String username;
+  late String displayName;
   late String name;
   late String otpPin;
   late String privateKey;
@@ -60,9 +61,10 @@ class UserInfo extends ExtendModel {
     this.trustDevice = false,
     this.email = '',
     this.phoneNumber = '',
+    this.displayName = '',
   });
 
-  UserInfo.fromJson(Map<String, dynamic> json) {
+  UserInfo.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'] ?? -1;
     avatar = json['avatar'] ?? '';
     username = json['username'] ?? '';
@@ -72,6 +74,7 @@ class UserInfo extends ExtendModel {
     trustDevice = json['trustDevice'] ?? false;
     email = json['email'] ?? '';
     phoneNumber = json['phoneNumber'] ?? '';
+    displayName = json['displayName'] ?? '';
   }
 
   @override
@@ -86,6 +89,7 @@ class UserInfo extends ExtendModel {
     data['trustDevice'] = trustDevice;
     data['email'] = email;
     data['phoneNumber'] = phoneNumber;
+    data['displayName'] = displayName;
     return data.json;
   }
 }

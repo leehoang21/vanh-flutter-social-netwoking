@@ -2,6 +2,9 @@ import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/chat_controller.dart';
 import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
 import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
+import 'package:finplus/models/common_styles.dart';
+import 'package:finplus/models/login_info_data.dart';
+import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
@@ -17,9 +20,8 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.t;
 
-    final InputBorder _borderInputField = OutlineInputBorder(
+    const InputBorder _borderInputField = OutlineInputBorder(
       borderSide: BorderSide(
-        color: theme.primaryChat,
         width: 1,
       ),
       borderRadius: Decorate.r15,
@@ -33,26 +35,26 @@ class Chat extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Avatar(
-                    value: '',
-                    size: 40,
-                  ),
+                  Obx(() => Avatar(
+                        value: c.roomInfo?.value.avatar ?? '',
+                        size: 40,
+                      )),
                   Spaces.box10,
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Tên người đang chat',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextDefine.T1_R,
-                        ),
-                        Text(
-                          'Trực tuyến',
-                          style: TextDefine.P3_R,
-                        ),
-                      ],
-                    ),
+                    child: Obx(() => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              c.roomInfo?.name ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextDefine.T1_R,
+                            ),
+                            Text(
+                              '${c.roomInfo?.userIds.length ?? 0} thành viên',
+                              style: TextDefine.P3_R,
+                            ),
+                          ],
+                        )),
                   ),
                 ],
               ),
@@ -74,14 +76,24 @@ class Chat extends StatelessWidget {
                             bool isSameUser = false;
                             if (i + 1 < c.messages.value.length) {
                               isSameUser = c.messages.value[i + 1].createdBy ==
-                                  msg.createdBy;
+                                      msg.createdBy &&
+                                  c.messages.value[i + 1].type !=
+                                      MESSAGE_TYPE.USER_JOINED;
                             }
+
+                            final userInfo = c.users.value[msg.sender];
+
+                            final notifyWidget =
+                                _generateNotify(msg, theme, userInfo);
+
+                            if (notifyWidget != null) return notifyWidget;
 
                             if (msg.createdBy == c.userInfo?.userInfo.id) {
                               return MyBox(
                                 onDownloadFile: () {},
                                 data: msg,
                                 isSameUser: isSameUser,
+                                userInfo: userInfo,
                               );
                             }
 
@@ -89,6 +101,7 @@ class Chat extends StatelessWidget {
                               onDownloadFile: () {},
                               data: msg,
                               isSameUser: isSameUser,
+                              userInfo: userInfo,
                             );
                           },
                         ),
@@ -97,11 +110,10 @@ class Chat extends StatelessWidget {
                   ),
                   Container(
                     padding: Spaces.v10,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
                         top: BorderSide(
                           width: 1,
-                          color: theme.primaryChat,
                         ),
                       ),
                     ),
@@ -113,27 +125,25 @@ class Chat extends StatelessWidget {
                               ? IconButton(
                                   onPressed: () =>
                                       c.isInputExpanded.value = false,
-                                  icon: Icon(
+                                  icon: const Icon(
                                     CupertinoIcons.chevron_right,
-                                    color: theme.primaryChat,
                                   ),
                                 )
                               : Row(
                                   children: [
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(CupertinoIcons.photo_camera,
-                                          color: theme.primaryChat),
+                                      icon: const Icon(
+                                          CupertinoIcons.photo_camera),
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(CupertinoIcons.photo,
-                                          color: theme.primaryChat),
+                                      icon: const Icon(CupertinoIcons.photo),
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(CupertinoIcons.arrow_up_doc,
-                                          color: theme.primaryChat),
+                                      icon: const Icon(
+                                          CupertinoIcons.arrow_up_doc),
                                     ),
                                   ],
                                 ),
@@ -167,8 +177,7 @@ class Chat extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(CupertinoIcons.paperplane,
-                              color: theme.primaryChat),
+                          icon: const Icon(CupertinoIcons.paperplane),
                         ),
                       ],
                     ),
@@ -178,5 +187,43 @@ class Chat extends StatelessWidget {
             ),
           );
         });
+  }
+
+  Widget? _generateNotify(
+      RxChatMessageData data, CommonStyles theme, UserInfo? userInfo) {
+    final ChatController c = Get.find();
+
+    switch (data.type) {
+      case MESSAGE_TYPE.USER_JOINED:
+        return Container(
+          padding: Spaces.v8,
+          alignment: Alignment.center,
+          child: Text(
+            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã tham gia cuộc hội thoại',
+            style: TextStyle(color: theme.textDisable),
+          ),
+        );
+      case MESSAGE_TYPE.ROOM_ADDED:
+        return Container(
+          padding: Spaces.v8,
+          alignment: Alignment.center,
+          child: Text(
+            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã tạo cuộc hội thoại',
+            style: TextStyle(color: theme.textDisable),
+          ),
+        );
+      case MESSAGE_TYPE.ROOM_REMOVED:
+        return Container(
+          padding: Spaces.v8,
+          alignment: Alignment.center,
+          child: Text(
+            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã xóa cuộc hội thoại',
+            style: TextStyle(color: theme.textDisable),
+          ),
+        );
+
+      default:
+        return null;
+    }
   }
 }

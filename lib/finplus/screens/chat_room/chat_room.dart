@@ -2,6 +2,7 @@ import 'package:commons/commons.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
+import 'package:finplus/widgets/search_field/search_field.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,41 +14,17 @@ class ChatRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.t;
     return GetBuilder<ChatRoomController>(
       builder: (c) => Scaffold(
         appBar: AppBar(
-          title: Obx(
-            () => c.isShowSearch.value
-                ? TextFormField(
-                    textInputAction: TextInputAction.search,
-                    decoration: const InputDecoration(
-                      hintText: 'Tìm kiếm',
-                    ),
-                    onFieldSubmitted: c.onSubmitSearch,
-                  )
-                : const Text(
-                    'Nhóm chat',
-                  ),
-          ),
+          title: const Align(
+              alignment: Alignment.centerRight, child: SearchField()),
           actions: [
             IconButton(
-              onPressed: c.onIconSearchPress,
-              icon: Obx(
-                () => SvgPicture.asset(
-                  c.isShowSearch.value
-                      ? SvgIcon.close_icon
-                      : SvgIcon.search_icon,
-                  color: theme.background,
-                ),
-              ),
-            ),
-            IconButton(
               onPressed: c.createChatRoomHandler,
-              color: theme.background,
               icon: SvgPicture.asset(
                 SvgIcon.add_icon,
-                color: theme.background,
+                color: Colors.white,
               ),
             ),
           ],
@@ -67,9 +44,10 @@ class ChatRoom extends StatelessWidget {
                       child: Padding(
                         padding: Spaces.a10,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Avatar(
-                              value: '',
+                            Avatar(
+                              value: item.avatar,
                               size: 50,
                             ),
                             Spaces.boxW10,
@@ -77,6 +55,7 @@ class ChatRoom extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Spaces.box4,
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -117,9 +96,7 @@ class ChatRoom extends StatelessWidget {
                                           child: FittedBox(
                                             child: Text(
                                               '${item.msgCount > 5 ? '5+' : item.msgCount}',
-                                              style: TextDefine.P4_R.copyWith(
-                                                color: theme.background,
-                                              ),
+                                              style: TextDefine.P4_R.copyWith(),
                                             ),
                                           ),
                                         ),

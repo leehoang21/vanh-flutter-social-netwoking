@@ -63,12 +63,9 @@ class NotificationDialog extends StatelessWidget {
                 padding: Spaces.t10,
                 child: TextButton(
                   onPressed: onCancelBtnPressed ?? Get.back,
-                  style: TextButton.styleFrom(
-                    backgroundColor: theme.backgroundFailLoad,
-                  ),
-                  child: Text(
+                  child: const Text(
                     'Cancel',
-                    style: TextStyle(color: theme.background),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),

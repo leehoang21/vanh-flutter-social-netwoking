@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 
-const Color _grey = Color(0xFFD3D3D3);
-
 class _DarkConfigColor {
-  static const Color _primary_01 = Color(0XFF172150);
-  static const Color _primary_04 = Color(0xff6fb98f);
-  static const Color _primaryChat = _primary_04;
-  static const Color _backgroundColor = _grey;
+  static const Color _primary_01 = Color(0XFF8fd974);
   static const Color _textDisable = Color(0xFF8691B3);
   static const Color _textContent = Color(0xFF333333);
-  static const Color _backgroundFailLoad = _grey;
   static const Color _shadow = Color(0xFFFFFFFF);
 }
 
 class _LightConfigColor {
-  static const Color _primary_01 = Color.fromARGB(255, 5, 53, 56);
-  static const Color _primary_02 = Color.fromARGB(255, 0, 94, 95);
-  static const Color _primary_03 = Color.fromARGB(255, 54, 151, 145);
-  static const Color _primary_04 = Color(0xff6fb98f);
-  static const Color _secondary_01 = Color.fromARGB(255, 81, 230, 173);
-  static const Color _secondary_02 = Color.fromARGB(255, 20, 160, 111);
-  static const Color _secondary_03 = Color(0xffb3de81);
-  static const Color _primaryChat = _primary_04;
-  static const Color _backgroundColor = Color(0xFFFFFFFF);
+  static const Color _primary_01 = Color(0xff4ca456);
+  static const Color _primary_02 = Color(0xff5bb462);
+  static const Color _primary_03 = Color(0xff7ac968);
+  static const Color _primary_04 = Color(0XFF8fd974);
+  static const Color _secondary_01 = Color(0xff009a00);
+  static const Color _secondary_02 = Color(0xff99cc00);
+  static const Color _secondary_03 = Color(0xffffff02);
   static const Color _textDisable = Color(0xFF718096);
   static const Color _textContent = Color(0xFF1A202C);
-  static const Color _backgroundFailLoad = _grey;
   static const Color _shadow = Color(0xFFA0AEC0);
 }
 
@@ -37,11 +28,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
   final Color secondary_01;
   final Color secondary_02;
   final Color secondary_03;
-  final Color background;
   final Color textDisable;
-  final Color primaryChat;
   final Color textContent;
-  final Color backgroundFailLoad;
   final Color shadow;
 
   const CommonStyles({
@@ -52,11 +40,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
     required this.secondary_01,
     required this.secondary_02,
     required this.secondary_03,
-    required this.background,
     required this.textDisable,
-    required this.primaryChat,
     required this.textContent,
-    required this.backgroundFailLoad,
     required this.shadow,
   });
 
@@ -69,11 +54,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
       secondary_01: _LightConfigColor._secondary_01,
       secondary_02: _LightConfigColor._secondary_02,
       secondary_03: _LightConfigColor._secondary_03,
-      background: _DarkConfigColor._backgroundColor,
       textDisable: _DarkConfigColor._textDisable,
-      primaryChat: _DarkConfigColor._primaryChat,
       textContent: _DarkConfigColor._textContent,
-      backgroundFailLoad: _DarkConfigColor._backgroundFailLoad,
       shadow: _DarkConfigColor._shadow,
     );
   }
@@ -87,11 +69,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
       secondary_01: _LightConfigColor._secondary_01,
       secondary_02: _LightConfigColor._secondary_02,
       secondary_03: _LightConfigColor._secondary_03,
-      background: _LightConfigColor._backgroundColor,
       textDisable: _LightConfigColor._textDisable,
-      primaryChat: _LightConfigColor._primaryChat,
       textContent: _LightConfigColor._textContent,
-      backgroundFailLoad: _LightConfigColor._backgroundFailLoad,
       shadow: _LightConfigColor._shadow,
     );
   }
@@ -120,11 +99,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
         secondary_01: secondary_01 ?? this.secondary_01,
         secondary_02: secondary_02 ?? this.secondary_02,
         secondary_03: secondary_03 ?? this.secondary_03,
-        background: background ?? this.background,
         textDisable: textDisable ?? this.textDisable,
-        primaryChat: primaryChat ?? this.primaryChat,
         textContent: textContent ?? this.textContent,
-        backgroundFailLoad: backgroundFailLoad ?? this.backgroundFailLoad,
         shadow: shadow ?? this.shadow,
       );
 
@@ -146,13 +122,8 @@ class CommonStyles extends ThemeExtension<CommonStyles> {
           Color.lerp(secondary_02, other.secondary_02, t) ?? secondary_02,
       secondary_03:
           Color.lerp(secondary_03, other.secondary_03, t) ?? secondary_03,
-      background: Color.lerp(background, other.background, t) ?? background,
       textDisable: Color.lerp(textDisable, other.textDisable, t) ?? textDisable,
-      primaryChat: Color.lerp(primaryChat, other.primaryChat, t) ?? primaryChat,
       textContent: Color.lerp(textContent, other.textContent, t) ?? textContent,
-      backgroundFailLoad:
-          Color.lerp(backgroundFailLoad, other.backgroundFailLoad, t) ??
-              backgroundFailLoad,
       shadow: Color.lerp(shadow, other.shadow, t) ?? shadow,
     );
   }
