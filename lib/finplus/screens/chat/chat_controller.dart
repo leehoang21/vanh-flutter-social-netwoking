@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
+import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/providers/chat_provider/chat_provider.dart';
 import 'package:finplus/providers/chat_provider/chat_storage.dart';
 import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
@@ -28,6 +29,8 @@ class ChatController extends GetxController
 
   late final Rx<List<RxChatMessageData>> messages;
 
+  late final Rx<Map<int, UserInfo>> users;
+
   @override
   void onInit() {
     _chatProvider = ChatProvider();
@@ -44,23 +47,31 @@ class ChatController extends GetxController
         ChatStorage.getMessage(roomId: arguments?.roomInfo.id)
             .map((e) => RxChatMessageData(e))
             .toList());
+
+    users = Rx(_generateUserInfo(
+        ChatStorage.getRoomUsers(roomId: arguments?.roomInfo.id)));
+
     super.onInit();
   }
 
   @override
-  void onReady() {
-    _getMessage();
-    textController.addListener(
-      () {
-        if (isInputExpanded.value == false) isInputExpanded.value = true;
-      },
-    );
+  Future<void> onReady() async {
+    if (users.value.isNotEmpty) {
+      _getRoomUsers();
+    } else {
+      await _getRoomUsers();
+    }
 
-    messageFocusNode.addListener(
-      () {
-        isInputExpanded(messageFocusNode.hasFocus);
-      },
-    );
+    _getMessage();
+
+    textController.addListener(() {
+      if (isInputExpanded.value == false) isInputExpanded.value = true;
+    });
+
+    messageFocusNode.addListener(() {
+      isInputExpanded(messageFocusNode.hasFocus);
+    });
+
     super.onReady();
   }
 
@@ -75,6 +86,27 @@ class ChatController extends GetxController
       }
     }
   }
+
+  Future<void> _getRoomUsers() async {
+    if (arguments != null) {
+      final data =
+          await _chatProvider.getUserList(roomId: arguments!.roomInfo.id);
+
+      users.value = _generateUserInfo(data);
+    }
+  }
+
+  Map<int, UserInfo> _generateUserInfo(List<UserInfo> value) {
+    final Map<int, UserInfo> result = {};
+
+    value.forEach((element) {
+      result[element.id] = element;
+    });
+
+    return result;
+  }
+
+  RxChatRoomInfo? get roomInfo => arguments?.roomInfo;
 
   @override
   void dispose() {

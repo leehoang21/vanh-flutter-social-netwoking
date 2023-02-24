@@ -20,6 +20,7 @@ class RxChatRoomInfo extends Rx<ChatRoomInfo> {
   int? get updatedAt => value.updatedAt;
   int get createdAt => value.createdAt;
   ChatMessageData? get lastMsg => value.lastMsg;
+  String get avatar => value.avatar;
 }
 
 class ChatRoomInfo extends ExtendModel {
@@ -51,6 +52,8 @@ class ChatRoomInfo extends ExtendModel {
 
   late final int createdAt;
 
+  late String avatar;
+
   ChatRoomInfo(
       {required this.id,
       required this.type,
@@ -64,7 +67,9 @@ class ChatRoomInfo extends ExtendModel {
       required this.createdBy,
       this.updatedBy,
       this.updatedAt,
-      required this.createdAt});
+      required this.createdAt,
+      this.avatar = '',
+      this.lastMsg});
 
   ChatRoomInfo.fromJson(Map<dynamic, dynamic> json) {
     id = json['_id'] ?? '';
@@ -83,6 +88,7 @@ class ChatRoomInfo extends ExtendModel {
     if (json['lastMsg'] != null) {
       lastMsg = ChatMessageData.fromJson(json['lastMsg']);
     }
+    avatar = json['avatar'] ?? '';
   }
 
   @override
@@ -102,6 +108,7 @@ class ChatRoomInfo extends ExtendModel {
     data['updatedAt'] = updatedAt;
     data['createdAt'] = createdAt;
     data['lastMsg'] = lastMsg?.toJson();
-    return data;
+    data['avatar'] = avatar;
+    return data.json;
   }
 }

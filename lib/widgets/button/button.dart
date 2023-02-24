@@ -58,7 +58,7 @@ class Button extends StatelessWidget {
               style: TextButton.styleFrom(
                 backgroundColor: theme.primary_01,
                 disabledBackgroundColor: theme.primary_01.withOpacity(0.4),
-                disabledForegroundColor: theme.background,
+                disabledForegroundColor: Colors.white,
               ),
               child: child,
             ),

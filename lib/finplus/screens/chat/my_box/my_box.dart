@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
+import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
@@ -17,6 +18,7 @@ class MyBox extends StatelessWidget {
   final VoidCallback? onDeleteMessage;
   final Function(int)? onReact;
   final bool isSameUser;
+  final UserInfo? userInfo;
 
   const MyBox({
     super.key,
@@ -26,22 +28,13 @@ class MyBox extends StatelessWidget {
     this.onReact,
     required this.data,
     this.isSameUser = false,
+    this.userInfo,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = context.t;
     final size = MediaQuery.of(context).size;
-
-    if (data.type == MESSAGE_TYPE.USER_JOINED)
-      return Container(
-        padding: Spaces.v8,
-        alignment: Alignment.center,
-        child: Text(
-          'Bạn đã tham gia nhóm chat',
-          style: TextStyle(color: theme.textDisable),
-        ),
-      );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,11 +75,7 @@ class MyBox extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: onDeleteMessage,
-                  icon: Icon(
-                    CupertinoIcons.delete,
-                    size: 14,
-                    color: theme.background,
-                  ),
+                  icon: const Icon(CupertinoIcons.delete, size: 14),
                 ),
               ),
             ],
@@ -119,11 +108,7 @@ class MyBox extends StatelessWidget {
                                 ? const EdgeInsets.only(top: 4)
                                 : null,
                             decoration: BoxDecoration(
-                              color: theme.primary_04.withOpacity(0.5),
-                              border: Border.all(
-                                color: theme.primary_04,
-                                width: 1,
-                              ),
+                              color: theme.secondary_01.withOpacity(0.4),
                               borderRadius: Decorate.boxChatR,
                             ),
                             child: Column(
@@ -187,10 +172,7 @@ class MyBox extends StatelessWidget {
       return Linkify(
         text: data.content,
         onOpen: (link) => Utils.launchUrl(link.url),
-        linkStyle: TextStyle(
-          fontStyle: FontStyle.italic,
-          color: theme.background,
-        ),
+        linkStyle: const TextStyle(fontStyle: FontStyle.italic),
       );
     });
   }

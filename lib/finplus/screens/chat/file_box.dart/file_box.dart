@@ -17,8 +17,8 @@ class FileBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color contentColor = this.contentColor ?? context.t.background;
-    final Color backgroundColor = this.backgroundColor ?? context.t.primaryChat;
+    final Color contentColor = this.contentColor ?? Colors.white;
+    final Color backgroundColor = this.backgroundColor ?? context.t.primary_01;
 
     const DownloadState? stateDownload = null;
     const double perCentDownload = 0.0;
@@ -28,7 +28,7 @@ class FileBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border.all(
-          color: context.t.primaryChat,
+          color: context.t.primary_01,
           width: 1,
         ),
         borderRadius: Decorate.boxChatR,

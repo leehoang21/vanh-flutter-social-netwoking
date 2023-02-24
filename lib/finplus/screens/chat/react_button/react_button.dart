@@ -65,7 +65,6 @@ class _ReactButtonState extends State<ReactButton>
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.t;
     return CustomToolTip(
         barrierDismissible: true,
         barrierColor: Colors.black12,
@@ -100,8 +99,7 @@ class _ReactButtonState extends State<ReactButton>
                 alignment: Alignment.center,
                 child: Container(
                   padding: Spaces.a8,
-                  decoration: BoxDecoration(
-                      color: theme.background, borderRadius: Decorate.r16),
+                  decoration: const BoxDecoration(borderRadius: Decorate.r16),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: reactList

@@ -16,9 +16,9 @@ class CustomMbs extends StatelessWidget {
       top: true,
       child: Container(
         height: height,
-        decoration: BoxDecoration(
-          color: theme.background,
-          borderRadius: const BorderRadius.vertical(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
             top: Radius.circular(21),
           ),
         ),

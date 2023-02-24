@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/react_button/react_button.dart';
+import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:finplus/utils/utils.dart';
@@ -18,6 +19,7 @@ class GuestBox extends StatelessWidget {
   final RxChatMessageData data;
   final Function(int)? onReact;
   final bool isSameUser;
+  final UserInfo? userInfo;
 
   const GuestBox({
     super.key,
@@ -27,6 +29,7 @@ class GuestBox extends StatelessWidget {
     this.onDragReply,
     required this.data,
     this.isSameUser = false,
+    this.userInfo,
   });
 
   @override
@@ -62,8 +65,8 @@ class GuestBox extends StatelessWidget {
               if (isSameUser)
                 Spaces.box32
               else
-                const Avatar(
-                  value: '',
+                Avatar(
+                  value: userInfo?.avatar ?? '',
                   size: 32,
                 ),
               Spaces.boxW10,
@@ -85,7 +88,7 @@ class GuestBox extends StatelessWidget {
                   children: [
                     if (!isSameUser)
                       Text(
-                        'Tên',
+                        userInfo?.displayName ?? 'User',
                         textAlign: TextAlign.right,
                         style:
                             TextDefine.P3_R.copyWith(color: theme.textDisable),
