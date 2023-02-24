@@ -1,3 +1,4 @@
+import 'package:finplus/utils/styles.dart';
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
@@ -7,9 +8,12 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.t;
     return SizedBox(
       height: 48,
       child: TextFormField(
+        style: TextDefine.P1_R.copyWith(color: theme.background),
+        decoration: const InputDecoration(),
         key: key,
         controller: controller,
       ),

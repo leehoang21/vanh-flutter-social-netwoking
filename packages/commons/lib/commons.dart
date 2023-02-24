@@ -127,6 +127,40 @@ class Commons {
     if (time == null) return '';
     return output.format(time);
   }
+
+  static String getTimeDifferenceFromNow(DateTime date) {
+    final date2 = DateTime.now();
+    final difference = date2.difference(date);
+
+    if (difference.inSeconds < 5) {
+      return 'Vừa xong';
+    } else if (difference.inSeconds < 60) {
+      return '${difference.inSeconds} giây trước';
+    } else if (difference.inMinutes <= 1) {
+      return '1 phút trước';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} phút trước';
+    } else if (difference.inHours <= 1) {
+      return '1 giờ trước';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} giờ trước';
+    } else if (difference.inDays <= 1) {
+      return '1 ngày trước';
+    } else if (difference.inDays < 6) {
+      return '${difference.inDays} ngày trước';
+    } else if ((difference.inDays / 7).ceil() <= 1) {
+      return '1 tuần trước';
+    } else if ((difference.inDays / 7).ceil() < 4) {
+      return '${(difference.inDays / 7).ceil()} tuần trước';
+    } else if ((difference.inDays / 30).ceil() <= 1) {
+      return '1 tháng trước';
+    } else if ((difference.inDays / 30).ceil() < 30) {
+      return '${(difference.inDays / 30).ceil()} tháng trước';
+    } else if ((difference.inDays / 365).ceil() <= 1) {
+      return '1 năm trước';
+    }
+    return '${(difference.inDays / 365).floor()} năm trước';
+  }
 }
 
 extension MapExtension<K, V> on Map<K, V> {
