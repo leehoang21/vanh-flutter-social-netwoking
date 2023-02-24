@@ -33,7 +33,7 @@ class CustomSmartRefresher extends StatelessWidget {
             body = const Text('See more');
           } else if (mode == LoadStatus.loading) {
             body = CircularProgressIndicator(
-              color: context.t.primaryChat,
+              color: context.t.primary_01,
             );
           } else if (mode == LoadStatus.failed) {
             body = const Text('Please try again');

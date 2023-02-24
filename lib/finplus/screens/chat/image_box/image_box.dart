@@ -132,11 +132,8 @@ class ImageBox extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           '+${(images.length - 4).toString()}',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: context.t.background,
-                          ),
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w700),
                         ),
                       ),
                     )
@@ -163,20 +160,15 @@ class ImageBox extends StatelessWidget {
           width: width,
           imageUrl: images[index],
           fit: fit,
-          placeholder: (context, url) => Center(
+          placeholder: (context, url) => const Center(
             child: SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(context.t.primaryChat),
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2),
             ),
           ),
           errorWidget: (context, url, error) => Container(
             padding: Spaces.a10,
-            color: context.t.backgroundFailLoad,
             width: width,
             height: height ?? 250,
             child: const Center(

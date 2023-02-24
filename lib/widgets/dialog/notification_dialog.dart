@@ -58,11 +58,11 @@ class NotificationDialog extends StatelessWidget {
                       child: TextButton(
                         onPressed: onCancelBtnPressed ?? Get.back,
                         style: TextButton.styleFrom(
-                          backgroundColor: theme.backgroundFailLoad,
+                          backgroundColor: Colors.grey.withOpacity(0.5),
                         ),
                         child: Text(
                           cancelText,
-                          style: TextStyle(color: theme.background),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -79,7 +79,7 @@ class NotificationDialog extends StatelessWidget {
                         ),
                         child: Text(
                           confirmText,
-                          style: TextStyle(color: theme.background),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

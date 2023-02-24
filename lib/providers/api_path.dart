@@ -18,4 +18,5 @@ class ApiPath {
   static const String addUserToRoom = '$_prefix/chat/room/addUser';
   static const String removeUserToRoom = '$_prefix/chat/room/removeUser';
   static const String message = '$_prefix/chat/message';
+  static const String userList = '$_prefix/chat/room/userList';
 }

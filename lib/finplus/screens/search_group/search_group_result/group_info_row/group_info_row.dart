@@ -27,14 +27,12 @@ class GroupInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.t;
     return InkWell(
       onTap: () {},
       child: Container(
         height: 120,
         margin: Spaces.h10v6,
         decoration: BoxDecoration(
-          color: theme.backgroundFailLoad,
           borderRadius: Decorate.r16,
           border: Border.all(
             color: Colors.black,
@@ -117,8 +115,7 @@ class GroupInfoRow extends StatelessWidget {
                       width: 30,
                       padding: Spaces.a3,
                       margin: Spaces.h5v10,
-                      decoration: BoxDecoration(
-                        color: theme.backgroundFailLoad,
+                      decoration: const BoxDecoration(
                         borderRadius: Decorate.r16,
                       ),
                       child: Column(

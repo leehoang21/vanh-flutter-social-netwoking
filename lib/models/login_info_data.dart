@@ -43,13 +43,13 @@ class UserInfo extends ExtendModel {
   late final int id;
   late String avatar;
   late String username;
+  late String displayName;
   late String name;
   late String otpPin;
   late String privateKey;
   late bool trustDevice;
   late String email;
   late String phoneNumber;
-  late String displayName;
 
   UserInfo({
     required this.id,
@@ -64,7 +64,7 @@ class UserInfo extends ExtendModel {
     this.displayName = '',
   });
 
-  UserInfo.fromJson(Map<String, dynamic> json) {
+  UserInfo.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'] ?? -1;
     avatar = json['avatar'] ?? '';
     username = json['username'] ?? '';

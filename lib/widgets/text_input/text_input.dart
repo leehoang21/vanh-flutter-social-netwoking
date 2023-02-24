@@ -12,7 +12,7 @@ class TextInput extends StatelessWidget {
     return SizedBox(
       height: 48,
       child: TextFormField(
-        style: TextDefine.P1_R.copyWith(color: theme.background),
+        style: TextDefine.P1_R.copyWith(color: Colors.white),
         decoration: const InputDecoration(),
         key: key,
         controller: controller,

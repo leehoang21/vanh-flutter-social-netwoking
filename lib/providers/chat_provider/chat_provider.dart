@@ -1,5 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/app_config/app_config.dart';
+import 'package:finplus/models/login_info_data.dart';
 import 'package:finplus/providers/chat_provider/chat_storage.dart';
 import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/utils/svg.dart';
@@ -245,5 +246,25 @@ class ChatProvider extends BaseNetWork {
 
     if (res.success) {
     } else {}
+  }
+
+  Future<List<UserInfo>> getUserList({required final String roomId}) async {
+    final params = {'roomId': roomId};
+    final ApiRequest req = ApiRequest(
+      path: ApiPath.userList,
+      method: METHOD.GET,
+      auth: true,
+      query: params,
+    );
+
+    final res = await sendRequest(req, decoder: UserInfo.fromJson);
+
+    if (res.success) {
+      ChatStorage.saveRoomUsers(roomId: roomId, value: res.items);
+
+      return res.items;
+    } else {
+      return [];
+    }
   }
 }

@@ -27,7 +27,6 @@ class SelectImageMbs extends StatelessWidget {
                 Container(
                   margin: Spaces.h16v12,
                   decoration: BoxDecoration(
-                    color: theme.background,
                     borderRadius: Decorate.r15,
                     boxShadow: [
                       BoxShadow(
