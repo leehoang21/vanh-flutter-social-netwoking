@@ -9,6 +9,7 @@ class ApiPath {
 
   //community
   static const String feed = '$_prefix/community/feed';
+  static const String feed_react = '$_prefix/community/feed/react';
 
   //chat
   static const String room = '$_prefix/chat/room';

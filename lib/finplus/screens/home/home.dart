@@ -10,7 +10,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(builder: (c) {
-      return const Scaffold(
+      return Scaffold(
         body: Community(),
       );
     });

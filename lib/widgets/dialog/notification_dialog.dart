@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/utils/styles.dart';
-import 'package:finplus/widgets/button/button.dart';
 import 'package:flutter/material.dart';
 
 class NotificationDialog extends StatelessWidget {
@@ -12,6 +11,7 @@ class NotificationDialog extends StatelessWidget {
     this.onConfirmBtnPressed,
     this.showCancelButton = false,
     this.onCancelBtnPressed,
+    this.cancelText = 'Cancel',
   }) : super(key: key);
 
   final String title;
@@ -23,6 +23,7 @@ class NotificationDialog extends StatelessWidget {
   final VoidCallback? onCancelBtnPressed;
 
   final String confirmText;
+  final String cancelText;
 
   final bool showCancelButton;
 
@@ -48,27 +49,43 @@ class NotificationDialog extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            if (onConfirmBtnPressed != null)
-              Padding(
-                padding: Spaces.t10,
-                child: Button(
-                  child: Text(
-                    confirmText,
+            Row(
+              children: [
+                if (showCancelButton)
+                  Expanded(
+                    child: Padding(
+                      padding: Spaces.t10,
+                      child: TextButton(
+                        onPressed: onCancelBtnPressed ?? Get.back,
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey.withOpacity(0.5),
+                        ),
+                        child: Text(
+                          cancelText,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ),
-                  onPressed: onConfirmBtnPressed,
-                ),
-              ),
-            if (showCancelButton)
-              Padding(
-                padding: Spaces.t10,
-                child: TextButton(
-                  onPressed: onCancelBtnPressed ?? Get.back,
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.white),
+                Spaces.box16,
+                if (onConfirmBtnPressed != null)
+                  Expanded(
+                    child: Padding(
+                      padding: Spaces.t10,
+                      child: TextButton(
+                        onPressed: onConfirmBtnPressed ?? Get.back,
+                        style: TextButton.styleFrom(
+                          backgroundColor: theme.secondary_02,
+                        ),
+                        child: Text(
+                          confirmText,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+              ],
+            )
           ],
         ),
       ),

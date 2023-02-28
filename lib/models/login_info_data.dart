@@ -90,6 +90,7 @@ class UserInfo extends ExtendModel {
     data['email'] = email;
     data['phoneNumber'] = phoneNumber;
     data['displayName'] = displayName;
+
     return data.json;
   }
 }

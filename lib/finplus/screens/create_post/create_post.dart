@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/create_post/create_post_controller.dart';
+import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:finplus/finplus/screens/images_view/images_view.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,15 @@ import 'package:keyboard_actions/keyboard_actions.dart';
 import '../../../routes/finplus_routes.dart';
 import '../../../utils/styles.dart';
 import '../../../utils/svg.dart';
+import '../../../utils/utils.dart';
 
 class CreatePost extends StatelessWidget {
   const CreatePost({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController h = Get.find();
+    final theme = context.t;
     return GetBuilder<CreatePostController>(
       init: CreatePostController(),
       builder: (controller) {
@@ -26,28 +30,22 @@ class CreatePost extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: 9,
-                        width: 48,
-                        child: InkWell(
-                          child: SvgPicture.asset(
-                            SvgIcon.close,
-                          ),
-                          onTap: Get.back,
+                      InkWell(
+                        child: SvgPicture.asset(
+                          SvgIcon.close,
+                          height: 15,
+                          color: theme.primary_01,
                         ),
+                        onTap: Get.back,
                       ),
-                      const Text(
-                        'Create a post',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      Text('Create a post',
+                          style: TextDefine.T1_M
+                              .copyWith(color: theme.primary_01)),
                       SizedBox(
                         width: 48,
                         child: Obx(
@@ -65,7 +63,7 @@ class CreatePost extends StatelessWidget {
                               style: TextButton.styleFrom(
                                 backgroundColor: controller.enablePost.value
                                     ? const Color(0xFF17AB37)
-                                    : Colors.grey,
+                                    : Colors.grey.withOpacity(0.5),
                               ),
                             );
                           },
@@ -89,22 +87,24 @@ class CreatePost extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  child: const Avatar(
-                                    value: '',
-                                    size: 38,
-                                  )),
-                              Spaces.box10,
-                              const Text(
-                                'Trần Thuỳ Linh',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
                                 ),
+                                child: Avatar(
+                                    value: h.userInfo.value?.userInfo.avatar ??
+                                        ''),
                               ),
+                              Spaces.box10,
+                              Obx(
+                                () => Text(
+                                  h.userInfo.value?.userInfo.displayName ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -115,7 +115,11 @@ class CreatePost extends StatelessWidget {
                           ),
                           child: KeyboardActions(
                             disableScroll: true,
-                            config: buildConfig(context),
+                            config: Utils.buildKeyBoardConfig(
+                                context,
+                                controller.focusNode,
+                                (images) {},
+                                controller.createFeed),
                             child: TextField(
                               controller: controller.content,
                               scrollPhysics:
@@ -126,8 +130,7 @@ class CreatePost extends StatelessWidget {
                               maxLength: 2000,
                               inputFormatters: const [],
                               decoration: const InputDecoration(
-                                hintText:
-                                    'Write something...\n@ to mention someone else',
+                                hintText: 'Bạn đang nghĩ gì?',
                                 fillColor: Colors.white,
                                 border: InputBorder.none,
                                 focusedBorder: InputBorder.none,
@@ -215,65 +218,4 @@ class CreatePost extends StatelessWidget {
       },
     );
   }
-}
-
-KeyboardActionsConfig buildConfig(BuildContext context) {
-  final controller = Get.find<CreatePostController>();
-  return KeyboardActionsConfig(
-    keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-    keyboardBarColor: Colors.grey[200],
-    nextFocus: true,
-    actions: [
-      KeyboardActionsItem(
-        displayArrows: false,
-        toolbarAlignment: MainAxisAlignment.start,
-        focusNode: controller.focusNode,
-        toolbarButtons: [
-          (node) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Spaces.box24,
-                InkWell(
-                  child: SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: SvgPicture.asset(SvgIcon.choose_stocks),
-                  ),
-                  onTap: () {},
-                ),
-                Spaces.box16,
-                InkWell(
-                  child: SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: SvgPicture.asset(SvgIcon.emojis),
-                  ),
-                  onTap: () {},
-                ),
-                Spaces.box16,
-                InkWell(
-                  child: SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: SvgPicture.asset(SvgIcon.image),
-                  ),
-                  onTap: controller.pickImage,
-                ),
-                Spaces.box16,
-                InkWell(
-                  child: SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: SvgPicture.asset(SvgIcon.camera),
-                  ),
-                  onTap: () {},
-                ),
-              ],
-            );
-          },
-        ],
-      ),
-    ],
-  );
 }

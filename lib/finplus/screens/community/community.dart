@@ -1,78 +1,88 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/community/community_controller.dart';
 import 'package:finplus/finplus/screens/community/popular_group/popular_group.dart';
+import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/button/button.dart';
 import 'package:flutter/material.dart';
 
 import 'new_feed/feed_container.dart';
 
-class Community extends StatelessWidget {
-  const Community({super.key});
+class Community extends StatelessWidget with HomeControllerMinxin {
+  Community({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.t;
+    final HomeController h = Get.find();
     return GetBuilder<CommunityController>(builder: (c) {
       return Scaffold(
-        floatingActionButton: Button(
-          onPressed: () => Get.toNamed(Routes.chat_room),
-          child: const Text('Chat room'),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Button(
+              onPressed: () => Get.toNamed(Routes.chat_room),
+              child: Text(
+                'Chat room',
+                style: TextDefine.P1_B.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+            Spaces.boxH16,
+            Button(
+              onPressed: () => Get.offAndToNamed(Routes.login),
+              child: Text(
+                'Đăng xuất',
+                style: TextDefine.P1_B.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          ],
         ),
         backgroundColor: const Color(0xFFF6F7F8),
         body: CustomScrollView(
           slivers: [
+            const SliverPadding(padding: EdgeInsets.only(top: 30)),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               sliver: SliverToBoxAdapter(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xFFFFFFFF),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 14,
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: const Placeholder(
-                              fallbackHeight: 38,
-                              fallbackWidth: 38,
-                            ),
+                child: Row(
+                  children: [
+                    Avatar(value: h.userInfo.value?.userInfo.avatar ?? ''),
+                    Spaces.boxW10,
+                    Expanded(
+                      child: Container(
+                        padding: Spaces.h12v16,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 5,
+                                color: theme.secondary_01.withOpacity(0.5))
+                          ],
+                          borderRadius: Decorate.r24,
+                        ),
+                        child: InkWell(
+                          onTap: () => Get.toNamed(Routes.create_post)
+                              ?.then((value) => c.creatFeed(value)),
+                          child: Text(
+                            'Bạn đang nghĩ gì?',
+                            style: TextDefine.P2_R
+                                .copyWith(color: theme.primary_01),
                           ),
                         ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () => Get.toNamed(Routes.create_post),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              padding: Spaces.h16v10,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
-                                color: Color(0xFFF6F7F8),
-                              ),
-                              child: const Text(
-                                'Bạn đang nghĩ gì',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
-                                  color: Color(0xFF767272),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -82,22 +92,20 @@ class Community extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Nhóm phổ biến',
-                      style: TextDefine.P6_M,
+                      style: TextDefine.T1_M.copyWith(
+                          color: theme.primary_02, fontWeight: FontWeight.w700),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.transparent,
                       ),
                       onPressed: () => Get.toNamed(Routes.search_group),
-                      child: const Text(
+                      child: Text(
                         'Xem tất cả',
-                        style: TextStyle(
-                          color: Color(0xFF17AB37),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style:
+                            TextDefine.P3_R.copyWith(color: theme.primary_04),
                       ),
                     ),
                   ],
@@ -105,22 +113,30 @@ class Community extends StatelessWidget {
               ),
             ),
             const PopularGroup(),
-            const SliverPadding(
-              padding:
-                  EdgeInsets.only(left: 12, right: 12, bottom: 10, top: 22),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, bottom: 10, top: 22),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  'New Feed',
-                  style: TextDefine.P6_M,
+                  'News Feed',
+                  style: TextDefine.T1_M.copyWith(
+                      color: theme.primary_02, fontWeight: FontWeight.w700),
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: 1,
-                (context, index) => const FeedContainer(),
+            Obx(
+              () => SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: c.feedDataList.value.length,
+                  (context, index) => FeedContainer(
+                    userId: userInfo?.userInfo.id ?? -1,
+                    feedData: c.feedDataList.value[index],
+                    onDeletedPost: () =>
+                        c.deletePost(c.feedDataList.value[index].id),
+                  ),
+                ),
               ),
-            ),
+            )
           ],
         ),
       );

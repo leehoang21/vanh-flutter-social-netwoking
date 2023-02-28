@@ -1,21 +1,23 @@
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/chat/chat.dart';
+import 'package:finplus/finplus/screens/chat_room/chat_room.dart';
+import 'package:finplus/finplus/screens/create_chat_room/create_chat_room.dart';
+import 'package:finplus/finplus/screens/create_chat_room/create_chat_room_bindings.dart';
+import 'package:finplus/finplus/screens/create_post/create_post.dart';
+import 'package:finplus/finplus/screens/create_post/create_post_bindings.dart';
+import 'package:finplus/finplus/screens/feed_detail/feed_detail.dart';
+import 'package:finplus/finplus/screens/feed_detail/feed_detail_binding.dart';
+import 'package:finplus/finplus/screens/images_view/images_view.dart';
+import 'package:finplus/finplus/screens/search_group/search_group_binding.dart';
+import 'package:finplus/finplus/screens/webview/webview.dart';
 
-import '../finplus/screens/chat/chat.dart';
 import '../finplus/screens/chat/chat_bindings.dart';
-import '../finplus/screens/chat_room/chat_room.dart';
 import '../finplus/screens/chat_room/chat_room_bindings.dart';
-import '../finplus/screens/create_chat_room/create_chat_room.dart';
-import '../finplus/screens/create_chat_room/create_chat_room_bindings.dart';
-import '../finplus/screens/create_post/create_post.dart';
-import '../finplus/screens/create_post/create_post_bindings.dart';
 import '../finplus/screens/home/home.dart';
 import '../finplus/screens/home/home_bindings.dart';
-import '../finplus/screens/images_view/images_view.dart';
 import '../finplus/screens/login/login.dart';
 import '../finplus/screens/login/login_bindings.dart';
 import '../finplus/screens/search_group/search_group.dart';
-import '../finplus/screens/search_group/search_group_binding.dart';
-import '../finplus/screens/webview/webview.dart';
 
 class Routes {
   static const String home = '/home';
@@ -27,6 +29,7 @@ class Routes {
   static const String webview = '/webview';
   static const String images_view = '/images_view';
   static const String search_group = '/search_group';
+  static const String feed_detail = '/feed_detail';
 }
 
 class AppNavigate {
@@ -73,6 +76,11 @@ class AppNavigate {
       name: Routes.search_group,
       page: () => const SearchGroup(),
       binding: SearchGroupBindings(),
+    ),
+    GetPage(
+      name: Routes.feed_detail,
+      page: () => const FeedDetail(),
+      binding: FeedDetailBinding(),
     )
   ];
 }

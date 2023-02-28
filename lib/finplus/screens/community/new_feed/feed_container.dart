@@ -1,342 +1,378 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/feed_detail/feed_detail_controller.dart';
+import 'package:finplus/finplus/screens/home/home_controller.dart';
+import 'package:finplus/providers/community_provider/models/feed_data.dart';
+import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
+import 'package:finplus/widgets/avatar/avatar.dart';
+import 'package:finplus/widgets/custom_drop_down/custom_drop_down.dart';
+import 'package:finplus/widgets/dialog/notification_dialog.dart';
+import 'package:finplus/widgets/show_text_more/show_text_more.dart';
 import 'package:flutter/material.dart';
 
-class FeedContainer extends StatelessWidget {
-  const FeedContainer({super.key});
+import '../../../../providers/community_provider/community_provider.dart';
 
+class FeedContainer extends StatelessWidget {
+  final num userId;
+  final RxFeedData feedData;
+  final VoidCallback? onDeletedPost;
+
+  const FeedContainer(
+      {super.key,
+      required this.feedData,
+      this.onDeletedPost,
+      required this.userId});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color(
-          0xffFFFFFF,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 12, top: 12, right: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: const Placeholder(
-                        fallbackHeight: 38,
-                        fallbackWidth: 38,
-                      ),
-                    ),
-                    Spaces.box12,
-                    Column(
-                      children: const [
-                        Text(
-                          'Link Ka',
-                          style: TextDefine.P4_B,
+    final theme = context.t;
+    return Obx(() {
+      {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: InkWell(
+            onTap: () {
+              Get.toNamed(Routes.feed_detail,
+                  arguments: FeedDetailArgument(
+                      feedData, postReactFeed, onDeletedPost, userId));
+            },
+            child: Container(
+              padding: Spaces.a10,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    offset: const Offset(2, 0),
+                    blurRadius: 5,
+                    color: theme.primary_01.withOpacity(0.5))
+              ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 12, top: 12, right: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Avatar(value: feedData.userInfo.avatar),
+                            Spaces.box12,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  feedData.userInfo.displayName,
+                                  style: TextDefine.P4_B,
+                                ),
+                                Spaces.box4,
+                                Text(
+                                  Commons.getTimeDifferenceFromNow(
+                                      feedData.createdAt),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Spaces.box4,
-                        Text(
-                          '3 giờ trước',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 10,
+                        CustomDropdown<String>(
+                            onTapItem: (p0, i) {
+                              if (userId != feedData.userInfo.id && i == 0) {
+                              } else if (i == 0) {
+                              } else if (i == 1) {
+                                Get.dialog(NotificationDialog(
+                                    showCancelButton: true,
+                                    cancelText: 'Hủy',
+                                    confirmText: 'Xóa',
+                                    title: 'Xóa bài viết',
+                                    description:
+                                        'Bạn chắc chắn muốn xóa bài viết này? Bạn sẽ không thể khôi phục bài viết sau khi xóa.',
+                                    onCancelBtnPressed: Get.back,
+                                    onConfirmBtnPressed: onDeletedPost));
+                              }
+                            },
+                            itemBuilder: (String item, int i) => InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        if (userId != feedData.userInfo.id &&
+                                            i == 0)
+                                          const Icon(Icons.report)
+                                        else if (i == 0)
+                                          const Icon(Icons.mode_edit_outlined)
+                                        else if (i == 1)
+                                          const Icon(
+                                              Icons.delete_forever_rounded),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          item,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            items: userId != feedData.userInfo.id
+                                ? ['Báo cáo bài viết']
+                                : [
+                                    'Chỉnh sửa bài viết',
+                                    'Xoá bài viết',
+                                  ],
+                            child: const Icon(Icons.more_horiz)),
+                      ],
+                    ),
+                  ),
+                  Spaces.box14,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Wrap(
+                      spacing: 6.0,
+                      runSpacing: 4.0,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffD9D9D9),
+                          ),
+                          child: const Padding(
+                            padding: Spaces.h4v6,
+                            child: Text(
+                              'MBB',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 9,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffD9D9D9),
+                          ),
+                          child: const Padding(
+                            padding: Spaces.h4v6,
+                            child: Text(
+                              'SHS',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 9,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffD9D9D9),
+                          ),
+                          child: const Padding(
+                            padding: Spaces.h4v6,
+                            child: Text(
+                              'VIC',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 9,
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const Icon(Icons.more_horiz),
-              ],
-            ),
-          ),
-          Spaces.box14,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Wrap(
-              spacing: 6.0,
-              runSpacing: 4.0,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xffD9D9D9),
                   ),
-                  child: const Padding(
-                    padding: Spaces.h4v6,
-                    child: Text(
-                      'MBB',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 9,
+                  Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ShowMoreText(
+                        content: feedData.content,
+                        showMoreLength: 100,
+                        contentStyle: TextDefine.P2_R,
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xffD9D9D9),
-                  ),
-                  child: const Padding(
-                    padding: Spaces.h4v6,
-                    child: Text(
-                      'SHS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 9,
-                      ),
+                  Obx(() => feedData.attachment.isNotEmpty
+                      ? SizedBox(
+                          height: 100,
+                          width: Get.width,
+                          child: CachedNetworkImage(
+                            imageUrl: feedData.attachment,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const SizedBox()),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Wrap(
+                          spacing: -6,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: const Placeholder(
+                                fallbackHeight: 22,
+                                fallbackWidth: 22,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: const Placeholder(
+                                fallbackHeight: 22,
+                                fallbackWidth: 22,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: const Placeholder(
+                                fallbackHeight: 22,
+                                fallbackWidth: 22,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: const Icon(
+                                Icons.more_horiz,
+                                size: 22,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Obx(() => Row(
+                              children: [
+                                Text(
+                                  '${feedData.likeCount} Like',
+                                  style: TextDefine.P4_R
+                                      .copyWith(color: const Color(0xff7A8599)),
+                                ),
+                                Spaces.box6,
+                                Text(
+                                  '${feedData.children.map((e) => e.type == FEED_TYPE.COMMENT).length} Comment',
+                                  style: TextDefine.P4_R
+                                      .copyWith(color: const Color(0xff7A8599)),
+                                ),
+                                Spaces.box6,
+                              ],
+                            ))
+                      ],
                     ),
                   ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xffD9D9D9),
+                  const Divider(
+                    indent: 12,
+                    endIndent: 12,
+                    height: 1,
+                    thickness: 1,
+                    color: Color(0xffD3DAE5),
                   ),
-                  child: const Padding(
-                    padding: Spaces.h4v6,
-                    child: Text(
-                      'VIC',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 9,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text.rich(
-              TextSpan(
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 10,
-                ),
-                children: [
-                  TextSpan(
-                      text:
-                          'Ngân hàng TMCP Quân Đội (HOSE: MBB) đạt hạn mức tăng trưởng tín  dụng cao thứ 3 toàn ngành năm 2022: Nhờ tỷ lệ an toàn vốn (CAR) ở  mức 12%, LDR ở mức 78% vào cuối Q3/22, theo ước tính của chúng....'),
-                  TextSpan(
-                    text: 'thêm',
-                    style: TextStyle(
-                      color: Color(0xff7A8599),
+                  Spaces.box10,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: postReactFeed,
+                          child: Row(
+                            children: [
+                              Obx(
+                                () => Icon(
+                                  Icons.heart_broken,
+                                  color: feedData.reactList.userLike
+                                          .where((element) =>
+                                              element.userId == userId)
+                                          .isNotEmpty
+                                      ? Colors.red
+                                      : const Color(0xff4E5D78),
+                                  size: 15,
+                                ),
+                              ),
+                              Spaces.box4,
+                              const Text(
+                                'Like',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xff4E5D78),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: const [
+                            Text(
+                              'Comment',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xff4E5D78),
+                              ),
+                            ),
+                            Spaces.box4,
+                            Icon(
+                              Icons.add_comment,
+                              color: Color(0xff4E5D78),
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Text('Share',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xff4E5D78),
+                                )),
+                            Spaces.box4,
+                            Icon(
+                              Icons.share_sharp,
+                              color: Color(0xff4E5D78),
+                              size: 15,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(
-            child: Placeholder(
-              fallbackHeight: 100,
-              fallbackWidth: 110,
-            ),
-            width: double.maxFinite,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Wrap(
-                  spacing: -6,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: const Placeholder(
-                        fallbackHeight: 22,
-                        fallbackWidth: 22,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: const Placeholder(
-                        fallbackHeight: 22,
-                        fallbackWidth: 22,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: const Placeholder(
-                        fallbackHeight: 22,
-                        fallbackWidth: 22,
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: const Icon(
-                        Icons.more_horiz,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '1.000 Like',
-                      style: TextDefine.P4_R
-                          .copyWith(color: const Color(0xff7A8599)),
-                    ),
-                    Spaces.box6,
-                    Text(
-                      '10 Comment',
-                      style: TextDefine.P4_R
-                          .copyWith(color: const Color(0xff7A8599)),
-                    ),
-                    Spaces.box6,
-                    Text(
-                      '1 Share',
-                      style: TextDefine.P4_R
-                          .copyWith(color: const Color(0xff7A8599)),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const Divider(
-            indent: 12,
-            endIndent: 12,
-            height: 1,
-            thickness: 1,
-            color: Color(0xffD3DAE5),
-          ),
-          Spaces.box10,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: const [
-                    Icon(
-                      Icons.heart_broken,
-                      color: Color(0xff4E5D78),
-                      size: 15,
-                    ),
-                    Spaces.box4,
-                    Text(
-                      'Like',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff4E5D78),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Text(
-                      'Comment',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff4E5D78),
-                      ),
-                    ),
-                    Spaces.box4,
-                    Icon(
-                      Icons.add_comment,
-                      color: Color(0xff4E5D78),
-                      size: 15,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Text('Share',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xff4E5D78),
-                        )),
-                    Spaces.box4,
-                    Icon(
-                      Icons.share_sharp,
-                      color: Color(0xff4E5D78),
-                      size: 15,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Spaces.box14,
-          const Divider(
-            indent: 12,
-            endIndent: 12,
-            height: 1,
-            thickness: 1,
-            color: Color(0xffD3DAE5),
-          ),
-          Spaces.box10,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: const Placeholder(
-                    fallbackHeight: 38,
-                    fallbackWidth: 38,
-                  ),
-                ),
-                Spaces.box8,
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xffF6F7F8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('John'),
-                            Text.rich(
-                              TextSpan(
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 10,
-                                ),
-                                children: [
-                                  TextSpan(
-                                      text:
-                                          'Các nguồn năng lượng tái tạo, chẳng hạn như....'),
-                                  TextSpan(
-                                    text: 'thêm',
-                                    style: TextStyle(
-                                      color: Color(0xff7A8599),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+        );
+      }
+    });
+  }
+
+  Future<void> postReactFeed() async {
+    final HomeController h = Get.find();
+    if (feedData.reactList.userLike
+        .where((element) => element.userId == h.userInfo.value?.userInfo.id)
+        .isEmpty) {
+      feedData.update((val) {
+        val?.reactList.userLike.add(UserLike(
+            action: FEED_REACT.LIKE,
+            feedId: feedData.id,
+            userId: h.userInfo.value?.userInfo.id ?? -1));
+      });
+      feedData.update((val) {
+        val?.likeCount++;
+      });
+      await CommunityProvider().postReactFeed(feedData.id, FEED_REACT.LIKE);
+    } else {
+      feedData.update((val) {
+        val?.reactList.userLike.removeWhere(
+            (element) => element.userId == h.userInfo.value?.userInfo.id);
+      });
+      feedData.update((val) {
+        val?.likeCount--;
+      });
+      await CommunityProvider().postReactFeed(feedData.id, FEED_REACT.DISLIKE);
+    }
   }
 }
