@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/utils/app_logger.dart';
 
 import '/base/app_config/app_config.dart';
 import '/base/base.dart';
@@ -30,7 +29,7 @@ class CommunityProvider extends BaseNetWork {
     }
   }
 
-  Future<dynamic> postReactFeed(num feedId, FEED_REACT action) async {
+  Future<bool> postReactFeed(num feedId, FEED_REACT action) async {
     final params = {'feedId': feedId, 'action': action.name};
 
     final ApiRequest req = ApiRequest(
@@ -42,14 +41,10 @@ class CommunityProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-      return res;
-    } else {
-      return [];
-    }
+    return res.success;
   }
 
-  Future<dynamic> deleteFeed(num feedId) async {
+  Future<bool> deleteFeed(num feedId) async {
     final params = {'feedId': feedId.toString()};
     final ApiRequest req = ApiRequest(
       path: ApiPath.feed,
@@ -60,12 +55,7 @@ class CommunityProvider extends BaseNetWork {
 
     final res = await sendRequest(req);
 
-    if (res.success) {
-      logD(res);
-      return res;
-    } else {
-      return [];
-    }
+    return res.success;
   }
 
   Future<RxFeedData?> createFeed({

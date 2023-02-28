@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 
 import '../../../providers/community_provider/models/feed_data.dart';
 import '../../../widgets/avatar/avatar.dart';
+import '../../../widgets/custom_drop_down/custom_drop_down.dart';
 import '../../../widgets/show_text_more/show_text_more.dart';
-import '../community/custom_drop_down/custom_drop_down.dart';
 
 class FeedDetail extends StatelessWidget {
   const FeedDetail({super.key});
@@ -31,6 +31,7 @@ class FeedDetail extends StatelessWidget {
                           child: FeedContainer(
                         feedData: c.arguments!.feedData,
                         onDeletedPost: c.arguments?.onDeletedPost,
+                        userId: c.arguments!.userId,
                       )),
                     Obx(() => c.arguments?.feedData != null
                         ? SliverList(
@@ -141,6 +142,10 @@ class FeedDetail extends StatelessWidget {
                                                                               8.0),
                                                                       child:
                                                                           Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
                                                                         children: [
                                                                           if (h.userInfo.value?.userInfo.id != c.arguments!.feedData.userInfo.id &&
                                                                               i ==
@@ -182,7 +187,8 @@ class FeedDetail extends StatelessWidget {
                               },
                             ),
                           )
-                        : const SliverToBoxAdapter())
+                        : const SliverToBoxAdapter()),
+                    const SliverToBoxAdapter(child: Spaces.box42)
                   ],
                 ),
               ),
@@ -207,7 +213,7 @@ class FeedDetail extends StatelessWidget {
                           maxLines: null,
                           inputFormatters: const [],
                           decoration: InputDecoration(
-                            hintText: 'Viết bình luận...',
+                            hintText: '  Viết bình luận...',
                             fillColor: Colors.white,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20)),

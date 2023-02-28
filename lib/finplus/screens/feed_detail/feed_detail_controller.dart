@@ -7,10 +7,11 @@ import 'package:flutter/cupertino.dart';
 import '../home/home_controller.dart';
 
 class FeedDetailArgument {
+  final num userId;
   final RxFeedData feedData;
   final void Function() postReactFeed;
   final VoidCallback? onDeletedPost;
-  FeedDetailArgument(this.feedData, this.postReactFeed, this.onDeletedPost);
+  FeedDetailArgument(this.feedData, this.postReactFeed, this.onDeletedPost, this.userId);
 }
 
 class FeedDetailController extends GetxController

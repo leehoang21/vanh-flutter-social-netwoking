@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/community/custom_drop_down/custom_drop_down.dart';
 import 'package:finplus/finplus/screens/feed_detail/feed_detail_controller.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:finplus/providers/community_provider/models/feed_data.dart';
 import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
+import 'package:finplus/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:finplus/widgets/dialog/notification_dialog.dart';
 import 'package:finplus/widgets/show_text_more/show_text_more.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +14,17 @@ import 'package:flutter/material.dart';
 import '../../../../providers/community_provider/community_provider.dart';
 
 class FeedContainer extends StatelessWidget {
+  final num userId;
   final RxFeedData feedData;
   final VoidCallback? onDeletedPost;
 
-  const FeedContainer({super.key, required this.feedData, this.onDeletedPost});
+  const FeedContainer(
+      {super.key,
+      required this.feedData,
+      this.onDeletedPost,
+      required this.userId});
   @override
   Widget build(BuildContext context) {
-    final HomeController h = Get.find();
     final theme = context.t;
     return Obx(() {
       {
@@ -30,7 +34,7 @@ class FeedContainer extends StatelessWidget {
             onTap: () {
               Get.toNamed(Routes.feed_detail,
                   arguments: FeedDetailArgument(
-                      feedData, postReactFeed, onDeletedPost));
+                      feedData, postReactFeed, onDeletedPost, userId));
             },
             child: Container(
               padding: Spaces.a10,
@@ -75,9 +79,7 @@ class FeedContainer extends StatelessWidget {
                         ),
                         CustomDropdown<String>(
                             onTapItem: (p0, i) {
-                              if (h.userInfo.value?.userInfo.id !=
-                                      feedData.userInfo.id &&
-                                  i == 0) {
+                              if (userId != feedData.userInfo.id && i == 0) {
                               } else if (i == 0) {
                               } else if (i == 1) {
                                 Get.dialog(NotificationDialog(
@@ -95,9 +97,11 @@ class FeedContainer extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
-                                        if (h.userInfo.value?.userInfo.id !=
-                                                feedData.userInfo.id &&
+                                        if (userId != feedData.userInfo.id &&
                                             i == 0)
                                           const Icon(Icons.report)
                                         else if (i == 0)
@@ -113,8 +117,7 @@ class FeedContainer extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                            items: h.userInfo.value?.userInfo.id !=
-                                    feedData.userInfo.id
+                            items: userId != feedData.userInfo.id
                                 ? ['Báo cáo bài viết']
                                 : [
                                     'Chỉnh sửa bài viết',
@@ -281,8 +284,7 @@ class FeedContainer extends StatelessWidget {
                                   Icons.heart_broken,
                                   color: feedData.reactList.userLike
                                           .where((element) =>
-                                              element.userId ==
-                                              h.userInfo.value?.userInfo.id)
+                                              element.userId == userId)
                                           .isNotEmpty
                                       ? Colors.red
                                       : const Color(0xff4E5D78),

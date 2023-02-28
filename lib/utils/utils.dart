@@ -82,11 +82,10 @@ class Utils {
   }
 
   static KeyboardActionsConfig buildKeyBoardConfig(
-    BuildContext context,
-    FocusNode focusNode,
-    void Function(List<String> images) pickImage,
-    void Function() onTapDone
-  ) {
+      BuildContext context,
+      FocusNode focusNode,
+      void Function(List<String> images) pickImage,
+      void Function() onTapDone) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       keyboardBarColor: Colors.grey[200],

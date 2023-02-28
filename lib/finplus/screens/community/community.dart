@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 
 import 'new_feed/feed_container.dart';
 
-class Community extends StatelessWidget {
-  const Community({super.key});
+class Community extends StatelessWidget with HomeControllerMinxin {
+  Community({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class Community extends StatelessWidget {
               child: Text(
                 'Chat room',
                 style: TextDefine.P1_B.copyWith(
-                  color: theme.primary_01,
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                   fontStyle: FontStyle.italic,
                 ),
@@ -39,7 +39,7 @@ class Community extends StatelessWidget {
               child: Text(
                 'Đăng xuất',
                 style: TextDefine.P1_B.copyWith(
-                  color: theme.primary_01,
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                   fontStyle: FontStyle.italic,
                 ),
@@ -62,12 +62,12 @@ class Community extends StatelessWidget {
                       child: Container(
                         padding: Spaces.h12v16,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFFFFF),
+                          color: Colors.white,
                           boxShadow: [
                             BoxShadow(
                                 offset: const Offset(0, 1),
                                 blurRadius: 5,
-                                color: theme.secondary_03)
+                                color: theme.secondary_01.withOpacity(0.5))
                           ],
                           borderRadius: Decorate.r24,
                         ),
@@ -129,6 +129,7 @@ class Community extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   childCount: c.feedDataList.value.length,
                   (context, index) => FeedContainer(
+                    userId: userInfo?.userInfo.id ?? -1,
                     feedData: c.feedDataList.value[index],
                     onDeletedPost: () =>
                         c.deletePost(c.feedDataList.value[index].id),
