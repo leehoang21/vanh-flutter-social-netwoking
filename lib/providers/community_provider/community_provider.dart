@@ -7,7 +7,7 @@ import '../api_path.dart';
 import 'models/feed_data.dart';
 
 class CommunityProvider extends BaseNetWork {
-  Future<List<RxFeedData>> getFeed({int groupId = 2}) async {
+  Future<List<RxFeedData>> getFeed(int? groupId) async {
     final params = {
       'fetchCount': AppConfig.info.fetchCount.toString(),
       'groupId': groupId.toString()

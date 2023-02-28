@@ -10,6 +10,9 @@ class CommunityController extends GetxController with HomeControllerMinxin {
   late final RefreshController refreshController;
 
   late final Rx<List<RxFeedData>> feedDataList;
+
+  late final int groupId;
+
   @override
   void onInit() {
     _communityProvider = CommunityProvider();
@@ -17,6 +20,8 @@ class CommunityController extends GetxController with HomeControllerMinxin {
     refreshController = RefreshController();
 
     feedDataList = Rx<List<RxFeedData>>([]);
+
+    groupId = 2;
     super.onInit();
   }
 
@@ -27,7 +32,7 @@ class CommunityController extends GetxController with HomeControllerMinxin {
   }
 
   Future<void> getFeed() async {
-    feedDataList.value = await _communityProvider.getFeed();
+    feedDataList.value = await _communityProvider.getFeed(groupId);
   }
 
   void creatFeed(RxFeedData feedData) {
