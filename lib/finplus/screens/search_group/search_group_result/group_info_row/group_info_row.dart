@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:commons/commons.dart';
+import 'package:finplus/finplus/screens/group/group.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,9 @@ class GroupInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.to(() => Group());
+      },
       child: Container(
         height: 120,
         margin: Spaces.h10v6,

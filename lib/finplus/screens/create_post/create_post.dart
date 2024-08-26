@@ -1,34 +1,35 @@
-import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/create_post/create_post_controller.dart';
-import 'package:finplus/finplus/screens/home/home_controller.dart';
-import 'package:finplus/finplus/screens/images_view/images_view.dart';
-import 'package:finplus/widgets/avatar/avatar.dart';
+import 'package:finplus/models/post_model.dart';
+import 'package:finplus/services/database.dart';
 import 'package:flutter/material.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
-import '../../../routes/finplus_routes.dart';
+import '../../../services/auth_service.dart';
 import '../../../utils/styles.dart';
 import '../../../utils/svg.dart';
-import '../../../utils/utils.dart';
+import '../../../widgets/avatar/avatar.dart';
 
 class CreatePost extends StatelessWidget {
-  const CreatePost({super.key});
+  const CreatePost({super.key, this.inHome = true});
+  final bool inHome;
 
   @override
   Widget build(BuildContext context) {
-    final HomeController h = Get.find();
-    final theme = context.t;
     return GetBuilder<CreatePostController>(
       init: CreatePostController(),
       builder: (controller) {
+        final theme = context.t;
+        final AuthService _auth = AuthService();
         return Scaffold(
           extendBody: true,
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                   child: Row(
@@ -46,12 +47,43 @@ class CreatePost extends StatelessWidget {
                       Text('Create a post',
                           style: TextDefine.T1_M
                               .copyWith(color: theme.primary_01)),
-                      SizedBox(
-                        width: 48,
-                        child: Obx(
-                          () {
-                            return TextButton(
-                              onPressed: controller.createFeed,
+                      Obx(
+                        () {
+                          return InkWell(
+                            onTap: () async {
+                              if (inHome) {
+                                await DatabaseService(uid: _auth.user!.uid)
+                                    .post(
+                                  PostModel(
+                                    name: controller.name.value,
+                                    uid: _auth.user!.uid,
+                                    content: controller.content.value.text,
+                                    time: DateTime.now().toString(),
+                                  ),
+                                );
+                                Get.back();
+                              } else {
+                                await DatabaseService(uid: _auth.user!.uid)
+                                    .postInGroup(
+                                  PostModel(
+                                    name: controller.name.value,
+                                    uid: _auth.user!.uid,
+                                    content: controller.content.value.text,
+                                    time: DateTime.now().toString(),
+                                  ),
+                                );
+                                Get.back();
+                              }
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 50,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: controller.enablePost.value
+                                    ? const Color(0xFF17AB37)
+                                    : Colors.grey.withOpacity(0.5),
+                              ),
                               child: const Text(
                                 'Post',
                                 style: TextStyle(
@@ -60,14 +92,9 @@ class CreatePost extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: controller.enablePost.value
-                                    ? const Color(0xFF17AB37)
-                                    : Colors.grey.withOpacity(0.5),
-                              ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -91,20 +118,34 @@ class CreatePost extends StatelessWidget {
                                   horizontal: 10,
                                   vertical: 4,
                                 ),
-                                child: Avatar(
-                                    value: h.userInfo.value?.userInfo.avatar ??
-                                        ''),
+                                child: const Avatar(value: ''),
                               ),
                               Spaces.box10,
-                              Obx(
-                                () => Text(
-                                  h.userInfo.value?.userInfo.displayName ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              SizedBox(
+                                height: 30,
+                                width: 100,
+                                child: StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('user')
+                                      .where('uid', isEqualTo: _auth.user!.uid)
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (snapshot.data.docs[0]['name'] != '')
+                                        controller.name.value =
+                                            snapshot.data.docs[0]['name'];
+                                    }
+                                    return Text(
+                                      controller.name.value,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -113,97 +154,21 @@ class CreatePost extends StatelessWidget {
                             horizontal: 20,
                             vertical: 10,
                           ),
-                          child: KeyboardActions(
-                            disableScroll: true,
-                            config: Utils.buildKeyBoardConfig(
-                                context,
-                                controller.focusNode,
-                                (images) {},
-                                controller.createFeed),
-                            child: TextField(
-                              controller: controller.content,
-                              scrollPhysics:
-                                  const NeverScrollableScrollPhysics(),
-                              keyboardType: TextInputType.text,
-                              focusNode: controller.focusNode,
-                              maxLines: null,
-                              maxLength: 2000,
-                              inputFormatters: const [],
-                              decoration: const InputDecoration(
-                                hintText: 'Bạn đang nghĩ gì?',
-                                fillColor: Colors.white,
-                                border: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                              ),
+                          child: TextField(
+                            controller: controller.content,
+                            scrollPhysics: const NeverScrollableScrollPhysics(),
+                            keyboardType: TextInputType.text,
+                            focusNode: controller.focusNode,
+                            maxLines: null,
+                            maxLength: 2000,
+                            inputFormatters: const [],
+                            decoration: const InputDecoration(
+                              hintText: 'Bạn đang nghĩ gì?',
+                              fillColor: Colors.white,
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: Spaces.h16v12,
-                          child: Obx(
-                            () {
-                              if (controller.images.value.isEmpty) {
-                                return const SizedBox();
-                              }
-                              int length = controller.images.value.length;
-                              if (length > 4) {
-                                length = 4;
-                              }
-                              final int remaining =
-                                  controller.images.value.length - 4;
-                              final images =
-                                  controller.images.value.getRange(0, length);
-
-                              return Wrap(
-                                runSpacing: 10,
-                                spacing: 10,
-                                alignment: WrapAlignment.start,
-                                children: images
-                                    .mapIndexed(
-                                      (index, e) => InkWell(
-                                        onTap: () {
-                                          Get.toNamed(
-                                            Routes.images_view,
-                                            arguments: ImageViewArgument(
-                                              images: controller.images.value,
-                                              index: index,
-                                              imageType: IMAGE_TYPE.PATH,
-                                            ),
-                                          );
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            Image.file(
-                                              File(e),
-                                              width: Get.width / 2 - 21,
-                                              height: Get.width / 2 - 21,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            if (index == 3 && remaining > 0)
-                                              Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.black38,
-                                                ),
-                                                alignment: Alignment.center,
-                                                width: Get.width / 2 - 21,
-                                                height: Get.width / 2 - 21,
-                                                child: Text(
-                                                  '+${remaining.toString()}',
-                                                  style: const TextStyle(
-                                                    fontSize: 24,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              );
-                            },
                           ),
                         ),
                         Spaces.box42,

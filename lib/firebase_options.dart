@@ -23,7 +23,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        return android;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -47,31 +47,27 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC6v9ShRHxs3kfYAmwJQghw15BAm8ZMDRQ',
-    appId: '1:221459330613:web:d806d72159a6d19b2ca37c',
-    messagingSenderId: '221459330613',
-    projectId: 'ftl-finplus',
-    authDomain: 'ftl-finplus.firebaseapp.com',
-    storageBucket: 'ftl-finplus.appspot.com',
-    measurementId: 'G-3WELD8TZ1W',
-  );
+      apiKey: 'AIzaSyDMD3W_xU8bfoOcgl1ChzTA1sCT_mQnI9g',
+      authDomain: 'findata-8b973.firebaseapp.com',
+      projectId: 'findata-8b973',
+      storageBucket: 'findata-8b973.appspot.com',
+      messagingSenderId: '94960442791',
+      appId: '1:94960442791:web:410e7ea2f4bd9edf002a82',
+      measurementId: 'G-VRF3QDH78Y');
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCKOEokFv5w507q2XKiQr9BY77e9_pHdYw',
-    appId: '1:221459330613:android:f4fc6badba466a872ca37c',
-    messagingSenderId: '221459330613',
-    projectId: 'ftl-finplus',
-    storageBucket: 'ftl-finplus.appspot.com',
+    apiKey: 'AIzaSyDMD3W_xU8bfoOcgl1ChzTA1sCT_mQnI9g',
+    appId: '1:94960442791:web:410e7ea2f4bd9edf002a82',
+    messagingSenderId: '94960442791',
+    projectId: 'findata-8b973',
+    storageBucket: 'findata-8b973.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDwmJ2jGNWh_mCrZwqLQUUIXdbsIE4hkSU',
-    appId: '1:221459330613:ios:3e766b08dc7dea822ca37c',
-    messagingSenderId: '221459330613',
-    projectId: 'ftl-finplus',
-    storageBucket: 'ftl-finplus.appspot.com',
-    iosClientId:
-        '221459330613-ii04oria5usm339drlpq1kgb072el490.apps.googleusercontent.com',
-    iosBundleId: 'com.ftl.finplus',
+    apiKey: 'AIzaSyDMD3W_xU8bfoOcgl1ChzTA1sCT_mQnI9g',
+    appId: '1:94960442791:ios:571c6d4f07ff2993002a82',
+    messagingSenderId: '94960442791',
+    projectId: 'findata-8b973',
+    storageBucket: 'findata-8b973.appspot.com',
   );
 }

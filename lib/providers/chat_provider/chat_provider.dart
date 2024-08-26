@@ -1,11 +1,8 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/providers/chat_provider/chat_storage.dart';
 import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
 import 'package:finplus/utils/svg.dart';
-import 'package:finplus/utils/types.dart';
-import 'package:finplus/utils/user_storage.dart';
 
 import '../../base/base.dart';
 import '../api_path.dart';
@@ -13,10 +10,6 @@ import 'models/chat_room_info.dart';
 
 // ignore: camel_case_types
 enum ROOM_TYPE {
-  DIRECT(
-      icon: SvgIcon.private_icon,
-      title: 'Chat với bạn bè',
-      desc: 'Người dùng có thể thay đổi thông tin'),
   GROUP_PRIVATE(
       icon: SvgIcon.private_icon,
       title: 'Nhóm riêng tư',
@@ -48,7 +41,6 @@ class ChatProvider extends BaseNetWork {
     final res = await sendRequest(req, decoder: ChatRoomInfo.fromJson);
 
     if (res.success) {
-      UserStorage.putList(KEY.CHAT_ROOM, res.items);
       return res.items.map((e) => RxChatRoomInfo(e)).toList();
     } else {
       return [];
@@ -69,20 +61,9 @@ class ChatProvider extends BaseNetWork {
       body: params,
     );
 
+    // ignore: unused_local_variable
     final res = await sendRequest(req, decoder: ChatRoomInfo.fromJson);
-
-    if (res.success) {
-      final infoRoom = res.body;
-      final chatRoom = UserStorage.getList(KEY.CHAT_ROOM, ChatRoomInfo.fromJson)
-              ?.map((e) => e)
-              .toList() ??
-          [];
-      chatRoom.add(infoRoom);
-      UserStorage.putList(KEY.CHAT_ROOM, chatRoom);
-      return RxChatRoomInfo(infoRoom);
-    } else {
-      return null;
-    }
+    return null;
   }
 
   Future<bool> updateRoom(
@@ -205,28 +186,10 @@ class ChatProvider extends BaseNetWork {
     final res = await sendRequest(req, decoder: ChatMessageData.fromJson);
 
     if (res.success) {
-      final List<RxChatMessageData> newMsg = [];
-      final msgList = ChatStorage.getMessage(roomId: roomId);
-
-      res.items.forEach((element) {
-        final mes = msgList.firstWhereOrNull((e) => e.id == element.id);
-
-        if (mes != null) {
-          mes.copy(element);
-        } else {
-          msgList.add(element);
-          newMsg.add(RxChatMessageData(element));
-        }
-      });
-
-      msgList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-
-      ChatStorage.saveMessage(roomId: roomId, value: msgList);
-
-      return newMsg;
     } else {
       return null;
     }
+    return null;
   }
 
   Future<void> sendMessage(
@@ -260,8 +223,6 @@ class ChatProvider extends BaseNetWork {
     final res = await sendRequest(req, decoder: UserInfo.fromJson);
 
     if (res.success) {
-      ChatStorage.saveRoomUsers(roomId: roomId, value: res.items);
-
       return res.items;
     } else {
       return [];

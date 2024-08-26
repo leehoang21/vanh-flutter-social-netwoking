@@ -48,3 +48,6 @@ app.*.map.json
 #.vscode
 .vscode/
 .vscode/settings.json
+
+# FVM Version Cache
+.fvm/

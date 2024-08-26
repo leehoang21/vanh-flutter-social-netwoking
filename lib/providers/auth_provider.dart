@@ -1,12 +1,6 @@
-import 'package:commons/commons.dart';
-import 'package:commons/os_info/os_info.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
 import '/base/base.dart';
 import '/models/login_info_data.dart';
 import '/providers/api_path.dart';
-import '/utils/types.dart';
-import '../utils/app_logger.dart';
 
 enum LoginType {
   facebook,
@@ -22,19 +16,17 @@ class AuthProvider extends BaseNetWork {
     String? password,
   }) async {
     final Map<String, dynamic> params = {
-      'clientId': 'ftl',
-      'clientSecret': 'ftl',
-      'deviceUUID': OsInfo.uuid,
-      'platform': 'MOBILE',
-      'grantType': type.name,
+      'clientId': 'complex01',
+      'clientSecret': 'complex01',
+      'username': '0378060781',
+      'password': '12345678',
+      'deviceUUID': 'xxxx123',
+      'platform': 'WEB',
     };
 
     final ApiResponse<LoginInfoData?>? res;
 
     switch (type) {
-      case LoginType.facebook:
-        res = await _fbLogin(params);
-        break;
       case LoginType.admin:
         res = await _userLogin(params, username, password);
         break;
@@ -45,40 +37,11 @@ class AuthProvider extends BaseNetWork {
 
     if (res != null) {
       if (res.success) {
-        Storage.put(KEY.USER_INFO, res.body);
         return res.body;
       } else {
-        res.showNotification();
         return null;
       }
     } else {
-      return null;
-    }
-  }
-
-  Future<ApiResponse<LoginInfoData?>?> _fbLogin(
-      Map<String, dynamic> params) async {
-    final fbRes = await FacebookAuth.instance.login();
-
-    if (fbRes.status == LoginStatus.success) {
-      final ApiRequest req = ApiRequest(
-        path: ApiPath.login,
-        method: METHOD.POST,
-        auth: false,
-        body: {
-          ...params,
-          'accessToken': fbRes.accessToken?.token,
-        }.json,
-      );
-
-      final res = await sendRequest(
-        req,
-        decoder: LoginInfoData.fromJson,
-      );
-
-      return res;
-    } else {
-      logW(fbRes.status);
       return null;
     }
   }
@@ -92,7 +55,7 @@ class AuthProvider extends BaseNetWork {
       path: ApiPath.login,
       method: METHOD.POST,
       auth: false,
-      body: {...params, 'username': username, 'password': password},
+      body: {...params, 'username': '0378060781', 'password': '12345678'},
     );
 
     final res = sendRequest(

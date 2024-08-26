@@ -31,6 +31,7 @@ class Spaces {
   static const EdgeInsets a8 = EdgeInsets.all(8);
   static const EdgeInsets a10 = EdgeInsets.all(10);
   static const EdgeInsets a16 = EdgeInsets.all(16);
+  static const EdgeInsets a20 = EdgeInsets.all(20);
 
   static const EdgeInsets h4 = EdgeInsets.symmetric(horizontal: 4);
   static const EdgeInsets h8 = EdgeInsets.symmetric(horizontal: 8);
@@ -42,6 +43,7 @@ class Spaces {
   static const EdgeInsets v10 = EdgeInsets.symmetric(vertical: 10);
   static const EdgeInsets v12 = EdgeInsets.symmetric(vertical: 12);
   static const EdgeInsets v16 = EdgeInsets.symmetric(vertical: 16);
+  static const EdgeInsets v30 = EdgeInsets.symmetric(vertical: 30);
 
   static const EdgeInsets h5v10 =
       EdgeInsets.symmetric(vertical: 10, horizontal: 5);
@@ -57,6 +59,11 @@ class Spaces {
       EdgeInsets.symmetric(vertical: 16, horizontal: 12);
   static const EdgeInsets h20v12 =
       EdgeInsets.symmetric(vertical: 12, horizontal: 20);
+  static const EdgeInsets h24v8 =
+      EdgeInsets.symmetric(vertical: 8, horizontal: 24);
+  static const EdgeInsets h20v6 =
+      EdgeInsets.symmetric(vertical: 6, horizontal: 20);
+
   static const EdgeInsetsGeometry h16v20 =
       EdgeInsets.symmetric(vertical: 20, horizontal: 16);
   static const EdgeInsetsGeometry h16v25 =
@@ -64,6 +71,7 @@ class Spaces {
   static const EdgeInsetsGeometry h10v11 =
       EdgeInsets.symmetric(horizontal: 10, vertical: 11);
 
+  static const EdgeInsets t8 = EdgeInsets.only(top: 8);
   static const EdgeInsets t10 = EdgeInsets.only(top: 10);
   static const EdgeInsets h4v6 =
       EdgeInsets.symmetric(vertical: 4, horizontal: 6);
@@ -150,7 +158,8 @@ class TextDefine {
       TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
 
   /// fontSize: 12
-  static const TextStyle P3_R = TextStyle(fontSize: 12);
+  static const TextStyle P3_R =
+      TextStyle(fontSize: 12, fontWeight: FontWeight.w400);
 
   /// fontSize: 12 fontWeight: FontWeight.w500
   static const TextStyle P3_M =

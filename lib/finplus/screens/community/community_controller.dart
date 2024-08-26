@@ -1,60 +1,76 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
-import 'package:finplus/providers/community_provider/community_provider.dart';
-import 'package:finplus/providers/community_provider/models/feed_data.dart';
+import 'package:finplus/models/post_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CommunityController extends GetxController with HomeControllerMinxin {
-  late final CommunityProvider _communityProvider;
-
   late final RefreshController refreshController;
-
-  late final Rx<List<RxFeedData>> feedDataList;
 
   late final int groupId;
 
+  late final TextEditingController name;
+
+  late final TextEditingController age;
+
+  late Stream<QuerySnapshot<Map<String, dynamic>>> snapshots;
+
+  final database = FirebaseFirestore.instance;
+
+  late final Rx<List<PostModel>> listPost;
+
   @override
   void onInit() {
-    _communityProvider = CommunityProvider();
-
     refreshController = RefreshController();
 
-    feedDataList = Rx<List<RxFeedData>>([]);
+    name = TextEditingController(text: 'Hieu');
 
-    groupId = 2;
+    age = TextEditingController(text: '22');
+
+    listPost = Rx([]);
+
+    getFeed();
+
     super.onInit();
   }
 
-  @override
-  void onReady() {
+  Future getFeed() async {
+    await FirebaseFirestore.instance.collection('post').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (element) {
+              listPost.update(
+                (val) {
+                  val!.add(
+                    PostModel(
+                      name: element['name'],
+                      uid: element['uid'],
+                      content: element['content'],
+                      time: element['time'],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+  }
+
+  
+
+  void onRefresh() {
+    listPost.value = [];
+
     getFeed();
-    super.onReady();
-  }
-
-  Future<void> getFeed() async {
-    feedDataList.value = await _communityProvider.getFeed(groupId);
-  }
-
-  void creatFeed(RxFeedData feedData) {
-    feedDataList.update((val) {
-      val?.insert(0, feedData);
-    });
-  }
-
-  Future<void> deletePost(num id) async {
-    feedDataList.update((val) {
-      val?.removeWhere((element) {
-        return element.id == id;
-      });
-    });
-    Get.back(closeOverlays: true, canPop: true);
-
-    await _communityProvider.deleteFeed(id);
   }
 
   @override
   void onClose() {
     refreshController.dispose();
+
+    name.dispose();
+
+    age.dispose();
     super.onClose();
   }
 }

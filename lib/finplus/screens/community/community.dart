@@ -1,14 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/community/community_controller.dart';
-import 'package:finplus/finplus/screens/community/popular_group/popular_group.dart';
+import 'package:finplus/finplus/screens/community/new_feed/feed_view_container.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:finplus/routes/finplus_routes.dart';
+import 'package:finplus/services/auth_service.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/button/button.dart';
 import 'package:flutter/material.dart';
-
-import 'new_feed/feed_container.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Community extends StatelessWidget with HomeControllerMinxin {
   Community({super.key});
@@ -16,7 +17,10 @@ class Community extends StatelessWidget with HomeControllerMinxin {
   @override
   Widget build(BuildContext context) {
     final theme = context.t;
-    final HomeController h = Get.find();
+    final AuthService _auth = AuthService();
+    final List<String> listCredentials = [];
+    const storage = FlutterSecureStorage();
+
     return GetBuilder<CommunityController>(builder: (c) {
       return Scaffold(
         floatingActionButton: Column(
@@ -35,7 +39,10 @@ class Community extends StatelessWidget with HomeControllerMinxin {
             ),
             Spaces.boxH16,
             Button(
-              onPressed: () => Get.offAndToNamed(Routes.login),
+              onPressed: () {
+                _auth.signOut();
+                Get.offAndToNamed(Routes.login);
+              },
               child: Text(
                 'Đăng xuất',
                 style: TextDefine.P1_B.copyWith(
@@ -56,9 +63,10 @@ class Community extends StatelessWidget with HomeControllerMinxin {
               sliver: SliverToBoxAdapter(
                 child: Row(
                   children: [
-                    Avatar(value: h.userInfo.value?.userInfo.avatar ?? ''),
+                    const Avatar(value: ''),
                     Spaces.boxW10,
-                    Expanded(
+                    InkWell(
+                      onTap: () => Get.toNamed(Routes.create_post),
                       child: Container(
                         padding: Spaces.h12v16,
                         decoration: BoxDecoration(
@@ -71,14 +79,10 @@ class Community extends StatelessWidget with HomeControllerMinxin {
                           ],
                           borderRadius: Decorate.r24,
                         ),
-                        child: InkWell(
-                          onTap: () => Get.toNamed(Routes.create_post)
-                              ?.then((value) => c.creatFeed(value)),
-                          child: Text(
-                            'Bạn đang nghĩ gì?',
-                            style: TextDefine.P2_R
-                                .copyWith(color: theme.primary_01),
-                          ),
+                        child: Text(
+                          'Bạn đang nghĩ gì?',
+                          style:
+                              TextDefine.P2_R.copyWith(color: theme.primary_01),
                         ),
                       ),
                     ),
@@ -89,54 +93,160 @@ class Community extends StatelessWidget with HomeControllerMinxin {
             SliverPadding(
               padding: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
               sliver: SliverToBoxAdapter(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    Text(
-                      'Nhóm phổ biến',
-                      style: TextDefine.T1_M.copyWith(
-                          color: theme.primary_02, fontWeight: FontWeight.w700),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            await FirebaseFirestore.instance
+                                .collection('credentials')
+                                .get()
+                                .then(
+                                  (snapshot) => snapshot.docs.forEach(
+                                    (element) {
+                                      // ignore: iterable_contains_unrelated_type
+                                      if (!listCredentials.contains(element))
+                                        listCredentials.add(
+                                          element['credential'],
+                                        );
+                                    },
+                                  ),
+                                );
+                            print(listCredentials);
+                          },
+                          child: Text(
+                            'Nhóm phổ biến',
+                            style: TextDefine.T1_M.copyWith(
+                                color: theme.primary_02,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                          ),
+                          onPressed: () => Get.toNamed(Routes.search_group),
+                          child: Text(
+                            'Xem tất cả',
+                            style: TextDefine.P3_R
+                                .copyWith(color: theme.primary_04),
+                          ),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                      ),
-                      onPressed: () => Get.toNamed(Routes.search_group),
-                      child: Text(
-                        'Xem tất cả',
-                        style:
-                            TextDefine.P3_R.copyWith(color: theme.primary_04),
-                      ),
-                    ),
+//                     Padding(
+//                       padding: Spaces.h16,
+//                       child: Button(
+//                         type: ButtonType.gradient,
+//                         onPressed: () async {
+// //This returns a SigningResult
+//                           final SigningResult result =
+//                               await fido2.signChallenge(
+//                             challenge:
+//                                 '3820435cf5f79ca903a426a6e4497556fd387194c8af563627e893eb3614ad7c7b05f9e21ffa1e58b0544613cc974c5def3fbeb98d6fae60deb6f5d975744c10', // comes from your server
+//                             allowCredentials:
+//                                 listCredentials, //saved credentials for the user from your server
+//                             userId:
+//                                 '30', //the identifier for your user used during registration
+//                             rpDomain:
+//                                 'http://fido.local', // the domain name of your server (Relying Party)
+//                             options: const AuthenticationOptions(
+//                               useErrorDialogs:
+//                                   true, // use error dialogs that are inbuilt
+//                               biometricOnly:
+//                                   true, //use only in-built biometric authenticator
+//                             ),
+//                           );
+// //you can access and send this information on to your server for verification of the signed challenge.
+//                           print(result.credentialId);
+//                           print(result.signedChallenge);
+//                           print(result.userId);
+//                         },
+//                         child: const Text('Login fido'),
+//                       ),
+//                     ),
+                    // Padding(
+                    //   padding: Spaces.h16,
+                    //   child: Button(
+                    //     type: ButtonType.gradient,
+                    //     onPressed: () async {
+                    //       await FirebaseFirestore.instance
+                    //           .collection('credentials')
+                    //           .get();
+                    //       final RegistrationResult resultFido =
+                    //           await fido2.register(
+                    //         challenge: 'Hieu2',
+                    //         rpDomain: 'http://fido.local',
+                    //         userId: '30',
+                    //       );
+                    //       print(resultFido.credentialId.toString());
+
+                    //       print(resultFido.signedChallenge.toString());
+
+                    //       print(resultFido.publicKey.toString());
+                    //     },
+                    //     child: const Text('Đăng ký'),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
             ),
-            const PopularGroup(),
             SliverPadding(
               padding: const EdgeInsets.only(
                   left: 12, right: 12, bottom: 10, top: 22),
               sliver: SliverToBoxAdapter(
-                child: Text(
-                  'News Feed',
-                  style: TextDefine.T1_M.copyWith(
-                      color: theme.primary_02, fontWeight: FontWeight.w700),
+                child: InkWell(
+                  onTap: c.onRefresh,
+                  child: Text(
+                    'Refresh',
+                    style: TextDefine.T1_M.copyWith(
+                        color: theme.primary_02, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, bottom: 10, top: 22),
+              sliver: SliverToBoxAdapter(
+                child: InkWell(
+                  onTap: () async {
+                    print('object');
+                    for (final String e in listCredentials) {
+                      final cre = await storage.read(key: e);
+                      print(cre);
+                    }
+                    print('object');
+                  },
+                  child: Text(
+                    'News Feed',
+                    style: TextDefine.T1_M.copyWith(
+                        color: theme.primary_02, fontWeight: FontWeight.w700),
+                  ),
                 ),
               ),
             ),
             Obx(
-              () => SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: c.feedDataList.value.length,
-                  (context, index) => FeedContainer(
-                    userId: userInfo?.userInfo.id ?? -1,
-                    feedData: c.feedDataList.value[index],
-                    onDeletedPost: () =>
-                        c.deletePost(c.feedDataList.value[index].id),
-                  ),
+              () => SliverToBoxAdapter(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: c.listPost.value.length,
+                  itemBuilder: (context, index) {
+                    final post = c.listPost.value[index];
+                    return FeedViewContainer(
+                      name: post.name,
+                      uid: post.uid,
+                      content: post.content,
+                      timestamp: post.time,
+                    );
+                  },
                 ),
               ),
-            )
+            ),
           ],
         ),
       );

@@ -7,8 +7,6 @@ import 'package:commons/commons.dart' hide Response;
 import 'package:dio/dio.dart';
 import 'package:finplus/base/app_config/app_config.dart';
 import 'package:finplus/base/network/app_connection.dart';
-import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/utils/types.dart';
 import 'package:finplus/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 
@@ -244,7 +242,6 @@ abstract class BaseNetWork {
           if (e.response != null) {
             if (e.response?.statusCode == 401) {
               handler.resolve(e.response!);
-              Storage.delete(KEY.USER_INFO);
             } else {
               int retryCount = 0;
 
@@ -284,12 +281,8 @@ abstract class BaseNetWork {
   }
 
   String? get _accessToken {
-    final LoginInfoData? user =
-        Storage.get(KEY.USER_INFO, LoginInfoData.fromJson);
-    if (user != null) {
-      return 'Bearer ${user.accessToken}';
-    } else {
-      return null;
+    if (true) {
+      return 'Bearer ';
     }
   }
 

@@ -11,7 +11,6 @@ import 'package:logger/logger.dart';
 
 export 'package:get/get.dart';
 export 'loading_overlay/loading_overlay.dart';
-export 'storage/storage.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:uuid/uuid.dart';
 export 'package:logger_flutter/logger_flutter.dart';

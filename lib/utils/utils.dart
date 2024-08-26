@@ -1,6 +1,4 @@
 import 'package:commons/commons.dart';
-import 'package:finplus/finplus/screens/webview/webview.dart';
-import 'package:finplus/routes/finplus_routes.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/utils/svg.dart';
 import 'package:finplus/widgets/dialog/notification_dialog.dart';
@@ -48,12 +46,6 @@ class Utils {
   static Future<void> launchUrl(String url) async {
     if (await canLaunchUrlString(url)) {
       if (url.startsWith('http') || url.startsWith('https')) {
-        Get.toNamed(
-          Routes.webview,
-          arguments: WebViewArgument(
-            url: url,
-          ),
-        );
       } else {
         await launchUrlString(url);
       }

@@ -28,6 +28,7 @@ class CustomSmartRefresher extends StatelessWidget {
       scrollDirection: scrollDirection,
       footer: CustomFooter(
         builder: (context, mode) {
+          
           Widget body;
           if (mode == LoadStatus.idle) {
             body = const Text('See more');

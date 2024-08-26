@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "221459330613",
-    "project_id": "ftl-finplus",
-    "storage_bucket": "ftl-finplus.appspot.com"
+    "project_number": "94960442791",
+    "project_id": "findata-8b973",
+    "storage_bucket": "findata-8b973.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:221459330613:android:f4fc6badba466a872ca37c",
+        "mobilesdk_app_id": "1:94960442791:android:feeb82d34ee80118002a82",
         "android_client_info": {
-          "package_name": "com.ftl.finplus"
+          "package_name": "con.hieupham.finplus"
         }
       },
       "oauth_client": [
         {
-          "client_id": "221459330613-7t6klg2r90gdau4lltk3t0613utrtbqb.apps.googleusercontent.com",
+          "client_id": "94960442791-73ave1l9su3koa39l4rf2o28uj16mpfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "con.hieupham.finplus",
+            "certificate_hash": "0e64e915b2b617de29256b53eb0635a3c7a2b285"
+          }
+        },
+        {
+          "client_id": "94960442791-p5svpi9d9vj0nt2hf9ihfff1prjbo32c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKOEokFv5w507q2XKiQr9BY77e9_pHdYw"
+          "current_key": "AIzaSyCVSS3mZ0Z1AIdJdb0bMurGkoW1vkiHkdE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "221459330613-7t6klg2r90gdau4lltk3t0613utrtbqb.apps.googleusercontent.com",
+              "client_id": "94960442791-p5svpi9d9vj0nt2hf9ihfff1prjbo32c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

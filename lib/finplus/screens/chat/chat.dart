@@ -1,10 +1,6 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/chat/chat_controller.dart';
-import 'package:finplus/finplus/screens/chat/guest_box/guest_box.dart';
-import 'package:finplus/finplus/screens/chat/my_box/my_box.dart';
-import 'package:finplus/models/common_styles.dart';
-import 'package:finplus/models/login_info_data.dart';
-import 'package:finplus/providers/chat_provider/models/chat_message_data.dart';
+import 'package:finplus/models/chat_room_model.dart';
 import 'package:finplus/utils/styles.dart';
 import 'package:finplus/widgets/avatar/avatar.dart';
 import 'package:finplus/widgets/smart_refresh/custom_smart_refresh.dart';
@@ -12,9 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Chat extends StatelessWidget {
-  const Chat({
-    super.key,
-  });
+  const Chat({super.key, required this.roomInfo});
+
+  final ChatRoomModel roomInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +24,33 @@ class Chat extends StatelessWidget {
     );
 
     return GetBuilder<ChatController>(
-        init: ChatController(),
+        init: ChatController(roomInfo: roomInfo),
         builder: (c) {
           return Scaffold(
             appBar: AppBar(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Obx(() => Avatar(
-                        value: c.roomInfo?.value.avatar ?? '',
-                        size: 40,
-                      )),
+                  const Avatar(
+                    value: '',
+                    size: 40,
+                  ),
                   Spaces.box10,
                   Expanded(
-                    child: Obx(() => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              c.roomInfo?.name ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              style: TextDefine.T1_R,
-                            ),
-                            Text(
-                              '${c.roomInfo?.userIds.length ?? 0} thành viên',
-                              style: TextDefine.P3_R,
-                            ),
-                          ],
-                        )),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          roomInfo.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextDefine.T1_R,
+                        ),
+                        Text(
+                          '${roomInfo.listUid.length} thành viên',
+                          style: TextDefine.P3_R,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -62,51 +58,95 @@ class Chat extends StatelessWidget {
             body: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 20, top: 20),
+                    height: 40,
+                    width: 80,
+                    child: InkWell(
+                      onTap: c.getMessage,
+                      child: Text(
+                        'Refresh',
+                        style: TextDefine.T1_M.copyWith(
+                            color: theme.primary_02,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
                   Expanded(
-                    child: Obx(() {
-                      return CustomSmartRefresher(
-                        controller: c.refreshController,
-                        child: ListView.builder(
+                    child: CustomSmartRefresher(
+                      controller: c.refreshController,
+                      child: Obx(
+                        () => ListView.builder(
                           padding: Spaces.a16,
-                          itemCount: c.messages.value.length,
+                          itemCount: c.listMessage.value.length,
                           reverse: true,
                           itemBuilder: (ctx, i) {
-                            final msg = c.messages.value[i];
-                            bool isSameUser = false;
-                            if (i + 1 < c.messages.value.length) {
-                              isSameUser = c.messages.value[i + 1].createdBy ==
-                                      msg.createdBy &&
-                                  c.messages.value[i + 1].type !=
-                                      MESSAGE_TYPE.USER_JOINED;
-                            }
+                            final int num = c.listMessage.value.length - 1 - i;
+                            final msg = c.listMessage.value[num];
 
-                            final userInfo = c.users.value[msg.sender];
-
-                            final notifyWidget =
-                                _generateNotify(msg, theme, userInfo);
-
-                            if (notifyWidget != null) return notifyWidget;
-
-                            if (msg.createdBy == c.userInfo?.userInfo.id) {
-                              return MyBox(
-                                onDownloadFile: () {},
-                                data: msg,
-                                isSameUser: isSameUser,
-                                userInfo: userInfo,
-                              );
-                            }
-
-                            return GuestBox(
-                              onDownloadFile: () {},
-                              data: msg,
-                              isSameUser: isSameUser,
-                              userInfo: userInfo,
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Expanded(child: Divider(height: 1)),
+                                    Padding(
+                                      padding: Spaces.h8v16,
+                                      child: Text(
+                                        msg.time,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: theme.textDisable,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                    ),
+                                    const Expanded(child: Divider(height: 1)),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Avatar(
+                                        value: '',
+                                        size: 32,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              msg.name,
+                                              textAlign: TextAlign.right,
+                                              style: TextDefine.P3_R.copyWith(
+                                                  color: theme.textDisable),
+                                            ),
+                                            Text(
+                                              msg.content,
+                                              textAlign: TextAlign.right,
+                                              style: TextDefine.P3_R.copyWith(),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             );
                           },
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                   ),
                   Container(
                     padding: Spaces.v10,
@@ -176,7 +216,13 @@ class Chat extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (c.textController.value.text != '') {
+                              c.sendMessage();
+                              c.textController.clear();
+                              FocusScope.of(context).unfocus();
+                            }
+                          },
                           icon: const Icon(CupertinoIcons.paperplane),
                         ),
                       ],
@@ -187,43 +233,5 @@ class Chat extends StatelessWidget {
             ),
           );
         });
-  }
-
-  Widget? _generateNotify(
-      RxChatMessageData data, CommonStyles theme, UserInfo? userInfo) {
-    final ChatController c = Get.find();
-
-    switch (data.type) {
-      case MESSAGE_TYPE.USER_JOINED:
-        return Container(
-          padding: Spaces.v8,
-          alignment: Alignment.center,
-          child: Text(
-            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã tham gia cuộc hội thoại',
-            style: TextStyle(color: theme.textDisable),
-          ),
-        );
-      case MESSAGE_TYPE.ROOM_ADDED:
-        return Container(
-          padding: Spaces.v8,
-          alignment: Alignment.center,
-          child: Text(
-            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã tạo cuộc hội thoại',
-            style: TextStyle(color: theme.textDisable),
-          ),
-        );
-      case MESSAGE_TYPE.ROOM_REMOVED:
-        return Container(
-          padding: Spaces.v8,
-          alignment: Alignment.center,
-          child: Text(
-            '${data.createdBy == c.userInfo?.userInfo.id ? 'Bạn' : userInfo?.displayName ?? 'User'} đã xóa cuộc hội thoại',
-            style: TextStyle(color: theme.textDisable),
-          ),
-        );
-
-      default:
-        return null;
-    }
   }
 }

@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/phamhieu/Documents/development/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/phamhieu/Documents/hoctruong/finplus-app"
+export "FLUTTER_ROOT=E:\Flutter\fvm\versions\3.3.0"
+export "FLUTTER_APPLICATION_PATH=E:\Project\Flutter\finplus-app"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"

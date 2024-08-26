@@ -1,11 +1,13 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/create_chat_room/select_room_type/select_room_type_mbs.dart';
+import 'package:finplus/models/chat_room_model.dart';
 import 'package:finplus/providers/chat_provider/chat_provider.dart';
+import 'package:finplus/services/database.dart';
 import 'package:flutter/cupertino.dart';
 
-class CreateChatRoomController extends GetxController {
-  late final ChatProvider _chatProvider;
+import '../../../services/auth_service.dart';
 
+class CreateChatRoomController extends GetxController {
   late final TextEditingController nameRoomController;
 
   late final Rx<ROOM_TYPE> roomType;
@@ -14,22 +16,22 @@ class CreateChatRoomController extends GetxController {
 
   late final Rx<bool> enableCreate;
 
+  late final int id;
+
+  final AuthService _auth = AuthService();
+
+  late List<String> listUid;
+
+  CreateChatRoomController({required this.id});
+
   @override
   void onInit() {
-    _chatProvider = ChatProvider();
     nameRoomController = TextEditingController();
     roomType = Rx(ROOM_TYPE.GROUP_PUBLIC);
     imagePath = RxnString();
     enableCreate = Rx(false);
+    listUid = [];
     super.onInit();
-  }
-
-  Future<void> createRoomChat() async {
-    final res = await _chatProvider.createRoom(
-        name: nameRoomController.text, type: roomType.value);
-    if (res != null) {
-      Get.back(result: true);
-    }
   }
 
   void changeRoomTypeHandler() {
@@ -44,6 +46,19 @@ class CreateChatRoomController extends GetxController {
     if (value.isNotEmpty) {
       enableCreate(true);
     }
+  }
+
+  Future<void> createChatRoom() async {
+    listUid.add(_auth.user!.uid);
+    await DatabaseService(uid: _auth.user!.uid).createChatRoom(
+      ChatRoomModel(
+        id: id,
+        name: nameRoomController.value.text,
+        type: roomType.value,
+        listUid: listUid,
+      ),
+    );
+    Get.back();
   }
 
   @override

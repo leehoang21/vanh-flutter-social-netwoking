@@ -9,13 +9,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CreateChatRoom extends StatelessWidget {
-  const CreateChatRoom({super.key});
+  const CreateChatRoom({super.key, this.chatRoomId = 0});
+
+  final int chatRoomId;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.t;
     return GetBuilder<CreateChatRoomController>(
-      init: CreateChatRoomController(),
+      init: CreateChatRoomController(id: chatRoomId),
       builder: (c) {
         return GestureDetector(
           onTap: () {
@@ -110,12 +112,12 @@ class CreateChatRoom extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Obx(
-                    () => Button(
-                      type: ButtonType.fill,
-                      child: const Text('Tạo nhóm chat'),
-                      onPressed: c.enableCreate.value ? c.createRoomChat : null,
-                    ),
+                  Button(
+                    type: ButtonType.fill,
+                    child: const Text('Tạo nhóm chat'),
+                    onPressed: () {
+                      c.createChatRoom();
+                    },
                   ),
                 ],
               ),

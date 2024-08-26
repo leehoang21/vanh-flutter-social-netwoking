@@ -2,13 +2,9 @@ import 'package:commons/commons.dart';
 import 'package:finplus/finplus/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
-import '../../../providers/community_provider/community_provider.dart';
-import '../../../providers/community_provider/models/feed_data.dart';
 import '../../../utils/utils.dart';
 
 class CreatePostController extends GetxController with HomeControllerMinxin {
-  late final CommunityProvider _communityProvider;
-
   late final Rx<List<String>> images;
 
   late final RxBool enablePost;
@@ -16,8 +12,6 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
   late final FocusNode focusNode;
 
   late final int groupId;
-
-  late final FEED_TYPE type;
 
   late final List<String>? attachment;
 
@@ -27,16 +21,17 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
 
   late final TextEditingController content;
 
+  late final RxString name;
+
   @override
   void onInit() {
-    _communityProvider = CommunityProvider();
     enablePost = false.obs;
     images = Rx([]);
     focusNode = FocusNode();
     isCommentable = true;
     content = TextEditingController();
     groupId = 2;
-    type = FEED_TYPE.POST;
+    name = RxString('');
     super.onInit();
   }
 
@@ -46,22 +41,6 @@ class CreatePostController extends GetxController with HomeControllerMinxin {
       enablePost(content.text.trim().isNotEmpty);
     });
     super.onReady();
-  }
-
-  Future<void> createFeed() async {
-    if (userInfo != null && enablePost.value) {
-      final result = await _communityProvider.createFeed(
-        groupId: groupId,
-        content: content.text,
-        type: type,
-        userInfo: userInfo!.userInfo,
-      );
-      if (result != null) {
-        Get.back(result: result);
-      } else {
-        Get.back(result: null);
-      }
-    }
   }
 
   Future<void> pickImage() async {

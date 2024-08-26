@@ -8,6 +8,7 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final theme = context.t;
     return SizedBox(
       height: 48,

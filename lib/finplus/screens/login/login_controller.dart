@@ -1,13 +1,12 @@
-import 'package:commons/loading_overlay/loading_overlay.dart';
 import 'package:finplus/providers/auth_provider.dart';
-import 'package:finplus/routes/finplus_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
+  // ignore: unused_field
   late final AuthProvider _authProvider;
 
-  late final TextEditingController username;
+  late final TextEditingController email;
 
   late final TextEditingController password;
 
@@ -15,28 +14,16 @@ class LoginController extends GetxController {
   void onInit() {
     _authProvider = AuthProvider();
 
-    username = TextEditingController();
+    email = TextEditingController(text: 'phamhieu@gmail.com');
 
-    password = TextEditingController();
+    password = TextEditingController(text: '123456');
 
     super.onInit();
   }
 
-  Future<void> login(LoginType type) async {
-    final res = await LoadingOverlay.load(_authProvider.login(
-      type: type,
-      username: username.text,
-      password: password.text,
-    ));
-
-    if (res != null) {
-      Get.offAllNamed(Routes.home);
-    }
-  }
-
   @override
   void onClose() {
-    username.dispose();
+    email.dispose();
     password.dispose();
     super.onClose();
   }

@@ -1,6 +1,5 @@
 import 'package:commons/commons.dart';
 import 'package:finplus/base/network/app_connection.dart';
-import 'package:finplus/utils/types.dart';
 import 'package:flutter/material.dart';
 
 import '../routes/finplus_routes.dart';
@@ -12,14 +11,12 @@ class FinPlus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasLogin = Storage.get(KEY.USER_INFO) != null;
-
     return GetMaterialApp(
       onDispose: AppConnection.closeListenerConnection,
       debugShowCheckedModeBanner: false,
       navigatorKey: LoadingOverlay.instance.navigatorKey,
       getPages: AppNavigate.finplus,
-      initialRoute: hasLogin ? Routes.home : Routes.login,
+      initialRoute: Routes.login,
       locale: const Locale('vi'),
       fallbackLocale: const Locale('en'),
       theme: lightTheme,

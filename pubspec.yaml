@@ -1,5 +1,5 @@
 name: finplus
-description: FTL trading project.
+description: hjkl
 publish_to: "none"
 
 version: 1.0.0+1
@@ -12,27 +12,32 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   google_sign_in: ^5.4.2
-  firebase_core: ^2.4.1
-  flutter_facebook_auth: ^5.0.7
   carousel_slider: ^4.1.1
   pull_to_refresh: ^2.0.0
   connectivity_plus: ^3.0.2
   internet_connection_checker: ^1.0.0+1
   firebase_remote_config: ^3.0.9
-  cryptography_flutter: ^2.0.2
-  cached_network_image: ^3.2.0
+  # cryptography_flutter: ^2.0.2
+  cached_network_image: 
   intl: ^0.17.0
   photo_view: ^0.14.0
   file_picker: ^5.2.5
   flutter_linkify: ^5.0.2
   url_launcher: ^6.1.8
   flutter_slidable: ^2.0.0
-  keyboard_actions: ^4.1.0
-  flutter_inappwebview: ^5.7.2+3
+  keyboard_actions: 4.1.0
   image_picker: ^0.8.6+1
   ##internal packages
   commons:
     path: ./packages/commons
+  firebase_core: ^2.16.0
+  firebase_auth: ^4.10.0
+  cloud_firestore: ^4.9.2
+  provider: ^6.0.5
+  crypton: ^2.0.5
+  flutter_secure_storage: ^7.0.1
+  http: ^0.13.4
+  local_auth: ^2.1.0
 
 dev_dependencies:
   flutter_test:

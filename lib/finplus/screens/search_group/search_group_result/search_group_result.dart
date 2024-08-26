@@ -10,7 +10,7 @@ class SearchGroupResult extends StatelessWidget {
     return ListView.separated(
       itemBuilder: (context, index) {
         return const GroupInfoRow(
-          groupName: 'Tự học chứng khoán cho người mới bắt đầu',
+          groupName: 'Tự học code',
           groupType: GROUP_TYPE.PRIVATE,
           numberMember: 1000,
           coverGroupImage: 'hsdsds',
